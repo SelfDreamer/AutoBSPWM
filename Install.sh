@@ -10,7 +10,7 @@ if [[ $(id -u) -eq 0 ]]; then
 fi
 
 # Actualizamos el sistema
-sudo apt-get update && command -v parrot-upgrade && parrot-upgrade || sudo apt upgrade -y
+sudo apt-get update && command -v parrot-upgrade && sudo parrot-upgrade || sudo apt upgrade -y
 
 # Le otorgamos la zsh a ambos usuarios
 sudo apt install zsh -y

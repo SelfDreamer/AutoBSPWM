@@ -14,7 +14,7 @@ chmod +x Install.sh
 - **Presionar la tecla Esc**
 - **Presionar `shift` + `.`, resultado `:`**
 - **Luego `MasonInstallAll`**
-- **Y finalmente le damos a enter y esperamos a que se instale lo que tenga que instalarse**
+- **Y finalmente le damos a enter y esperamos a que se instale lo que tenga que instalarse. Y obviamente yo no lo descargo porque ya lo tengo**
 ![image](https://github.com/user-attachments/assets/19429c8d-4ba7-4279-893b-eb5b9b05bcd4)
 
 ---

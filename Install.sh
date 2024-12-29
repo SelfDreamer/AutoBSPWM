@@ -113,7 +113,7 @@ sudo cp -r nvimconf/* /root/.config/nvim/
 sudo cp -r kitty /root/.config/
 
 # Instalamos eww y sus dependencias
-sudo apt update && sudo apt install -y \
+sudo apt install -y \
     git build-essential pkg-config \
     libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
     libdbusmenu-glib-dev libdbusmenu-gtk3-dev \

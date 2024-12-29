@@ -9,6 +9,25 @@ chmod +x Install.sh
 
 ------------------------------------------------------------------------
 
+Único paso manual:
+- **Meterse a nvim `nvim`**
+- **Presionar la tecla Esc**
+- **Presionar `shift` + `.`, resultado `:`**
+- **Luego `MasonInstallAll`**
+![[Pasted image 20241229041422.webp]]
+- **Y finalmente le damos a enter y esperamos a que se instale lo que tenga que instalarse**
+
+---
+
+
+##### Mensajes de Adveretencia y ayuda por parte del editor
+
+![[Pasted image 20241229040852.webp]]
+
+![[Pasted image 20241229041102.webp]]
+
+---
+
 # Atajos de teclado
 
 ## Hotkeys independientes del gestor de ventanas (WM Independent Hotkeys)

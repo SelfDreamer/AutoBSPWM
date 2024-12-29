@@ -39,6 +39,13 @@ chmod +x Install.sh
 - Se activara al presionar el icono de arch con click izquierdo, mataremos el proceso con click derecho.
 
 
+
+---
+
+![image](https://github.com/user-attachments/assets/456742de-08b6-4706-bc22-dfcfba22dd1f)
+
+
+
 ---
 
 # Atajos de teclado

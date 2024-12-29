@@ -20,7 +20,7 @@ cp zshuser/.zshrc ~/.zshrc
 
 
 # Instalamos algunos paquetes necesarios
-sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils -y 
+sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils feh -y 
 sudo apt install obsidian -y 2>/dev/null || echo "[!] Problemas para instalar obsidian..."
 
 # Cambiamos la estetica de la kitty
@@ -113,9 +113,13 @@ sudo cp -r nvimconf/* /root/.config/nvim/
 sudo cp -r kitty /root/.config/
 
 # Instalamos eww y sus dependencias
-sudo apt install git build-essential libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev -y
-sudo apt install libdbusmenu-glib-dev -y
-sudo apt install libgtk-layer-shell-dev -y
+sudo apt update && sudo apt install -y \
+    git build-essential pkg-config \
+    libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
+    libdbusmenu-glib-dev libdbusmenu-gtk3-dev \
+    libgtk-layer-shell-dev \
+    libx11-dev libxft-dev libxrandr-dev libxtst-dev
+# Si hay un directorio eww lo borramos entero
 [[ -d "eww" ]] && rm -rf "eww"
 git clone https://github.com/elkowar/eww.git
 cd eww
@@ -125,6 +129,8 @@ cargo clean
 cargo build --release
 sudo cp target/release/eww /usr/bin/
 mkdir -p /home/$usuario/.config/eww
+cd ..
+# Traemos la configuración de eww
 cp -r configeww/* /home/$usuario/.config/eww
 
 # Movemos el script whichSystem.sh al path para que sea un comando ejecutable

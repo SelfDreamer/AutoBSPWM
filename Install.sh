@@ -122,6 +122,9 @@ sudo cp target/release/eww /usr/bin/
 mkdir -p /home/$usuario/.config/eww
 cp -r configeww/* /home/$usuario/.config/eww
 
+# Movemos el script whichSystem.sh al path para que sea un comando ejecutable
+sudo cp scripts/whichSystem.sh /usr/bin/
+
 # Instalamos oh-my-tmux para ambos usuarios
 cd /home/$usuario
 git clone --single-branch https://github.com/gpakosz/.tmux.git

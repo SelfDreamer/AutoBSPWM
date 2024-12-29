@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+#   █████╗ ██╗██████╗ ██████╗ ██╗      █████╗ ███╗   ██╗███████╗
+#  ██╔══██╗██║██╔══██╗██╔══██╗██║     ██╔══██╗████╗  ██║██╔════╝
+#  ███████║██║██████╔╝██████╔╝██║     ███████║██╔██╗ ██║█████╗  
+#  ██╔══██║██║██╔══██╗██╔═══╝ ██║     ██╔══██║██║╚██╗██║██╔══╝  
+#  ██║  ██║██║██║  ██║██║     ███████╗██║  ██║██║ ╚████║███████╗
+#  ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝
+#	Script to control my eww widget arirplane options.
+#	gh0stzk | https://github.com/gh0stzk/dotfiles
+#	12.07.2024 10:12:26
+
+
+cache_file=$HOME/.cache/$(whoami)/airplane_state
+
+mkdir -p "$(dirname "$cache_file")"
+[[ ! -f "$cache_file" ]] && echo Off > "$cache_file"
+
+get_state() {
+	cat "$cache_file"
+}
+
+icon() {
+	if [[ $(get_state) == "On" ]]; then
+		echo "󰀝"
+	else
+		echo "󰀞"
+	fi
+}
+
+airplane_on() {
+	nmcli networking off
+	systemctl is-active --quiet bluetooth.service && bluetoothctl power off
+	notify-send --urgency=normal -i airplane-mode "Airplane Mode" "Airplane mode has been turned on!"
+	echo On >"$cache_file"
+}
+
+airplane_off() {
+	nmcli networking on
+	systemctl is-active --quiet bluetooth.service && bluetoothctl power on
+	notify-send --urgency=normal -i airplane-mode "Airplane Mode" "Airplane mode has been turned off!"
+	echo Off >"$cache_file"
+}
+
+toggle() {
+	if [[ $(get_state) == "Off" ]]; then
+		airplane_on
+	else
+		airplane_off
+	fi
+}
+
+case "$1" in
+    --toggle) toggle ;;
+    --icon) icon ;;
+    --status) get_state ;;
+esac

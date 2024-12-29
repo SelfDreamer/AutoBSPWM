@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#  ███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗
+#  ████╗  ██║██╔════╝╚══██╔══╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝
+#  ██╔██╗ ██║█████╗     ██║   ██║ █╗ ██║██║   ██║██████╔╝█████╔╝
+#  ██║╚██╗██║██╔══╝     ██║   ██║███╗██║██║   ██║██╔══██╗██╔═██╗
+#  ██║ ╚████║███████╗   ██║   ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗
+#  ╚═╝  ╚═══╝╚══════╝   ╚═╝    ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+#	gh0stzk
+#	https://github.com/gh0stzk/dotfiles
+#	This script checks if you are connected to the internet and sets values.
+#	23.09.2023 13:39:59
+
+ID=$(ip link | awk '/state UP/ {print $2}' | tr -d :)
+
+if command -v nmcli >/dev/null 2>&1 ; then
+    SSID=$(nmcli -t -f active,ssid dev wifi show | sed -n '1{s/SSID: //p}')
+fi
+
+is_online() {
+	ping -c 1 archlinux.org &>/dev/null
+}
+
+if is_online; then
+    if [[ $ID == e* ]]; then
+        STATUS="$ID"
+        ICON="󰈀"
+    else
+        STATUS="$SSID"
+        ICON="󰖩"
+    fi
+else
+    STATUS="Offline"
+    ICON="󰖪"
+fi
+
+case "$1" in
+    --status) echo "$STATUS" ;;
+    --icon) echo "$ICON" ;;
+esac

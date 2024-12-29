@@ -20,7 +20,7 @@ cp zshuser/.zshrc ~/.zshrc
 
 
 # Instalamos algunos paquetes necesarios
-sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils feh -y 
+sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils feh cmake -y 
 sudo apt install obsidian -y 2>/dev/null || echo "[!] Problemas para instalar obsidian..."
 
 # Cambiamos la estetica de la kitty

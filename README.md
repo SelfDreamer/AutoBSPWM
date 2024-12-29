@@ -9,7 +9,7 @@ chmod +x Install.sh
 
 ------------------------------------------------------------------------
 
-# Hotkeys en BSPWM (Con teclas de Windows)
+# Atajops de teclado
 
 ## Hotkeys independientes del gestor de ventanas (WM Independent Hotkeys)
 

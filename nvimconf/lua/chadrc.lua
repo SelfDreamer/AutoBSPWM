@@ -7,7 +7,7 @@ local M = {}
 
 M.base46 = {
 	theme = "onedark",
-  transparency = false,
+--  transparency = false, -- o 'false' para desactivarlo o true para activarlo
 
 	-- hl_override = {
 	-- 	Comment = { italic = true },

@@ -43,13 +43,3 @@ vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSi
 vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
 vim.fn.sign_define("DiagnosticSignHint", { text = "󱩏 ", texthl = "DiagnosticSignHint" })
 vim.fn.sign_define("DiagnosticSignInfo", { text = "", texthl = "DiagnosticSignInfo" })
-
-
-
--- Definir íconos personalizados para los signos de diagnóstico LSP
---local signs = { Error = "", Warn = "", Hint = "", Info = "" }
---for type, icon in pairs(signs) do
---  local hl = "LspDiagnosticsSign" .. type
---  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
---end
-

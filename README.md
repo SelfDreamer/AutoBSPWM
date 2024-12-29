@@ -30,6 +30,14 @@ chmod +x Install.sh
 
 ---
 
+**Calendario**
+![image](https://github.com/user-attachments/assets/a534476f-e3e5-497b-955c-1b0b5aebeefd)
+
+- Se activara al presionar el icono de arch con click izquierdo, mataremos el proceso con click derecho.
+
+
+---
+
 # Atajos de teclado
 
 ## Hotkeys independientes del gestor de ventanas (WM Independent Hotkeys)

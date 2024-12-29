@@ -14,17 +14,16 @@ chmod +x Install.sh
 - **Presionar la tecla Esc**
 - **Presionar `shift` + `.`, resultado `:`**
 - **Luego `MasonInstallAll`**
-![[Pasted image 20241229041422.webp]]
 - **Y finalmente le damos a enter y esperamos a que se instale lo que tenga que instalarse**
-
+![[Pasted image 20241229042143.webp]]
 ---
 
 
 ##### Mensajes de Adveretencia y ayuda por parte del editor
 
-![[Pasted image 20241229040852.webp]]
+![[Pasted image 20241229042200.webp]]
 
-![[Pasted image 20241229041102.webp]]
+![[Pasted image 20241229042214.webp]]
 
 ---
 

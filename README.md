@@ -9,7 +9,7 @@ chmod +x Install.sh
 
 ------------------------------------------------------------------------
 
-# Atajops de teclado
+# Atajos de teclado
 
 ## Hotkeys independientes del gestor de ventanas (WM Independent Hotkeys)
 

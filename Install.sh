@@ -1,5 +1,9 @@
 #!/bin/bash
-usuario=$(echo $HOME | sed 's/\// /g' | awk '{print $2}' | xargs)
+
+# \\ Creditos a Pylon por la recomendación
+
+usuario=$USER 
+
 if [[ $(id -u) -eq 0 ]]; then
 	echo -e "\n[!] Ejecutarlo como usuario no privilegiado por favor!!"
 	exit 1
@@ -41,6 +45,7 @@ fc-cache -v &>/dev/null || echo "[!] Error al limpiar la cache de fuente"
 sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev libev-dev -y
 (sudo apt install picom -y) 2>/dev/null 
 if [[ ! $? -eq 0 ]]; then
+  [[ -d "picom" ]] && rm -rf picom
   git clone https://github.com/ibhagwan/picom.git
   cd picom
   git submodule update --init --recursive
@@ -111,7 +116,7 @@ sudo cp -r kitty /root/.config/
 sudo apt install git build-essential libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev -y
 sudo apt install libdbusmenu-glib-dev -y
 sudo apt install libgtk-layer-shell-dev -y
-
+[[ -d "eww" ]] && rm -rf "eww"
 git clone https://github.com/elkowar/eww.git
 cd eww
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

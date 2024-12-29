@@ -106,4 +106,4 @@ chmod +x Install.sh
 - **Windows + a**  
   Realiza una captura de pantalla con `flameshot`, la guarda en el directorio `~/Imágenes/capturas/` y la copia al portapapeles con `xclip`.
 
-**Esto es una prueba y el script poco a poco se esta terminando**
+**Un saludo a nuestro gran amigo S4vitar :)) y a ZLCube que fue de quien me inspire para este proyecto desde un principio. Cualquier problema que tengan no duden en contactarme a discord como pwnedbyme**

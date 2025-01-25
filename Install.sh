@@ -43,7 +43,7 @@ fc-cache -v &>/dev/null || echo "[!] Error al limpiar la cache de fuente"
 
 # Instalamos el compositor picom
 sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev libev-dev -y
-(sudo apt install picom -y) 2>/dev/null 
+sudo apt install picom -y 2>/dev/null 
 if [[ ! $? -eq 0 ]]; then
   [[ -d "picom" ]] && rm -rf picom
   git clone https://github.com/ibhagwan/picom.git

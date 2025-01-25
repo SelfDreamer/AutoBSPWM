@@ -112,7 +112,7 @@ cp -r Polybar/* /home/$usuario/.config/polybar
 
 # Directorio de imágenes para las capturas de pantalla y fondos de pantalla
 mkdir -p ~/Imágenes
-cp AnimeGirl.jpg ~/Imágenes
+cp wallpapers/*.jpg ~/Imágenes
 mkdir -p ~/Imágenes/capturas
 
 # Creamos directorios adicionales

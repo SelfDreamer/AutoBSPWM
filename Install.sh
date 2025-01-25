@@ -10,7 +10,14 @@ if [[ $(id -u) -eq 0 ]]; then
 fi
 
 # Actualizamos el sistema
-sudo apt-get update && command -v parrot-upgrade && sudo parrot-upgrade || sudo apt upgrade -y
+
+command -v parrot-upgrade &>/dev/null
+if [[ $? -eq 0 ]]; then
+	sudo apt update || wget https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb && sudo dpkg -i parrot-archive-keyring_2024.12_all.deb 
+ 	sudo parrot-upgrade -y
+else
+	sudo apt update && sudo apt upgrade -y 
+fi
 
 # Le otorgamos la zsh a ambos usuarios
 sudo apt install zsh -y

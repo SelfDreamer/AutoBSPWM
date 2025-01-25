@@ -6,11 +6,11 @@ rofi_command="rofi -theme $HOME/.config/polybar/scripts/themes/powermenu.rasi"
 uptime=$(uptime -p | sed -e 's/up //g')
 
 # Options
-shutdown="󰐦 Shutdown"
-reboot="󰜉 Restart"
-lock=" Lock"
-suspend="󰤄 Sleep"
-logout="󰍃 Logout"
+shutdown=" Shutdown"
+reboot=" Restart"
+lock=" Lock"
+suspend=" Sleep"
+logout=" Logout"
 
 # Variable passed to rofi
 options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
@@ -24,7 +24,7 @@ case $chosen in
         systemctl reboot
         ;;
     $lock)
-        i3lock-fancy
+        i3lock
         ;;
     $suspend)
         mpc -q pause

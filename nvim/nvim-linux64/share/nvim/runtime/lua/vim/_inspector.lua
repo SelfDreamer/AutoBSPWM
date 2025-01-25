@@ -169,7 +169,7 @@ function vim.show_pos(bufnr, row, col, filter)
     if data.hl_group ~= data.hl_group_link then
       append('links to ', 'MoreMsg')
       append(data.hl_group_link, data.hl_group_link)
-      append(' ')
+      append('   ')
     end
     if comment then
       append(comment, 'Comment')
@@ -182,7 +182,14 @@ function vim.show_pos(bufnr, row, col, filter)
     append('Treesitter', 'Title')
     nl()
     for _, capture in ipairs(items.treesitter) do
-      item(capture, capture.lang)
+      item(
+        capture,
+        string.format(
+          'priority: %d   language: %s',
+          capture.metadata.priority or vim.hl.priorities.treesitter,
+          capture.lang
+        )
+      )
     end
     nl()
   end

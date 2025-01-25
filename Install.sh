@@ -4,31 +4,46 @@
 
 usuario=$USER 
 
+# Si no eres root sales del programa
 if [[ $(id -u) -eq 0 ]]; then
 	echo -e "\n[!] Ejecutarlo como usuario no privilegiado por favor!!"
 	exit 1
 fi
 
-# Actualizamos el sistema
+# Si no tienes internet sales del programa
+ping -c 1 google.es &>/dev/null || exit 1
 
-command -v parrot-upgrade &>/dev/null
-if [[ $? -eq 0 ]]; then
-	sudo apt update || wget https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb && sudo dpkg -i parrot-archive-keyring_2024.12_all.deb 
- 	sudo parrot-upgrade -y
+# Borramos neovim
+
+test -x /usr/bin/nvim && sudo apt remove neovim || sudo apt remove nvim 
+
+# Actualizamos el sistema 
+if command -v parrot-upgrade &>/dev/null; then
+	if ! sudo apt update &>/dev/null; then 
+    wget https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb 
+    sudo dpkg -i parrot-archive-keyring_2024.12_all.deb || sudo dpkg -i *.deb # .deb 
+    rm *.deb
+    sudo parrot-upgrade -y
+  else
+    sudo parrot-upgrade
+  fi
 else
 	sudo apt update && sudo apt upgrade -y 
 fi
 
-# Le otorgamos la zsh a ambos usuarios
+# Le otorgamos la zsh a ambos usuarios y sus plugins
 sudo apt install zsh -y
 sudo usermod --shell /usr/bin/zsh $usuario 2>/dev/null 2>&1
 sudo usermod --shell /usr/bin/zsh root 2>/dev/null 2>&1
 cp zshuser/.zshrc ~/.zshrc
+sudo apt install zsh-syntax-highlighting zsh-autosuggestions
 
 
 # Instalamos algunos paquetes necesarios
 sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils feh cmake -y 
-sudo apt install obsidian -y 2>/dev/null || echo "[!] Problemas para instalar obsidian..."
+if ! sudo apt install obsidian -y &>/dev/null; then
+  sudo dpkg -i obsidian.test/*
+fi
 
 # Cambiamos la estetica de la kitty
 cp -r kitty ~/.config/
@@ -43,20 +58,27 @@ sudo apt install lsd -y 2>/dev/null || echo "[!] Hubo un problema al instalar ls
 sudo dpkg -i lsdbat/*
 
 # Instalamos las fuentes necesarias
-sudo cp -r fonts /usr/local/share/fonts
-mkdir -p /home/$usuario/.local/share/fonts
-sudo cp -r fonts /home/$usuario/.local/share/fonts
+sudo cp -r fonts/* /usr/local/share/fonts
+mkdir -p ~/.local/share/fonts
+sudo cp -r fonts/* ~/.local/share/fonts
+sudo cp -r fonts/* /usr/share/fonts/truetype/
 fc-cache -v &>/dev/null || echo "[!] Error al limpiar la cache de fuente"
 
 # Instalamos el compositor picom
-sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev libev-dev -y
-sudo apt install picom -y 2>/dev/null 
-if [[ ! $? -eq 0 ]]; then
+sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev libev-dev libpcre3-dev -y
+
+if [[ $? -ne 0 ]]; then
+  echo "[!] Problemas al instalar dependencias de picom!"
   [[ -d "picom" ]] && rm -rf picom
+  echo ""
+fi
+
+if ! sudo apt install picom -y &>/dev/null; then
+  # Instalamos picom desde los repositorios de git 
   git clone https://github.com/ibhagwan/picom.git
   cd picom
   git submodule update --init --recursive
-  meson --buildtype=release . build
+  meson setup --buildtype=release . build
   ninja -C build
   sudo ninja -C build install
   cd ..
@@ -70,7 +92,7 @@ sudo apt install npm nodejs
 
 # Instalamos fzf 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+~/.fzf/install --all
 
 # Instalamos el sudo zsh sudo
 sudo mkdir -p /usr/share/zsh-sudo
@@ -81,8 +103,8 @@ cp -r bspwm /home/$usuario/.config
 cp -r sxhkd /home/$usuario/.config
 
 # Archivos de configuración de picom
-mkdir -p /home/$usuario/picom/
-cp -r .picom/picom.conf /home/$usuario/.config/
+mkdir -p ~/.config/picom
+cp .picom/picom.conf ~/.config/picom/picom.conf
 
 # Archivos de configuración de la polybar
 mkdir -p /home/$usuario/.config/polybar
@@ -106,7 +128,7 @@ sudo mv /root/root-zsh /root/.zshrc
 
 # Instalamos fzf para root 
 sudo git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
-sudo /root/.fzf/install
+sudo /root/.fzf/install --all
 
 # Instalamos la powerlevel10k para el usuario root
 sudo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k

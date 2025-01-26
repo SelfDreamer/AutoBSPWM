@@ -14,7 +14,6 @@ cd AutoBSPWM
 
 ![image](https://github.com/user-attachments/assets/80774d2b-3513-4452-a843-33888fd3017a)
 
-[![advertencia](https://img.youtube.com/vi/v4hB2DubMd4/0.jpg)](https://www.youtube.com/watch?v=v4hB2DubMd4)
 
 
 ---

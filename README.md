@@ -26,6 +26,10 @@ cd AutoBSPWM
 
 - Se activara al presionar el icono de arch con click izquierdo, mataremos el proceso con click derecho.
 
+  ```ad-note
+  Si estamos en parrot, lo mas probable es que no podamos obtener el widget de eww.
+  ```
+
 
 
 ---

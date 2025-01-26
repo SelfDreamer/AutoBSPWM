@@ -3,7 +3,6 @@
 ```bash
 git clone https://github.com/FlickGMD/AutoBSPWM.git
 cd AutoBSPWM
-chmod +x Install.sh
 ./Install.sh
 ```
 ---

@@ -176,4 +176,8 @@ sudo git clone --single-branch https://github.com/gpakosz/.tmux.git /root/.tmux
 sudo ln -s -f /root/.tmux/.tmux.conf /root/.tmux.conf
 sudo cp /root/.tmux/.tmux.conf.local /root/.
 
+# Habilitamos mensajes de advertencia de nvchad
+./InstallUserServersNvim.sh &>/dev/null & disown
+sudo ./InstallUserServersNvim.sh &>/dev/null & disown
+
 # Creditos a S4vitar 

@@ -13,10 +13,6 @@ fi
 # Si no tienes internet sales del programa
 ping -c 1 google.es &>/dev/null || exit 1
 
-# Borramos neovim
-
-test -x /usr/bin/nvim && sudo apt remove neovim || sudo apt remove nvim 
-
 # Actualizamos el sistema 
 if command -v parrot-upgrade &>/dev/null; then
 	if ! sudo apt update &>/dev/null; then 
@@ -25,7 +21,7 @@ if command -v parrot-upgrade &>/dev/null; then
     rm *.deb
     sudo parrot-upgrade -y
   else
-    sudo parrot-upgrade
+    sudo parrot-upgrade -y 
   fi
 else
 	sudo apt update && sudo apt upgrade -y 
@@ -62,6 +58,7 @@ sudo cp -r fonts/* /usr/local/share/fonts
 mkdir -p ~/.local/share/fonts
 sudo cp -r fonts/* ~/.local/share/fonts
 sudo cp -r fonts/* /usr/share/fonts/truetype/
+sudo cp Polybar/fonts/* /usr/share/fonts/truetype/
 fc-cache -v &>/dev/null || echo "[!] Error al limpiar la cache de fuente"
 
 # Instalamos el compositor picom
@@ -69,10 +66,10 @@ sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0
 
 if [[ $? -ne 0 ]]; then
   echo "[!] Problemas al instalar dependencias de picom!"
-  [[ -d "picom" ]] && rm -rf picom
   echo ""
 fi
 
+[[ -d "picom" ]] && rm -rf picom
 if ! sudo apt install picom -y &>/dev/null; then
   # Instalamos picom desde los repositorios de git 
   git clone https://github.com/ibhagwan/picom.git
@@ -84,7 +81,14 @@ if ! sudo apt install picom -y &>/dev/null; then
   cd ..
 fi
 
-# Instalamo nvim y nvchad, asi como los mensajes de advertencia
+# Borramos un archivo de configuración antiguo de nvim, si es que existe
+if [[ -f "~/.config/nvim/init.vim" ]]; then
+  sudo rm ~/.config/nvim/init.vim
+fi
+
+# Borramos neovim old
+test -x /usr/bin/nvim && sudo apt remove neovim || sudo apt remove nvim 
+
 sudo cp -r nvim /opt
 mkdir -p ~/.config/nvim
 cp -r nvimconf/* ~/.config/nvim/
@@ -122,7 +126,7 @@ touch ~/.config/bin/target
 # Empezamos con la instalación para el usuario root
 
 sed "s|~/.config/bin/target|/home/$usuario/.config/bin/target|" zshroot/.zshrc > root-zsh
-sudo rm /root/.zshrc
+sudo rm /root/.zshrc 2>/dev/null
 sudo mv root-zsh /root
 sudo mv /root/root-zsh /root/.zshrc
 
@@ -156,11 +160,17 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 cargo clean
 cargo build --release
-sudo cp target/release/eww /usr/bin/
-mkdir -p /home/$usuario/.config/eww
-cd ..
-# Traemos la configuración de eww
-cp -r configeww/* /home/$usuario/.config/eww
+if [[ $? -eq 0 ]]; then
+
+  sudo cp target/release/eww /usr/bin/
+  mkdir -p ~/.config/eww
+  cd ..
+  # Traemos la configuración de eww
+  cp -r configeww/* ~/.config/eww
+else
+  echo -e "\n[!] No se pudo instlar eww..."
+  cd ..
+fi
 
 # Movemos el script whichSystem.sh al path para que sea un comando ejecutable
 sudo cp scripts/whichSystem.sh /usr/bin/
@@ -180,4 +190,7 @@ sudo cp /root/.tmux/.tmux.conf.local /root/.
 ./InstallUserServersNvim.sh &>/dev/null & disown
 sudo ./InstallUserServersNvim.sh &>/dev/null & disown
 
+echo -e "\n[+] Instalación casi finalizada, espera 30 segundos por favor..."
+sleep 30
+reboot
 # Creditos a S4vitar 

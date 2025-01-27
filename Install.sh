@@ -4,9 +4,9 @@
 
 usuario=$USER 
 
-# Si no eres root sales del programa
+# Si eres root sales del programa
 if [[ $(id -u) -eq 0 ]]; then
-	echo -e "\n[!] Ejecutarlo como usuario no privilegiado por favor!!"
+	echo -e "\n[!] No ejecutes el script como usuario privilegiado!"
 	exit 1
 fi
 

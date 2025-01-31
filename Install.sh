@@ -3,7 +3,7 @@
 # \\ Creditos a Pylon por la recomendación
 
 usuario=$USER 
-
+ruta=$(realpath $0)
 # Si eres root sales del programa
 if [[ $(id -u) -eq 0 ]]; then
 	echo -e "\n[!] No ejecutes el script como usuario privilegiado!"
@@ -183,8 +183,11 @@ sudo ln -s -f /root/.tmux/.tmux.conf /root/.tmux.conf
 sudo cp /root/.tmux/.tmux.conf.local /root/.
 
 # Habilitamos mensajes de advertencia de nvchad
+cd $ruta
 ./InstallUserServersNvim.sh &>/dev/null & disown
 sudo ./InstallUserServersNvim.sh &>/dev/null & disown
+./nvim_upload.sh 
+sudo cp nvim_upload.sh /usr/bin/
 
 echo -e "\n[+] Instalación casi finalizada, espera 30 segundos por favor..."
 sleep 30

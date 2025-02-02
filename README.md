@@ -27,7 +27,7 @@ Creador original del [menú](https://github.com/zelaya420/bspwm)
 
 **Calendario**
 
-Creador original del [calendario]((https://github.com/gh0stzk/dotfiles)
+Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 
 ![image](https://github.com/user-attachments/assets/47376f6d-3b5e-4ef1-af53-982dfc361235)
 

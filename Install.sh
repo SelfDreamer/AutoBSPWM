@@ -4,6 +4,7 @@
 
 usuario=$USER 
 ruta=$(realpath $0)
+ruta=${ruta%/*}
 # Si eres root sales del programa
 if [[ $(id -u) -eq 0 ]]; then
 	echo -e "\n[!] No ejecutes el script como usuario privilegiado!"
@@ -85,7 +86,7 @@ fi
 # Borramos neovim old
 test -x /usr/bin/nvim && sudo apt remove neovim || sudo apt remove nvim 
 
-sudo cp -r nvim /opt
+./nvim_upload.sh
 mkdir -p ~/.config/nvim
 cp -r nvimconf/* ~/.config/nvim/
 sudo apt install npm nodejs

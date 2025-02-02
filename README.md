@@ -18,11 +18,16 @@ cd AutoBSPWM
 
 ---
 
+**Menu**
+
+![image](https://github.com/user-attachments/assets/c3f5bb36-9684-4e2e-860f-80dc2b0da901)
+
+
 **Calendario**
 
 
+![image](https://github.com/user-attachments/assets/47376f6d-3b5e-4ef1-af53-982dfc361235)
 
-![image](https://github.com/user-attachments/assets/a534476f-e3e5-497b-955c-1b0b5aebeefd)
 
 - Se activara al presionar el icono de arch con click izquierdo, mataremos el proceso con click derecho.
 

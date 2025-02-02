@@ -38,6 +38,7 @@ sudo apt install zsh-syntax-highlighting zsh-autosuggestions
 
 # Instalamos algunos paquetes necesarios
 sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils feh cmake -y 
+sudo apt install betterlockscreen mpc alsa-utils -y
 if ! sudo apt install obsidian -y &>/dev/null; then
   sudo dpkg -i obsidian.test/*
 fi

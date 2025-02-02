@@ -22,9 +22,12 @@ cd AutoBSPWM
 
 ![image](https://github.com/user-attachments/assets/c3f5bb36-9684-4e2e-860f-80dc2b0da901)
 
+Creador original del [menú](https://github.com/zelaya420/bspwm)
+
 
 **Calendario**
 
+Creador original del [calendario]((https://github.com/gh0stzk/dotfiles))
 
 ![image](https://github.com/user-attachments/assets/47376f6d-3b5e-4ef1-af53-982dfc361235)
 

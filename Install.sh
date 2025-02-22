@@ -1,13 +1,14 @@
 #!/bin/bash
 
 # \\ Creditos a Pylon por la recomendación
-
+source Colors.sh
 usuario=$USER 
 ruta=$(realpath $0)
 ruta=${ruta%/*}
+cd $ruta
 # Si eres root sales del programa
 if [[ $(id -u) -eq 0 ]]; then
-	echo -e "\n[!] No ejecutes el script como usuario privilegiado!"
+	echo -e "\n${bright_red}[!] No ejecutes el script como usuario privilegiado!${end}"
 	exit 1
 fi
 
@@ -35,6 +36,8 @@ sudo usermod --shell /usr/bin/zsh root 2>/dev/null 2>&1
 cp zshuser/.zshrc ~/.zshrc
 sudo apt install zsh-syntax-highlighting zsh-autosuggestions
 
+# Traemos rofi y demas  temas
+cp -r rofi/ ~/.config
 
 # Instalamos algunos paquetes necesarios
 sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils feh cmake -y 
@@ -140,6 +143,13 @@ sudo cp p10kroot/.p10k.zsh /root/
 sudo mkdir -p /root/.config/nvim
 sudo cp -r nvimconf/* /root/.config/nvim/
 
+# Habilitamos mensajes de advertencia de nvchad
+./InstallUserServersNvim.sh &>/dev/null & disown
+sudo ./InstallUserServersNvim.sh &>/dev/null & disown
+./nvim_upload.sh 
+sudo cp nvim_upload.sh /usr/bin/
+
+
 # Mandamos la estetica de la kitty del usuario no privilegiado, al usuario privilegiado
 sudo cp -r kitty /root/.config/
 
@@ -184,14 +194,12 @@ sudo git clone --single-branch https://github.com/gpakosz/.tmux.git /root/.tmux
 sudo ln -s -f /root/.tmux/.tmux.conf /root/.tmux.conf
 sudo cp /root/.tmux/.tmux.conf.local /root/.
 
-# Habilitamos mensajes de advertencia de nvchad
-cd $ruta
-./InstallUserServersNvim.sh &>/dev/null & disown
-sudo ./InstallUserServersNvim.sh &>/dev/null & disown
-./nvim_upload.sh 
-sudo cp nvim_upload.sh /usr/bin/
 
-echo -e "\n[+] Instalación casi finalizada, espera 30 segundos por favor..."
+echo -e "\n${bright_yellow}[+]${end} ${bright_white}Instalación casi finalizada, espera 30 segundos por favor...${end}"
 sleep 30
-reboot
+
+notify-send "BSPWM Instalado\!\!" && notify-send "[+] Elige tu tema de rofi por favor" && echo "[+] Elige un tema, sal del selector del temas con ESC y escoge uno con Alt + a"
+clear
+echo -e "\n${bright_magenta}[+]${bright_white} BSPWM Instalado\!\!${end}" && echo "${bright_cyan}[+]${bright_white} Elige tu tema de rofi por favor${end}" && echo -e "${bright_yellow}[+]${bright_white} Instrucciones:${end} \n\t${bright_yellow}1.- Salir: Tecla ESC${end}\n\t${bright_yellow}2.- Elegir tema: Alt + a${end}"
+rofi-theme-selector &>/dev/null
 # Creditos a S4vitar 

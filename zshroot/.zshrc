@@ -49,7 +49,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Manual configuration
 
-PATH=/root/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/nvim/nvim-linux64/bin/
+PATH=/root/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
 # Manual aliases
 alias ll='lsd -lh --group-dirs=first'
@@ -125,11 +125,11 @@ function fzf-lovely(){
 function settarget(){
   ip=$1
   machine=$2
-  echo "$ip $2" > ~/.config/bin/target
+  echo "$ip $2" > /home/kali/.config/bin/target
 }
 
 function cleartarget(){
-  echo '' > ~/.config/bin/target
+  echo '' > /home/kali/.config/bin/target
 }
 
 function rmk(){
@@ -149,3 +149,5 @@ bindkey "\e[F" end-of-line
 bindkey "\e[3~" delete-char
 setxkbmap latam
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh 
+NVIM_PATH=$(find /opt/nvim/ -iname nvim -type f -executable | rev | cut -d'/' -f2- | rev)
+export PATH=$PATH:$NVIM_PATH

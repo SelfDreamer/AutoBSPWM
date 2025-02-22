@@ -125,11 +125,11 @@ function fzf-lovely(){
 function settarget(){
   ip=$1
   machine=$2
-  echo "$ip $2" > /home/kali/.config/bin/target
+  echo "$ip $2" > ~/.config/bin/target
 }
 
 function cleartarget(){
-  echo '' > /home/kali/.config/bin/target
+  echo '' > ~/.config/bin/target
 }
 
 function rmk(){

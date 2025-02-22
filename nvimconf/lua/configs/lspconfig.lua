@@ -100,3 +100,4 @@ lspconfig.rust_analyzer.setup {
     },
   },
 }
+

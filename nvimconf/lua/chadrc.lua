@@ -6,13 +6,19 @@
 local M = {}
 
 M.base46 = {
-	theme = "onedark",
---  transparency = false, -- o 'false' para desactivarlo o true para activarlo
-
+	theme = "onedark", -- theme = 'onedark', el tema original de nvim
+  transparency = false, -- o true si quieres activar la transparencia
 	-- hl_override = {
 	-- 	Comment = { italic = true },
 	-- 	["@comment"] = { italic = true },
 	-- },
 }
+
+-- M.nvdash = { load_on_startup = true }
+-- M.ui = {
+--       tabufline = {
+--          lazyload = false
+--      }
+--}
 
 return M

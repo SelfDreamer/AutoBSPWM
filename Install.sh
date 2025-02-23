@@ -3,8 +3,7 @@
 # \\ Creditos a Pylon por la recomendación
 source Colors.sh
 usuario=$USER 
-ruta=$(realpath $0)
-ruta=${ruta%/*}
+ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev)
 cd $ruta
 # Si eres root sales del programa
 if [[ $(id -u) -eq 0 ]]; then

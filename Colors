@@ -7,6 +7,7 @@ blue="\u001b[0;34m"
 magenta="\u001b[0;35m"
 cyan="\u001b[0;36m"
 white="\u001b[0;37m"
+sky="\e[1;36m"
 
 # Colores brillantes (intensos)
 bright_black="\u001b[0;90m"

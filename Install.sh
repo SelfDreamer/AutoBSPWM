@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # \\ Creditos a Pylon por la recomendación
-source Colors.sh
+source Colors
 usuario=$USER 
 ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev)
 cd $ruta
@@ -14,6 +14,7 @@ fi
 # Si no tienes internet sales del programa
 ping -c 1 google.es &>/dev/null || exit 1
 
+sudo cp ./Colors /usr/bin/
 # Actualizamos el sistema 
 if command -v parrot-upgrade &>/dev/null; then
 	if ! sudo apt update &>/dev/null; then 

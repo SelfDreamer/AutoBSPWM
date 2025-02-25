@@ -146,8 +146,11 @@ sudo mkdir -p /root/.config/nvim
 sudo cp -r nvimconf/* /root/.config/nvim/
 
 # Habilitamos mensajes de advertencia de nvchad
-./InstallUserServersNvim.sh &>/dev/null & disown
-sudo ./InstallUserServersNvim.sh &>/dev/null & disown
+cd $ruta
+echo -e "\n${bright_blue}[+]${bright_white} Se procederan a habilitar los mensajes de advertencia para NvChad${end}"
+sleep 3
+./InstallUserServersNvim.sh 
+sudo ./InstallUserServersNvim.sh 
 ./nvim_upload.sh 
 sudo cp nvim_upload.sh /usr/bin/
 

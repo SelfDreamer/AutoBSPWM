@@ -71,8 +71,30 @@ source /usr/share/zsh-sudo/sudo.plugin.zsh
 
 # Functions
 function mkt(){
-	mkdir {nmap,content,exploits,scripts}
+  source Colors
+
+  dir_name="$1"
+
+  if [[ ! "$dir_name" ]]; then
+    echo -e "\n${bg_bright_red}[ERROR]${end} ${bright_white}Se debe indicar un nombre de directorio: (Ex:${end} ${bright_yellow}$0${end} ${bright_white}<Dir_Name>)${end}\n\n"
+    return 1
+  fi
+
+  if [[ -d "$dir_name" ]]; then
+    echo -e "\n${bg_bright_red}[ERROR]${end}${bright_white} Error fatal: El directorio $dir_name ya existe!!\n"
+    return 1
+  fi
+
+  echo; echo -e "${bright_green}[✔]${bright_white} Directorio ${bright_blue}'$1'${bright_white} creado con subdirectorios:"
+
+  echo -e "   <U+E6AD> ${sky} nmap${end}"
+  echo -e "   <U+E6AD> ${sky} content${end}"
+  echo -e "   <U+E6AD> ${sky} exploits${end}"
+  echo -e "   <U+E6AD> ${sky} scripts${end}"; echo
+
+  mkdir -p $dir_name/{nmap,content,scripts,exploits}
 }
+
 
 # Extract nmap information
 function extractPorts(){

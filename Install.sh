@@ -146,15 +146,6 @@ sudo cp p10kroot/.p10k.zsh /root/
 sudo mkdir -p /root/.config/nvim
 sudo cp -r nvimconf/* /root/.config/nvim/
 
-# Habilitamos mensajes de advertencia de nvchad
-cd $ruta
-echo -e "\n${bright_blue}[+]${bright_white} Se procederan a habilitar los mensajes de advertencia para NvChad${end}"
-sleep 3
-./InstallUserServersNvim.sh 
-sudo ./InstallUserServersNvim.sh 
-./nvim_upload.sh 
-sudo cp nvim_upload.sh /usr/bin/
-
 
 # Mandamos la estetica de la kitty del usuario no privilegiado, al usuario privilegiado
 sudo cp -r kitty /root/.config/
@@ -200,7 +191,14 @@ sudo git clone --single-branch https://github.com/gpakosz/.tmux.git /root/.tmux
 sudo ln -s -f /root/.tmux/.tmux.conf /root/.tmux.conf
 sudo cp /root/.tmux/.tmux.conf.local /root/.
 
-
+# Habilitamos mensajes de advertencia de nvchad
+cd $ruta
+echo -e "\n${bright_blue}[+]${bright_white} Se procederan a habilitar los mensajes de advertencia para NvChad${end}"
+sleep 3
+./InstallUserServersNvim.sh &>/dev/null & disown
+sudo ./InstallUserServersNvim.sh &>/dev/null & disown
+./nvim_upload.sh 
+sudo cp nvim_upload.sh /usr/bin/
 echo -e "\n${bright_yellow}[+]${end} ${bright_white}Instalación casi finalizada, espera 30 segundos por favor...${end}"
 sleep 30
 

@@ -149,6 +149,5 @@ bindkey "\e[F" end-of-line
 bindkey "\e[3~" delete-char
 setxkbmap latam
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-NVIM_PATH=$(find /opt/nvim/ -iname nvim -type f -executable | rev | cut -d'/' -f2- | rev)
+NVIM_PATH=$(find /opt/nvim/nvim*/bin/ -iname nvim -type f -executable | rev | cut -d'/' -f2- | rev)
 export PATH=$PATH:$NVIM_PATH
-

@@ -39,6 +39,11 @@ Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
   ```
 
 ---
+# Resultado
+![image](https://github.com/user-attachments/assets/3bd9e64e-a2a5-4a8d-bae8-81671c23b9da)
+
+---
+
 
 # Atajos de teclado
 

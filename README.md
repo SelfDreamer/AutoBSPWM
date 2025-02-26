@@ -9,10 +9,10 @@ cd AutoBSPWM
 
 ##### Mensajes de Adveretencia y ayuda por parte del editor
 
-![image](https://github.com/user-attachments/assets/0e37fe0b-9024-4205-9602-47f9fdb56e71)
+![image](https://github.com/user-attachments/assets/7d0d1686-ca0f-44ac-905b-7b86d744e98e)
 
+![image](https://github.com/user-attachments/assets/7b6f6282-f8ea-4440-b403-55cae7c43bef)
 
-![image](https://github.com/user-attachments/assets/80774d2b-3513-4452-a843-33888fd3017a)
 
 
 

@@ -41,6 +41,7 @@ cp -r rofi/ ~/.config
 
 # Instalamos algunos paquetes necesarios
 sudo apt install kitty bspwm sxhkd polybar rofi xclip flameshot i3lock-fancy i3lock moreutils mesa-utils scrub coreutils feh cmake -y 
+sudo apt install cmatrix -y
 
 # Por si acaso
 sudo apt install jq -y

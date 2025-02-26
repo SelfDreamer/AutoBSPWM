@@ -87,10 +87,10 @@ function mkt(){
 
   echo; echo -e "${bright_green}[✔]${bright_white} Directorio ${bright_blue}'$1'${bright_white} creado con subdirectorios:"
 
-  echo -e "   <U+E6AD> ${sky} nmap${end}"
-  echo -e "   <U+E6AD> ${sky} content${end}"
-  echo -e "   <U+E6AD> ${sky} exploits${end}"
-  echo -e "   <U+E6AD> ${sky} scripts${end}"; echo
+  #echo -e "   <U+E6AD> ${sky} nmap${end}"
+  #echo -e "   <U+E6AD> ${sky} content${end}"
+  #echo -e "   <U+E6AD> ${sky} exploits${end}"
+  #echo -e "   <U+E6AD> ${sky} scripts${end}"; echo
 
   mkdir -p $dir_name/{nmap,content,scripts,exploits}
 }

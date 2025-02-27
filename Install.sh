@@ -203,15 +203,15 @@ sudo cp /root/.tmux/.tmux.conf.local /root/.
 cd $ruta
 echo -e "\n${bright_blue}[+]${bright_white} Se procederan a habilitar los mensajes de advertencia para NvChad${end}"
 sleep 3
-./InstallUserServersNvim.sh &>/dev/null & disown
-sudo ./InstallUserServersNvim.sh &>/dev/null & disown
+./InstallUserServersNvim.sh 
+sudo ./InstallUserServersNvim.sh
 ./nvim_upload.sh 
 sudo cp nvim_upload.sh /usr/bin/
 echo -e "\n${bright_yellow}[+]${end} ${bright_white}Instalación casi finalizada, espera 30 segundos por favor...${end}"
 sleep 30
 
-notify-send "BSPWM Instalado\!\!" && notify-send "[+] Elige tu tema de rofi por favor" && echo "[+] Elige un tema, sal del selector del temas con ESC y escoge uno con Alt + a"
 clear
+notify-send "BSPWM Instalado\!\!" && notify-send "[+] Elige tu tema de rofi por favor" && echo "[+] Elige un tema, sal del selector del temas con ESC y escoge uno con Alt + a"
 echo -e "\n${bright_magenta}[+]${bright_white} BSPWM Instalado\!\!${end}" && echo "${bright_cyan}[+]${bright_white} Elige tu tema de rofi por favor${end}" && echo -e "${bright_yellow}[+]${bright_white} Instrucciones:${end} \n\t${bright_yellow}1.- Salir: Tecla ESC${end}\n\t${bright_yellow}2.- Elegir tema: Alt + a${end}"
 rofi-theme-selector &>/dev/null
 # Creditos a S4vitar 

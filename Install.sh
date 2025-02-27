@@ -152,7 +152,7 @@ sudo cp -r nvimconf/* /root/.config/nvim/
 # Mandamos la estetica de la kitty del usuario no privilegiado, al usuario privilegiado
 sudo cp -r kitty /root/.config/
 
-if [[ "$distro" == "kali" ]]; then
+if [[ "$distro" == "Kali" ]]; then
     # Instalamos eww y sus dependencias
     sudo apt install -y \
         git build-essential pkg-config \

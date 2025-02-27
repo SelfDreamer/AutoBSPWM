@@ -2,6 +2,7 @@
 
 # \\ Creditos a Pylon por la recomendación
 source Colors
+distro=$(lsb_release -d | grep -oP "Parrot|Kali")
 usuario=$USER 
 ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev)
 cd $ruta
@@ -151,32 +152,38 @@ sudo cp -r nvimconf/* /root/.config/nvim/
 # Mandamos la estetica de la kitty del usuario no privilegiado, al usuario privilegiado
 sudo cp -r kitty /root/.config/
 
-# Instalamos eww y sus dependencias
-sudo apt install -y \
-    git build-essential pkg-config \
-    libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
-    libdbusmenu-glib-dev libdbusmenu-gtk3-dev \
-    libgtk-layer-shell-dev \
-    libx11-dev libxft-dev libxrandr-dev libxtst-dev
-# Si hay un directorio eww lo borramos entero
-[[ -d "eww" ]] && rm -rf "eww"
-git clone https://github.com/elkowar/eww.git
-cd eww
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source $HOME/.cargo/env
-cargo clean
-cargo build --release
-if [[ $? -eq 0 ]]; then
+if [[ "$distro" == "kali" ]]; then
+    # Instalamos eww y sus dependencias
+    sudo apt install -y \
+        git build-essential pkg-config \
+        libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
+        libdbusmenu-glib-dev libdbusmenu-gtk3-dev \
+        libgtk-layer-shell-dev \
+        libx11-dev libxft-dev libxrandr-dev libxtst-dev
 
-  sudo cp target/release/eww /usr/bin/
-  mkdir -p ~/.config/eww
-  cd ..
-  # Traemos la configuración de eww
-  cp -r configeww/* ~/.config/eww
-else
-  echo -e "\n[!] No se pudo instlar eww..."
-  cd ..
+    # Si hay un directorio eww lo borramos entero
+    [[ -d "eww" ]] && rm -rf "eww"
+
+    git clone https://github.com/elkowar/eww.git
+    cd eww
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source $HOME/.cargo/env
+    cargo clean
+    cargo build --release
+
+    if [[ $? -eq 0 ]]; then
+        sudo cp target/release/eww /usr/bin/
+        mkdir -p ~/.config/eww
+        cd ..
+        # Traemos la configuración de eww
+        cp -r configeww/* ~/.config/eww
+    else
+        echo -e "\n[!] No se pudo instlar eww..."
+        cd ..
+    fi
 fi
+
 
 # Movemos el script whichSystem.sh al path para que sea un comando ejecutable
 sudo cp scripts/whichSystem.sh /usr/bin/

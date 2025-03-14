@@ -1,10 +1,13 @@
-### **¿Cómo usar?**
+# **Instalación**
 
 ```bash
 git clone https://github.com/FlickGMD/AutoBSPWM.git
 cd AutoBSPWM
 ./Install.sh
 ```
+- Este script esta diseñado, para que estes en la ruta que estes, se ejecute correctamente.
+- Se realizaran cambios al script dentro de poco.
+
 ---
 
 ##### Mensajes de Adveretencia y ayuda por parte del editor

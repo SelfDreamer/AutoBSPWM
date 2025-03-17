@@ -25,7 +25,7 @@ case $chosen in
         systemctl reboot
         ;;
     "")
-	betterlockscreen -u ~/Imágenes/WindowsFont.jpg -l
+        i3lock-fancy
         ;;
     "")
         mpc -q pause

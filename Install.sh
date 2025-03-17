@@ -196,8 +196,10 @@ install_rofi(){
   sudo apt install -y rofi &>/dev/null
   cp -r ./config/rofi/ ~/.config/
   /usr/bin/clear
-  echo -e "\n${bright_cyan}[+] Elige tu tema para rofi, una vez lo tengas elegido presiona Ctrl + A.${end}"
+  echo -e "\n${bright_cyan}[+]${bright_white} Elige tu tema para rofi, una vez lo tengas elegido presiona Ctrl + A.${end}"
   /usr/bin/rofi-theme-selector &>/dev/null
+  echo -e "\n${bright_cyan}[+]${bright_white} Espera 10 segundos por favor...${end}"
+  sleep 10
 }
 
 install_obsidian(){
@@ -229,8 +231,8 @@ main(){
   install_tmux 
   [[ ! "$distro" == 'Parrot' ]] && install_eww
   install_polybar
-  install_rofi
   sudo cp ./Colors /usr/bin/
+  install_rofi
 }
 
 if [[ "$EUID" -ne 0 ]]; then 

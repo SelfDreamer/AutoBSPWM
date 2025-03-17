@@ -144,6 +144,7 @@ install_nvim(){
 }
 
 install_eww(){
+  cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando eww y sus widgets...${end}"
   if [[ "$distro" == "Kali" ]]; then
       # Instalamos eww y sus dependencias

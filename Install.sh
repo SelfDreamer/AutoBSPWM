@@ -98,6 +98,8 @@ install_picom(){
     rm -rf picom
   fi
 
+  cp -r ./config/picom/ ~/.config/
+
 }
 
 install_bat_and_lsd(){

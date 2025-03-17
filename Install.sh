@@ -12,7 +12,8 @@ update_system(){
       sudo dpkg -i parrot-archive-keyring_2024.12_all.deb || sudo dpkg -i *.deb &>/dev/null # .deb 
     fi
   elif [[ $distro == 'Kali' ]]; then
-    sudo apt update && sudo apt upgrade -y &>/dev/null
+    sudo apt update &>/dev/null
+    sudo apt upgrade -y &>/dev/null
   fi
 }
 

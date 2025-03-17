@@ -105,8 +105,8 @@ install_picom(){
 install_bat_and_lsd(){
   # Instalación de Bat
   bat_url=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url')
-  wget "$bat_url" -O bat.tar.gz
-  tar -xzf bat.tar.gz
+  wget "$bat_url" -O bat.tar.gz &>/dev/null
+  tar -xzf bat.tar.gz &>/dev/null 
   sudo mv bat-*/bat /usr/bin/
   rm -rf bat-*
   rm -rf bat.tar.gz 
@@ -205,8 +205,8 @@ install_rofi(){
 install_obsidian(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando obsidian...${end}"
   obsidian_url=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | jq -r '.assets[] | select(.name | endswith(".AppImage")) | .browser_download_url' | grep -vi 'arm' )
-  wget "$obsidian_url" -O Obsidian.AppImage
-  chmod +x Obsidian.AppImage
+  wget "$obsidian_url" -O Obsidian.AppImage &>/dev/null
+  chmod +x Obsidian.AppImage 
   mv Obsidian.AppImage obsidian 
   sudo mv obsidian /usr/bin/
 }

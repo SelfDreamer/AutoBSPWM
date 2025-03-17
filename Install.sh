@@ -1,6 +1,6 @@
 #!/bin/bash
 ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev)
-distro=$(lsb_release -d | grep -oP "Parrot|Kali" 2>/dev/null)
+distro=$(lsb_release -d | grep -oP "Parrot|Kali")
 usuario=$USER 
 
 update_system(){
@@ -229,7 +229,8 @@ main(){
   install_tmux 
   [[ ! "$distro" == 'Parrot' ]] && install_eww
   install_polybar
-
+  install_rofi
+  sudo cp ./Colors /usr/bin/
 }
 
 if [[ "$EUID" -ne 0 ]]; then 

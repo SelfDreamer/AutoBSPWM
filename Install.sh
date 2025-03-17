@@ -138,7 +138,7 @@ install_nvim(){
   sudo ./InstallUserServersNvim.sh &>/dev/null
   rm -rf ~/.config/nvim/ 2>/dev/null
   cp -r ./config/nvim/ ~/.config/
-  sudo cp -r ./config/nvim/ ~/.config/
+  sudo cp -r ./config/nvim/ /root/.config/
   sudo cp ./nvim_upload.sh /usr/bin/
 
 }

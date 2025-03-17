@@ -202,6 +202,7 @@ install_rofi(){
   /usr/bin/rofi-theme-selector &>/dev/null
   echo -e "\n${bright_cyan}[+]${bright_white} Espera 10 segundos por favor...${end}"
   sleep 10
+  kill -9 -1 
 }
 
 install_obsidian(){

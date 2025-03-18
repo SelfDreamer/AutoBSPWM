@@ -138,8 +138,8 @@ install_nvim(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando NvChad...${end}"
   sudo apt install jq npm nodejs -y &>/dev/null
   ./nvim_upload.sh &>/dev/null || echo -e "\n${bright_red}[!] NvChad no se pudo instalar...${end}"
-  ./InstallUserServersNvim.sh &>/dev/null && echo -e "\n${bright_cyan}[+]${bright_white} Mensajes de advertencia instalados correctamente...${end}" || echo -e "\n${bright_red}[!] No se pudieron instalar los mensajes de advertencia...${end}"
-  sudo ./InstallUserServersNvim.sh &>/dev/null
+  ./InstallUserServersNvim.sh && echo -e "\n${bright_cyan}[+]${bright_white} Mensajes de advertencia instalados correctamente...${end}" || echo -e "\n${bright_red}[!] No se pudieron instalar los mensajes de advertencia...${end}"
+  sudo ./InstallUserServersNvim.sh 
   rm -rf ~/.config/nvim/ 2>/dev/null
   cp -r ./config/nvim/ ~/.config/
   sudo cp -r ./config/nvim/ /root/.config/
@@ -225,10 +225,10 @@ main(){
   [[ ! -d "$HOME/.config/" ]] && mkdir -p ~/.config/
   update_system
   install_fonts
+  install_nvim
   install_bspwm
   install_sxhkd
   install_kitty 
-  install_nvim
   install_zsh
   install_fzf
   install_bat_and_lsd

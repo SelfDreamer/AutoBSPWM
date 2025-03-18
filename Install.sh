@@ -43,7 +43,7 @@ install_p10k(){
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
   cp ./config/PowerLevel10k/.p10k.zsh /home/$usuario
   sudo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k
-  sudo ./config/PowerLevel10k/.p10k.zsh /root/
+  sudo cp ./config/PowerLevel10k/.p10k.zsh /root/
 }
 
 install_kitty(){

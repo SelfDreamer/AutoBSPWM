@@ -19,6 +19,7 @@ update_system(){
 
 install_bspwm(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando bspwm...${end}"
+  sudo apt install bspwm -y 
   cp -r ./config/bspwm/ ~/.config/  
   # Instalando dependencias que requieran los scripts de bspwmrc
   sudo apt install feh -y &>/dev/null

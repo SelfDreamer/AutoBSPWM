@@ -157,18 +157,18 @@ install_eww(){
           libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
           libdbusmenu-glib-dev libdbusmenu-gtk3-dev \
           libgtk-layer-shell-dev \
-          libx11-dev libxft-dev libxrandr-dev libxtst-dev
+          libx11-dev libxft-dev libxrandr-dev libxtst-dev &>/dev/null
 
       # Si hay un directorio eww lo borramos entero
       [[ -d "eww" ]] && rm -rf "eww"
 
       git clone https://github.com/elkowar/eww.git
       cd eww
-
+      
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &>/dev/null
       source $HOME/.cargo/env
-      cargo clean
-      cargo build --release
+      cargo clean &>/dev/null
+      cargo build --release &>/dev/null
 
       if [[ $? -eq 0 ]]; then
           sudo cp target/release/eww /usr/bin/
@@ -177,7 +177,7 @@ install_eww(){
           # Traemos la configuración de eww
           cp -r ./config/eww/ ~/.config/
       else
-          echo -e "\n${bright_red}[!] No se pudo instlar eww...${end}"
+          echo -e "\n${bright_red}[!] No se pudo instalar eww...${end}"
           cd ..
       fi
   fi

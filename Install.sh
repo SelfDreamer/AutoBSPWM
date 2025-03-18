@@ -132,6 +132,7 @@ install_fonts(){
 }
 
 install_nvim(){
+  cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando NvChad...${end}"
   sudo apt install jq npm nodejs -y &>/dev/null
   ./nvim_upload.sh &>/dev/null || echo -e "\n${bright_red}[!] NvChad no se pudo instalar...${end}"

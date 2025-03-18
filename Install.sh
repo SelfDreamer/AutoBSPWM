@@ -40,10 +40,10 @@ install_sxhkd(){
 
 install_p10k(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando la PowerLevel10k...${end}"
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k &>/dev/null
   cp ./config/PowerLevel10k/.p10k.zsh /home/$usuario
-  sudo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k
-  sudo cp ./config/PowerLevel10k/.p10k.zsh /root/
+  sudo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k &>/dev/null
+  sudo cp ./config/PowerLevel10k/.p10k.zsh /root/ 
 }
 
 install_kitty(){
@@ -70,20 +70,20 @@ install_zsh(){
 install_fzf(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando fzf...${end}"
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --all
+  ~/.fzf/install --all &>/dev/null
 
   sudo git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
-  sudo /root/.fzf/install --all
+  sudo /root/.fzf/install --all &>/dev/null
 } 
 
 install_polybar(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando la polybar...${end}"
   sudo apt install polybar -y &>/dev/null
   cp -r ./config/polybar/ ~/.config/
-  # Instalando dependencias que requiren los scripts de la polybar
 }
 
 install_picom(){
+  cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando el compositor picom...${end}"
   sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev libev-dev libpcre3-dev -y &>/dev/null
   sudo apt install cmake -y &>/dev/null
@@ -91,8 +91,8 @@ install_picom(){
   [[ -d "picom" ]] && rm -rf picom
   if ! sudo apt install picom -y &>/dev/null; then
     # Instalamos picom desde los repositorios de git 
-    git clone https://github.com/ibhagwan/picom.git 
-    cd picom 
+    git clone https://github.com/ibhagwan/picom.git &>/dev/null
+    cd picom &>/dev/null
     git submodule update --init --recursive &>/dev/null 
     meson setup --buildtype=release . build &>/dev/null 
     ninja -C build &>/dev/null 
@@ -107,6 +107,7 @@ install_picom(){
 
 install_bat_and_lsd(){
   # Instalación de Bat
+  cd $ruta
   bat_url=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url')
   wget "$bat_url" -O bat.tar.gz &>/dev/null
   tar -xzf bat.tar.gz &>/dev/null 
@@ -124,6 +125,7 @@ install_bat_and_lsd(){
 }
 
 install_fonts(){
+  cd $ruta
   echo -e "\n${bright_cyan}[+] ${bright_white}Instalando las fuentes necesarias...${end}"
   sudo cp -r fonts/* /usr/local/share/fonts
   mkdir -p ~/.local/share/fonts

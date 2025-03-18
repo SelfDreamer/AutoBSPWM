@@ -231,7 +231,7 @@ main(){
   install_fzf
   install_bat_and_lsd
   install_p10k
-  insatll_picom
+  install_picom
   install_obsidian
   install_tmux 
   [[ ! "$distro" == 'Parrot' ]] && install_eww

@@ -139,6 +139,7 @@ install_nvim(){
   
   rm -rf ~/.config/nvim/ 2>/dev/null
   cp -r ./config/nvim/ ~/.config/
+  sudo mkdir -p /root/.config/
   sudo cp -r ./config/nvim/ /root/.config/
   
   sudo apt install jq npm nodejs -y &>/dev/null

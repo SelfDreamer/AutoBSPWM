@@ -47,6 +47,7 @@ install_p10k(){
 }
 
 install_kitty(){
+  cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando kitty...${end}"
   sudo apt install kitty -y &>/dev/null
   cp -r ./config/kitty/ ~/.config/
@@ -128,6 +129,7 @@ install_fonts(){
   mkdir -p ~/.local/share/fonts
   sudo cp -r fonts/* ~/.local/share/fonts
   sudo cp -r fonts/* /usr/share/fonts/truetype/
+  sudo cp ./config/polybar/fonts/* /usr/share/fonts/truetype
   fc-cache -v &>/dev/null || echo "\n${bright_red}[!] Error al limpiar la cache de fuente${end}"
 }
 

@@ -56,9 +56,9 @@ install_kitty(){
 
 install_zsh(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando la zsh...${end}"
-  sudo apt install zsh zsh-syntax-highlighting zsh-autosuggestions -y
-  sudo usermod --shell /usr/bin/zsh $usuario 2>/dev/null 2>&1
-  sudo usermod --shell /usr/bin/zsh root 2>/dev/null 2>&1
+  sudo apt install zsh zsh-syntax-highlighting zsh-autosuggestions -y &>/dev/null
+  sudo usermod --shell /usr/bin/zsh $usuario &>/dev/null
+  sudo usermod --shell /usr/bin/zsh root &>/dev/null 
   cp ./config/zsh/.zshrc ~/.zshrc 
   sed "s|~/.config/bin/target|/home/$usuario/.config/bin/target|" ./config/zsh/.zshrc > root-zsh
   sudo rm /root/.zshrc 2>/dev/null
@@ -117,8 +117,8 @@ install_bat_and_lsd(){
   
   # Instalación de lsd
   lsd_url=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url')
-  wget "$lsd_url" -O lsd.tar.gz
-  tar -xzf lsd.tar.gz
+  wget "$lsd_url" -O lsd.tar.gz &>/dev/null
+  tar -xzf lsd.tar.gz &>/dev/null
   sudo mv lsd-*/lsd /usr/bin/ 
   rm -rf lsd.tar.gz  
   rm -rf lsd-*
@@ -146,10 +146,9 @@ install_nvim(){
   
   sudo apt install jq npm nodejs -y &>/dev/null
   ./nvim_upload.sh &>/dev/null || echo -e "\n${bright_red}[!] NvChad no se pudo instalar...${end}"
-  ./InstallUserServersNvim.sh && echo -e "\n${bright_cyan}[+]${bright_white} Mensajes de advertencia instalados correctamente...${end}" || echo -e "\n${bright_red}[!] No se pudieron instalar los mensajes de advertencia...${end}"
-  sudo ./InstallUserServersNvim.sh 
-  sudo cp ./nvim_upload.sh /usr/bin/
-
+  ./InstallUserServersNvim.sh &>/dev/null && echo -e "\n${bright_cyan}[+]${bright_white} Mensajes de advertencia instalados correctamente...${end}" || echo -e "\n${bright_red}[!] No se pudieron instalar los mensajes de advertencia...${end}"
+  sudo ./InstallUserServersNvim.sh &>/dev/null 
+  sudo cp ./nvim_upload.sh /usr/bin/ 
 }
 
 install_eww(){
@@ -207,6 +206,11 @@ install_rofi(){
   sudo apt install -y rofi &>/dev/null
   cp -r ./config/rofi/ ~/.config/
   /usr/bin/clear
+  if which notify-send &>/dev/null; then
+    notify-send "Entorno BSPWM instalado correctamente!!"
+    notify-send "Elige tu tema de rofi para finalizar."
+  fi
+
   echo -e "\n${bright_cyan}[+]${bright_white} Elige tu tema para rofi, una vez lo tengas elegido presiona Ctrl + A.${end}"
   /usr/bin/rofi-theme-selector &>/dev/null
   echo -e "\n${bright_cyan}[+]${bright_white} Espera 10 segundos por favor...${end}"

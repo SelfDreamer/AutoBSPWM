@@ -178,6 +178,7 @@ install_eww(){
           sudo cp target/release/eww /usr/bin/
           mkdir -p ~/.config/eww
           cd ..
+          [[ -d "eww" ]] && rm -rf eww
           # Traemos la configuración de eww
           cp -r ./config/eww/ ~/.config/
       else

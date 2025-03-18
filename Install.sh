@@ -136,13 +136,15 @@ install_fonts(){
 install_nvim(){
   cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando NvChad...${end}"
+  
+  rm -rf ~/.config/nvim/ 2>/dev/null
+  cp -r ./config/nvim/ ~/.config/
+  sudo cp -r ./config/nvim/ /root/.config/
+  
   sudo apt install jq npm nodejs -y &>/dev/null
   ./nvim_upload.sh &>/dev/null || echo -e "\n${bright_red}[!] NvChad no se pudo instalar...${end}"
   ./InstallUserServersNvim.sh && echo -e "\n${bright_cyan}[+]${bright_white} Mensajes de advertencia instalados correctamente...${end}" || echo -e "\n${bright_red}[!] No se pudieron instalar los mensajes de advertencia...${end}"
   sudo ./InstallUserServersNvim.sh 
-  rm -rf ~/.config/nvim/ 2>/dev/null
-  cp -r ./config/nvim/ ~/.config/
-  sudo cp -r ./config/nvim/ /root/.config/
   sudo cp ./nvim_upload.sh /usr/bin/
 
 }

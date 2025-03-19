@@ -23,6 +23,7 @@ install_bspwm(){
   cp -r ./config/bspwm/ ~/.config/  
   # Instalando dependencias que requieran los scripts de bspwmrc
   sudo apt install feh -y &>/dev/null
+  sudo apt install imagemagick -y &>/dev/null
   mkdir -p ~/Imágenes
   ./font.sh
   cp wallpapers/*.jpg ~/Imágenes

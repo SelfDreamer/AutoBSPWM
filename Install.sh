@@ -24,6 +24,7 @@ install_bspwm(){
   # Instalando dependencias que requieran los scripts de bspwmrc
   sudo apt install feh -y &>/dev/null
   mkdir -p ~/Imágenes
+  ./font.sh
   cp wallpapers/*.jpg ~/Imágenes
   mkdir -p ~/Imágenes/capturas
   sudo cp ./scripts/whichSystem.sh /usr/bin/ 

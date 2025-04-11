@@ -1,7 +1,7 @@
 #!/bin/bash
 IP_ADDR=$(ip a  | grep -vE '127|172' | grep -oP "inet \K\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}" 2>/dev/null)
 if [[ "$IP_ADDR" ]]; then
-  echo "%{F#1bbf3e}󰖩 %{F#ffffff}$(ip addr | grep -iE "inet *|brd *" | grep -vE "127.0.0.1|inet6"  | grep -oP 'inet \d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}' | awk '{print $2}' | awk 'NR==1' )%{u-}"
+  echo "%{F#1bbf3e}󰖩 %{F#ffffff}$IP_ADDR%{u-}"
 else
   echo "%{F#FF4C4C}󱛅 %{F#ffffff}Disconnected"
 fi

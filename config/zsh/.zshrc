@@ -170,4 +170,4 @@ bindkey "\e[3~" delete-char
 setxkbmap latam
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 NVIM_PATH=$(find /opt/nvim/nvim*/bin/nvim -type f -executable -exec dirname {} \;)
-export PATH=$PATH:$NVIM_PATH:/opt/Python/:/opt/Linux/
+export PATH=$PATH:$NVIM_PATH:/opt/Python/:/opt/Linux/:/opt/s4vimachines.sh/

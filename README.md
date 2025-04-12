@@ -6,7 +6,6 @@ cd AutoBSPWM
 ./Install.sh
 ```
 - Este script esta diseñado, para que estes en la ruta que estes, se ejecute correctamente.
-- Se realizaran cambios al script dentro de poco.
 
 ---
 
@@ -35,9 +34,8 @@ Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 
 - Se activara al presionar el icono de arch con click izquierdo, mataremos el proceso con click derecho.
 
-  ```ad-note
-  Si estamos en parrot, lo mas probable es que no podamos obtener el widget de eww.
-  ```
+> [!NOTE]
+> Si estas usando **Parrot OS** no podras instalar *eww*.
 
 ---
 # Resultado *(Kali Linux)*

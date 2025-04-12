@@ -40,8 +40,13 @@ Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
   ```
 
 ---
-# Resultado
-![image](https://github.com/user-attachments/assets/3bd9e64e-a2a5-4a8d-bae8-81671c23b9da)
+# Resultado *(Kali Linux)*
+![image](https://github.com/user-attachments/assets/518474eb-5f5a-4af0-b047-e0048bef4f32)
+
+
+# Resultado *(Parrot OS)*
+![image](https://github.com/user-attachments/assets/1791fe97-b9be-4315-b17b-32c84eb7ee01)
+
 
 ---
 

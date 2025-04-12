@@ -18,6 +18,7 @@ update_system(){
 }
 
 install_bspwm(){
+  cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando bspwm...${end}"
   sudo apt install bspwm -y &>/dev/null
   cp -r ./config/bspwm/ ~/.config/  
@@ -28,7 +29,15 @@ install_bspwm(){
   ./font.sh
   cp wallpapers/*.jpg ~/Imágenes
   mkdir -p ~/Imágenes/capturas
-  sudo cp ./scripts/whichSystem.sh /usr/bin/ 
+  # Buscador de máquinas 
+  
+  sudo cp -r scripts/s4vimachines.sh/ /opt 
+  sudo chown -R $usuario:$usuario /opt/s4vimachines.sh 
+
+  # scripts para reconocimiento
+  sudo cp -r ./scripts/whichSystem/* /opt/ 
+  sudo chown -R $usuario:$usuario /opt/Linux/
+  sudo chown -R $usuario:$usuario /opt/Python/
 }
 
 install_sxhkd(){

@@ -61,6 +61,7 @@ alias cat='bat'
 alias catn='bat --style=plain'
 alias catnp='bat --style=plain --paging=never'
 alias grep='grep --color=auto'
+alias venv='python3 -m venv .venv && source .venv/bin/activate'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -92,7 +93,6 @@ mkt () {
 	echo
 	mkdir -p $dir_name/{nmap,content,scripts,exploits}
 }
-
 
 # Extract nmap information
 function extractPorts(){
@@ -170,4 +170,4 @@ bindkey "\e[3~" delete-char
 setxkbmap latam
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 NVIM_PATH=$(find /opt/nvim/nvim*/bin/nvim -type f -executable -exec dirname {} \;)
-export PATH=$PATH:$NVIM_PATH
+export PATH=$PATH:$NVIM_PATH:/opt/Python/:/opt/Linux/

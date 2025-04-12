@@ -48,6 +48,28 @@ Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 
 
 ---
+# Scripts
+
+### [whichSystem.sh](https://github.com/FlickGMD/whichSystem.sh)
+
+**WhichSystem.py**
+
+![image](https://github.com/user-attachments/assets/805cfbe3-b3b1-4d68-9258-c8960aedbff2)
+
+**whichSystem.sh**
+
+![image](https://github.com/user-attachments/assets/8c4d5d11-6507-4b68-a015-a7f2526c5876)
+
+
+### [S4vimachines.sh](https://github.com/FlickGMD/s4vimachines.sh) **(Buscador de máquinas)**
+
+![image](https://github.com/user-attachments/assets/c43de338-d4bf-4bfd-9e56-fdb5976013f6)
+
+
+
+
+
+---
 
 
 # Atajos de teclado

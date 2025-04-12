@@ -17,6 +17,18 @@ update_system(){
   fi
 }
 
+function install_fetch(){
+  cd $ruta
+  sudo apt install git cmake build-essential -y 
+  git clone https://github.com/fastfetch-cli/fastfetch
+  cd fastfetch
+  cmake -B build -DCMAKE_BUILD_TYPE=Release
+  cmake --build build --target fastfetch -j$(nproc)
+  sudo cp build/fastfetch /usr/local/bin/
+  cd $ruta 
+  rm -rf fastfetch 2>/dev/null 
+}
+
 install_bspwm(){
   cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando bspwm...${end}"
@@ -25,6 +37,8 @@ install_bspwm(){
   # Instalando dependencias que requieran los scripts de bspwmrc
   sudo apt install feh -y &>/dev/null
   sudo apt install imagemagick fastfetch cmatrix -y &>/dev/null
+  sudo apt install neofetch -y &>/dev/null
+  sudo apt install fastfetch -y &>/dev/null || install_fetch
   mkdir -p ~/Imágenes
   ./font.sh
   cp wallpapers/*.jpg ~/Imágenes

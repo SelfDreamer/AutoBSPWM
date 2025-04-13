@@ -36,15 +36,17 @@ install_bspwm(){
   cp -r ./config/bspwm/ ~/.config/  
   # Instalando dependencias que requieran los scripts de bspwmrc
   sudo apt install feh -y &>/dev/null
-  sudo apt install imagemagick fastfetch cmatrix -y &>/dev/null
+  sudo apt install imagemagick cmatrix -y &>/dev/null
   sudo apt install neofetch -y &>/dev/null
   sudo apt install fastfetch -y &>/dev/null || install_fetch
   mkdir -p ~/Imágenes
   ./font.sh
   cp wallpapers/*.jpg ~/Imágenes
   mkdir -p ~/Imágenes/capturas
-  # Buscador de máquinas 
   
+  # Buscador de máquinas 
+  sudo apt install coreutils util-linux npm nodejs bc moreutils translate-shell -y &>/dev/null
+  sudo apt install node-js-beautify -y &>/dev/null 
   sudo cp -r scripts/s4vimachines.sh/ /opt 
   sudo chown -R $usuario:$usuario /opt/s4vimachines.sh 
 

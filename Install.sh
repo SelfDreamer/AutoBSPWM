@@ -234,7 +234,9 @@ install_rofi(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando rofi...${end}"
   sudo apt install -y rofi &>/dev/null
   cp -r ./config/rofi/ ~/.config/
+  sudo rm -rf /usr/share/rofi/themes/* 2>/dev/null && sudo cp -r ./config/rofi/themes/* /usr/share/rofi/themes/ 
   /usr/bin/clear
+
   if which notify-send &>/dev/null; then
     notify-send "Entorno BSPWM instalado correctamente!!"
     notify-send "Elige tu tema de rofi para finalizar."

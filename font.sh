@@ -7,7 +7,7 @@ function ctrl_c(){
 
 trap ctrl_c INT
 
-echo -ne "\r${bright_cyan}[+]${bright_white} Introduce el nick que se vera reflejado en el fondo de pantalla: " && read -r NICK 
+echo -ne "\r${bright_cyan}[+]${bright_white} Introduce el nick que se vera reflejado en el fondo de pantalla: " && read -r -t 10 NICK 
 
 if [[ ! $NICK ]]; then
   NICK="@$(lsb_release -d | grep -oP "Parrot|Kali")"
@@ -33,4 +33,4 @@ convert "$INPUT_IMAGE" \
     -annotate +0+140 "$NICK" \
     "$OUTPUT_IMAGE"
 
-echo -e "${bright_green}[✓]${bright_white} Imagen generada, nombre de usuario:${bright_magenta} $NICK${end}"
+echo -e "\n${bright_green}[✓]${bright_white} Imagen generada, nombre de usuario:${bright_magenta} $NICK${end}\n"

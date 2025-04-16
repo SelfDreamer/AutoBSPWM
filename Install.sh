@@ -104,6 +104,7 @@ install_fzf(){
 } 
 
 install_polybar(){
+  cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando la polybar...${end}"
   sudo apt install polybar -y &>/dev/null
   cp -r ./config/polybar/ ~/.config/
@@ -165,7 +166,7 @@ install_fonts(){
 install_nvim(){
   cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando NvChad...${end}"
-  
+  sudo apt autoremove neovim -y; sudo apt autoremove nvim -y 
   rm -rf ~/.config/nvim/ 2>/dev/null
   cp -r ./config/nvim/ ~/.config/
   sudo mkdir -p /root/.config/

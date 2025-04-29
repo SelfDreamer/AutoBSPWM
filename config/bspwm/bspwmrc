@@ -9,7 +9,7 @@ pgrep -x xfce4-notifyd || /usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd 
 wmname LG3D &
 vmware-user-suid-wrapper & 
 vmware-user &
-feh --bg-fill ~/Imágenes/Wallpaper.jpg
+feh --bg-fill ~/Imágenes/wallpapers/Wallpaper.jpg
 ~/.config/polybar/./launch.sh &
 
 # Bspwm rules 

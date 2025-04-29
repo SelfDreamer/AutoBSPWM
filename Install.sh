@@ -41,7 +41,7 @@ install_bspwm(){
   sudo apt install fastfetch -y &>/dev/null || install_fetch
   mkdir -p ~/Imágenes
   ./font.sh
-  cp wallpapers/*.jpg ~/Imágenes
+  cp -r ./wallpapers/ ~/Imágenes
   mkdir -p ~/Imágenes/capturas
   
   # Buscador de máquinas 
@@ -54,6 +54,14 @@ install_bspwm(){
   sudo cp -r ./scripts/whichSystem/* /opt/ 
   sudo chown -R $usuario:$usuario /opt/Linux/
   sudo chown -R $usuario:$usuario /opt/Python/
+  
+  echo -e "\n${bright_cyan}[+]${bright_white} Arreglando problema de escalado en burpsuite, si es que lo tienes, pero mas vale prevenir que lamentar...${end}"
+  sudo apt install wmname -y 
+
+  cd $ruta 
+
+  sed -i "s|user_replace|${usuario}|" ./Icons/Editor.desktop
+  sudo cp ./Icons/*.desktop /usr/share/applications/ 
 }
 
 install_sxhkd(){
@@ -96,10 +104,10 @@ install_zsh(){
 
 install_fzf(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando fzf...${end}"
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf &>/dev/null 
   ~/.fzf/install --all &>/dev/null
 
-  sudo git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
+  sudo git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf &>/dev/null 
   sudo /root/.fzf/install --all &>/dev/null
 } 
 
@@ -108,23 +116,27 @@ install_polybar(){
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando la polybar...${end}"
   sudo apt install polybar -y &>/dev/null
   cp -r ./config/polybar/ ~/.config/
+
+  sudo apt install xface-notifyd -y 
+  /usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd &
 }
 
 install_picom(){
   cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando el compositor picom...${end}"
   sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev libev-dev libpcre3-dev -y &>/dev/null
-  sudo apt install cmake -y &>/dev/null
+  sudo apt install libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev meson ninja-build uthash-dev
+  sudo apt install cmake -y &>/dev/null -y &>/dev/null 
 
   [[ -d "picom" ]] && rm -rf picom
   if ! sudo apt install picom -y &>/dev/null; then
     # Instalamos picom desde los repositorios de git 
-    git clone https://github.com/ibhagwan/picom.git &>/dev/null
-    cd picom &>/dev/null
-    git submodule update --init --recursive &>/dev/null 
-    meson setup --buildtype=release . build &>/dev/null 
-    ninja -C build &>/dev/null 
-    sudo ninja -C build install &>/dev/null 
+    git clone https://github.com/yshui/picom 
+    cd picom 
+    meson setup --buildtype=release build
+    ninja -C build
+    sudo cp  build/src/picom /usr/local/bin 
+    sudo cp build/src/picom /usr/bin/ 
     cd ..
     rm -rf picom
   fi
@@ -179,6 +191,53 @@ install_nvim(){
   sudo cp ./nvim_upload.sh /usr/bin/ 
 }
 
+install_eww_for_docker(){
+    cd "$ruta" || { echo "Error: No se pudo cambiar a $ruta"; exit 1; }
+    echo -e "\n${bright_cyan}[+]${bright_white} Empezando con el Dockerfile${end}"
+    
+    cd ./eww_container/ 
+
+    xhost +local:root >/dev/null 2>&1
+
+    # Construcción de la imagen
+    echo -e "${bright_yellow}[*]${bright_white} Construyendo imagen Docker...${end}"
+    sudo docker build -t eww_img . || { echo "Error en docker build"; exit 1; }
+
+    # Ejecución del contenedor
+    echo -e "${bright_yellow}[*]${bright_white} Iniciando contenedor...${end}"
+    sudo docker run -dit \
+      --name eww_widget \
+      -e DISPLAY=$DISPLAY \
+      -v /tmp/.X11-unix:/tmp/.X11-unix \
+      -v ~/.config/eww:/root/.config/eww \
+      -v /etc/localtime:/etc/localtime:ro \
+      --device /dev/dri \
+      eww_img
+
+    # Configuración de sudoers
+    echo -e "${bright_yellow}[*]${bright_white} Configurando sudoers...${end}"
+    sudo tee /etc/sudoers.d/init_docker <<<'%sudo ALL=(root) NOPASSWD: /usr/bin/init_docker.sh' >/dev/null
+    sudo chmod 440 /etc/sudoers.d/init_docker
+
+    sudo tee /etc/sudoers.d/eww <<<'%sudo ALL=(root) NOPASSWD: /usr/bin/eww_calendar.sh' >/dev/null
+    sudo chmod 440 /etc/sudoers.d/eww
+
+    sudo tee /etc/sudoers.d/init_eww <<<'%sudo ALL=(root) NOPASSWD: /usr/bin/init_eww.sh' >/dev/null
+    sudo chmod 440 /etc/sudoers.d/init_eww
+   
+    # Copia de scripts
+    echo -e "${bright_yellow}[*]${bright_white} Instalando scripts...${end}"
+    sudo cp -v ./init_docker.sh ./init_eww.sh ./eww_calendar.sh /usr/bin/
+    sudo chmod 755 /usr/bin/{init_docker.sh,init_eww.sh,eww_calendar.sh}
+    sudo chown root:root /usr/bin/{init_docker.sh,init_eww.sh,eww_calendar.sh}
+
+    # Borramos imagenes de tipo none 
+    sudo docker rmi $(docker images -f "dangling=true" -q) --force 2>/dev/null 
+
+    echo -e "${bright_green}[✓]${bright_white} Instalación completada${end}"
+    cd .. 
+}
+
 install_eww(){
   cd $ruta
   echo -e "\n${bright_cyan}[+]${bright_white} Instalando eww y sus widgets...${end}"
@@ -213,6 +272,11 @@ install_eww(){
           echo -e "\n${bright_red}[!] No se pudo instalar eww...${end}"
           cd ..
       fi
+  else
+
+    echo -e "${bright_cyan}[!]${bright_white} Esta instalación puede tomar un tiempo, asi que se paciente...${end}"
+    sudo apt install -y docker.io 
+    install_eww_for_docker
   fi
 }
 
@@ -258,6 +322,34 @@ install_obsidian(){
   sudo mv obsidian /usr/bin/
 }
 
+install_editor(){
+  cd $ruta 
+  echo -e "\n${bright_cyan}[+]${bright_white} Instalando editor de bspwm...${end}"
+  
+  cp -r ./config/ctk/ ~/.config/
+  cd ~/.config/ctk/ 
+  sudo apt install python3-tk -y 
+  python3 -m venv .venv 
+  source .venv/bin/activate 
+  pip install customtkinter CTkMessageBox pillow opencv-python
+  cd $ruta 
+
+  sudo cp ./config/ctk/AnimatedWall /usr/bin/ 
+
+  sudo apt install -y git g++ libx11-dev libxext-dev libxrender-dev libxcomposite-dev libxdamage-dev
+  cd ~
+  [[ -d "xwinwrap" ]] && rm -rf xwinwrap
+
+  git clone https://github.com/ujjwal96/xwinwrap.git
+  cd xwinwrap
+  make
+  sudo make install 
+  sudo apt install mpv -y 
+  cd .. 
+  rm -rf xwinwrap
+  cd $ruta 
+}
+
 main(){
   cd $ruta
   source ./Colors
@@ -276,12 +368,17 @@ main(){
   install_picom
   install_obsidian
   install_tmux 
-  [[ ! "$distro" == 'Parrot' ]] && install_eww
+  install_eww
   install_polybar
   sudo cp ./Colors /usr/bin/
+  install_editor
   install_rofi
 }
 
-if [[ "$EUID" -ne 0 ]]; then 
-  main
+if [[ "$EUID" -eq 0 ]]; then 
+  source ./Colors
+  echo -e "\n${bright_red}[!] Este script no puede ser ejecutado como usuario root!${end}"
+  exit 1 
 fi
+
+main

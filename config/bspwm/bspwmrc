@@ -1,20 +1,32 @@
 #!/bin/sh
 
+# Daemons 
+picom &
+pgrep -x xwinwrap > /dev/null && pkill xwinwrap
 pgrep -x sxhkd > /dev/null || sxhkd &
+pgrep -x xfce4-notifyd || /usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd &
 
-bspc monitor -d I II III IV V VI VII VIII  
+wmname LG3D &
+vmware-user-suid-wrapper & 
+vmware-user &
+feh --bg-fill ~/Imágenes/Wallpaper.jpg
+~/.config/polybar/./launch.sh &
 
+# Bspwm rules 
+bspc monitor -d I II III IV V VI #VII VIII  
 bspc config border_width         0
 bspc config window_gap          10
-
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
+bspc config focused_border_color "#C2F6FC"
+bspc config normal_border_color "#010812"
+bspc config border_width 2
+bspc rule -a Tk state=floating
 
-vmware-user-suid-wrapper & 
-feh --bg-fill ~/Imágenes/Wallpaper.jpg
-~/.config/polybar/./launch.sh &
-picom &
-#bspc config focused_border_color "#C2F6FC"
-#bspc config normal_border_color "#010812"
-bspc config border_width 0
+# EWW DAEMON 
+if ! which eww &> /dev/null; then
+  sudo /usr/bin/init_docker.sh && sudo /usr/bin/init_eww.sh
+else
+  pgrep -x eww || eww daemmon & 
+fi

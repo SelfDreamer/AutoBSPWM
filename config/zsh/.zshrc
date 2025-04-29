@@ -49,7 +49,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Manual configuration
 
-PATH=/root/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:
+PATH=/root/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/s4vimachines.sh/
 
 # Manual aliases
 alias ll='lsd -lh --group-dirs=first'
@@ -61,14 +61,15 @@ alias cat='bat'
 alias catn='bat --style=plain'
 alias catnp='bat --style=plain --paging=never'
 alias grep='grep --color=auto'
-alias venv='python3 -m venv .venv && source .venv/bin/activate'
+alias clt='cleartarget'
+alias str='settarget'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Plugins
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh-sudo/sudo.plugin.zsh  
+source /usr/share/zsh-sudo/sudo.plugin.zsh
 
 # Functions
 mkt () {
@@ -93,6 +94,7 @@ mkt () {
 	echo
 	mkdir -p $dir_name/{nmap,content,scripts,exploits}
 }
+
 
 # Extract nmap information
 function extractPorts(){
@@ -119,6 +121,16 @@ function man() {
     man "$@"
 }
 
+function settarget(){
+  ip=$1
+  machine=$2
+  echo "$ip $2" > ~/.config/bin/target
+}
+
+function cleartarget(){
+  echo '' > ~/.config/bin/target
+}
+
 # fzf improvement
 function fzf-lovely(){
 
@@ -142,15 +154,7 @@ function fzf-lovely(){
 	fi
 }
 
-function settarget(){
-  ip=$1
-  machine=$2
-  echo "$ip $2" > ~/.config/bin/target
-}
-
-function cleartarget(){
-  echo '' > ~/.config/bin/target
-}
+alias fzf-lovely='FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border" fzf-lovely'
 
 function rmk(){
 	scrub -p dod $1
@@ -170,4 +174,9 @@ bindkey "\e[3~" delete-char
 setxkbmap latam
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 NVIM_PATH=$(find /opt/nvim/nvim*/bin/nvim -type f -executable -exec dirname {} \;)
-export PATH=$PATH:$NVIM_PATH:/opt/Python/:/opt/Linux/:/opt/s4vimachines.sh/
+export PATH=$PATH:$NVIM_PATH
+export EDITOR='nvim'
+# Esto lo que hace es que nunca creara directorios __pycache__ al hacer scripts de python que sabemos que es molesto.
+# Si realmente quieres esos directorios, comenta esa linea y ya 
+export PYTHONDONTWRITEBYTECODE=1
+

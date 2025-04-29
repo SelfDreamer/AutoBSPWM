@@ -1,0 +1,45 @@
+#!/bin/bash
+
+free -h | awk 'NR==2 {print $3, $2}' | while read usado total; do
+    # Reemplazar coma por punto decimal
+    usado=$(echo "$usado" | sed 's/,/./')
+    total=$(echo "$total" | sed 's/,/./')
+
+    # Extraer número y unidad
+    u_num=${usado%??}
+    u_unit=${usado: -2}
+    t_num=${total%??}
+    t_unit=${total: -2}
+
+    # Función para convertir a MB
+    to_mb() {
+        num=$1
+        unit=$2
+        case $unit in
+            Mi|MB) echo "$num" ;;
+            Gi|GB) echo "$(echo "$num * 1024" | bc)" ;;
+            Ki|KB) echo "$(echo "$num / 1024" | bc)" ;;
+            *) echo "$num" ;;
+        esac
+    }
+
+    u_mb=$(to_mb "$u_num" "$u_unit")
+    t_mb=$(to_mb "$t_num" "$t_unit")
+
+    # Redondear y convertir si es mayor a 999 MB
+    format_unit() {
+        num=$1
+        int_val=$(LC_NUMERIC=C printf "%.0f" "$num")
+        if [ "$int_val" -ge 1000 ]; then
+            echo "$(echo "scale=2; $num / 1024" | bc) GB"
+        else
+            echo "$int_val MB"
+        fi
+    }
+
+    u_final=$(format_unit "$u_mb")
+    t_final=$(format_unit "$t_mb")
+
+    echo "$u_final / $t_final"
+done
+

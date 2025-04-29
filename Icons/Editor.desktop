@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Editor
+Exec=/home/user_replace/.config/ctk/editor.sh
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=Utility;
+

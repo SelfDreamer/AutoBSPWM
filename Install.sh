@@ -117,7 +117,7 @@ install_polybar(){
   sudo apt install polybar -y &>/dev/null
   cp -r ./config/polybar/ ~/.config/
 
-  sudo apt install xface-notifyd -y 
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y xfce4-notifyd
   /usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd &
 }
 

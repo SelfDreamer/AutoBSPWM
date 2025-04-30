@@ -21,8 +21,8 @@ cd AutoBSPWM
 
 ---
 
-#### Neofetch 'casero'
-
+#### Neofetch 'casero' 
+-# [Creador original](https://github.com/gh0stzk/) del 'Neofetch' casero.
 ![image](https://github.com/user-attachments/assets/54146710-9b44-4687-9716-ceb01954b980)
 
 ---
@@ -43,17 +43,14 @@ cd AutoBSPWM
 
 Creador original del [menú](https://github.com/zelaya420/bspwm)
 
-![image](https://github.com/user-attachments/assets/c3f5bb36-9684-4e2e-860f-80dc2b0da901)
+![image](https://github.com/user-attachments/assets/89a62d69-506c-42fc-9ff8-46919033260a)
 
 
 **Calendario**
 
 Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 
-![image](https://github.com/user-attachments/assets/47376f6d-3b5e-4ef1-af53-982dfc361235)
-
-
-- Se activara al presionar el icono de calendario con click derecho.
+![image](https://github.com/user-attachments/assets/c2170dce-c22f-420a-b641-1ebb7fdf5e03)
 
 ---
 # Resultado *(Kali Linux)*

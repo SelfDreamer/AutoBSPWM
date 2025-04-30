@@ -5,9 +5,9 @@ from CTkMessagebox import CTkMessagebox
 import subprocess, re, os 
 from PIL import Image
 from tkinter import filedialog
-import cv2
+import cv2, random 
 
-def is_ansii(color_entry) -> bool:
+def is_hex(color_entry) -> bool:
 
     if not re.fullmatch(r"#([A-Fa-f0-9]{6})", color_entry):
         return False
@@ -45,7 +45,7 @@ class BSPWM():
 
         if not border_color: return 
 
-        if is_ansii(border_color):
+        if is_hex(border_color):
             process = subprocess.Popen(['bspc', 'config', 'focused_border_color', border_color], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
             process.communicate()
@@ -63,7 +63,7 @@ class BSPWM():
 
         if not border_color: return 
 
-        if is_ansii(border_color):
+        if is_hex(border_color):
             process = subprocess.Popen(['bspc', 'config', 'normal_border_color', border_color], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
             process.communicate()
@@ -634,9 +634,61 @@ class Editor():
 
         label = ctk.CTkLabel(master=widget_fbcw, text="Focused Border Color", font=('Arial', 15))
         label.pack(side='left', fill='y')
-
+        
+        # Cuadrado al estilo NvChad, es el primero de todos, para que lo tengas en cuenta jeje 
         color_label_fbcw = ctk.CTkFrame(master=widget_fbcw, fg_color='gray', corner_radius=6, width=17, height=17)
         color_label_fbcw.pack(side='left', padx=(10, 10))
+
+        def color_label_fbcw_event(event):
+            palette_window = ctk.CTkToplevel()
+            palette_window.title("Elige un color")
+            palette_window.geometry("600x600")
+            palette_window.lift()
+            palette_window.focus_force()
+
+            # Scrollable Frame para los colores
+            scroll_frame = ctk.CTkScrollableFrame(palette_window, width=780, height=580)
+            scroll_frame.pack(padx=10, pady=10, fill="both", expand=True)
+
+            # Lista de 100 colores HEX aleatorios
+            colors = [f'#{random.randint(0, 0xFFFFFF):06x}' for _ in range(100)]
+
+            def _on_mousewheel(event):
+                scroll_frame._parent_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+            scroll_frame.bind_all("<MouseWheel>", _on_mousewheel)  # Windows y Linux
+            scroll_frame.bind_all("<Button-4>", lambda e: scroll_frame._parent_canvas.yview_scroll(-1, "units"))  # Mac arriba
+            scroll_frame.bind_all("<Button-5>", lambda e: scroll_frame._parent_canvas.yview_scroll(1, "units"))   # Mac abajo
+
+            for idx, color in enumerate(colors):
+                row = idx // 5   # 5 columnas por fila
+                col = idx % 5
+
+                # Botón de color grande
+                color_button = ctk.CTkButton(
+                    scroll_frame, 
+                    width=80, 
+                    height=80,
+                    fg_color=color,
+                    hover_color=color,
+                    text="",
+                    command= lambda c=color: self.__update__(label=color_label_fbcw, entry_widget=entry_fbcw, palette_window=palette_window, color=c)
+                )
+                color_button.grid(row=row*2, column=col, padx=15, pady=10)
+
+                # Entry grande debajo del botón
+                color_entry = ctk.CTkEntry(
+                    scroll_frame, 
+                    width=80,
+                    height=30,
+                    justify="center",
+                    font=("Arial", 14)
+                )
+                color_entry.grid(row=row*2+1, column=col, padx=15, pady=(0, 20))
+                color_entry.insert(0, color)
+                color_entry.configure(state="readonly") 
+
+        color_label_fbcw.bind('<Button-1>', color_label_fbcw_event)
 
         button = ctk.CTkButton(master=widget_fbcw, text="apply", command=lambda: BSPWM.focused_border_color(root=self.root, border_color=entry_fbcw.get(), entry_widget=entry_fbcw)) 
         button.pack(side='right', padx=10)
@@ -660,6 +712,58 @@ class Editor():
         color_label_nbc = ctk.CTkFrame(master=widget_nbc, fg_color='gray', corner_radius=6, width=17, height=17)
         color_label_nbc.pack(side='left', padx=(10, 10))
 
+        def color_label_nbc_event(event):
+            palette_window2 = ctk.CTkToplevel()
+            palette_window2.title("Elige un color")
+            palette_window2.geometry("600x600")
+            palette_window2.lift()
+            palette_window2.focus_force()
+
+            # Scrollable Frame para los colores
+            scroll_frame = ctk.CTkScrollableFrame(palette_window2, width=780, height=580)
+            scroll_frame.pack(padx=10, pady=10, fill="both", expand=True)
+            
+            def _on_mousewheel(event):
+                scroll_frame._parent_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+            scroll_frame.bind_all("<MouseWheel>", _on_mousewheel)  # Windows y Linux
+            scroll_frame.bind_all("<Button-4>", lambda e: scroll_frame._parent_canvas.yview_scroll(-1, "units"))  # Mac arriba
+            scroll_frame.bind_all("<Button-5>", lambda e: scroll_frame._parent_canvas.yview_scroll(1, "units"))   # Mac abajo
+
+
+            # Lista de 100 colores HEX aleatorios
+            colors = [f'#{random.randint(0, 0xFFFFFF):06x}' for _ in range(100)]
+
+            for idx, color in enumerate(colors):
+                row = idx // 5   # 5 columnas por fila
+                col = idx % 5
+
+                # Botón de color grande
+                color_button = ctk.CTkButton(
+                    scroll_frame, 
+                    width=80, 
+                    height=80,
+                    fg_color=color,
+                    hover_color=color,
+                    text="",
+                    command= lambda c=color: self.__update__(label=color_label_nbc, entry_widget=entry_nbc, palette_window=palette_window2, color=c)
+                )
+                color_button.grid(row=row*2, column=col, padx=15, pady=10)
+
+                # Entry grande debajo del botón
+                color_entry = ctk.CTkEntry(
+                    scroll_frame, 
+                    width=80,
+                    height=30,
+                    justify="center",
+                    font=("Arial", 14)
+                )
+                color_entry.grid(row=row*2+1, column=col, padx=15, pady=(0, 20))
+                color_entry.insert(0, color)
+                color_entry.configure(state="readonly") 
+
+        color_label_nbc.bind('<Button-1>', color_label_nbc_event)
+
         #bspc config border_width 2 
         # Configure the border 
         widget_cb = ctk.CTkFrame(master=self.container_widgets_bspwm, fg_color='transparent')
@@ -677,8 +781,6 @@ class Editor():
                 except:
                     pass
             color_label_nbc.configure(fg_color="gray")
-
-        entry_nbc.bind("<KeyRelease>", update_color_nbc)
 
         entry_nbc.bind("<KeyRelease>", update_color_nbc)
 
@@ -712,10 +814,25 @@ class Editor():
         # Boton de salir 
         self._exit_button = ctk.CTkButton(master=self._danguer_frame, corner_radius=10, text='Salir', hover_color='red', command= lambda: self.destroy_app(root=root))
         self._exit_button.pack(side='left', padx=10, pady=10)
-    
+   
     @staticmethod
     def __app__(root: ctk.CTk):
         root.mainloop()
+    
+    @staticmethod
+    def __update__(label: ctk.CTkFrame, entry_widget: ctk.CTkEntry, palette_window: ctk.CTkToplevel, color) -> None:
+        try:
+            label.configure(fg_color=color)
+            entry_widget.delete(0, 'end')
+            entry_widget.insert(index=0, string=color)
+            palette_window.destroy()
+        except Exception as e:
+            pass 
+    
+    @staticmethod
+    def __mouse__(event, scroll_frame: ctk.CTkScrollableFrame) -> None:
+        scroll_frame._parent_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
 
     @staticmethod
     def __configure__(root: ctk.CTk) -> None:

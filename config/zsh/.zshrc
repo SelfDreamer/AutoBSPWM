@@ -179,4 +179,5 @@ export EDITOR='nvim'
 # Esto lo que hace es que nunca creara directorios __pycache__ al hacer scripts de python que sabemos que es molesto.
 # Si realmente quieres esos directorios, comenta esa linea y ya 
 export PYTHONDONTWRITEBYTECODE=1
+export PATH="$PATH:/opt/Linux/:/opt/Python"
 

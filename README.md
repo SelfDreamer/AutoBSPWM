@@ -22,7 +22,9 @@ cd AutoBSPWM
 ---
 
 #### Neofetch 'casero' 
--# [Creador original](https://github.com/gh0stzk/) del 'Neofetch' casero.
+
+[Creador original](https://github.com/gh0stzk/) del 'Neofetch' casero.
+
 ![image](https://github.com/user-attachments/assets/54146710-9b44-4687-9716-ceb01954b980)
 
 ---

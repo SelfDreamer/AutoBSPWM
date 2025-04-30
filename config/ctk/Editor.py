@@ -821,13 +821,10 @@ class Editor():
     
     @staticmethod
     def __update__(label: ctk.CTkFrame, entry_widget: ctk.CTkEntry, palette_window: ctk.CTkToplevel, color) -> None:
-        try:
-            label.configure(fg_color=color)
-            entry_widget.delete(0, 'end')
-            entry_widget.insert(index=0, string=color)
-            palette_window.destroy()
-        except Exception as e:
-            pass 
+        label.configure(fg_color=color)
+        entry_widget.delete(0, 'end')
+        entry_widget.insert(index=0, string=color)
+        palette_window.destroy()
     
     @staticmethod
     def __mouse__(event, scroll_frame: ctk.CTkScrollableFrame) -> None:

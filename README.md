@@ -10,16 +10,36 @@ cd AutoBSPWM
 
 ---
 
-##### Mensajes de Adveretencia y ayuda por parte del editor
+##### Sugerencias por parte del Editor
 
-![image](https://github.com/user-attachments/assets/7d0d1686-ca0f-44ac-905b-7b86d744e98e)
+![image](https://github.com/user-attachments/assets/3f9dd2c3-db49-41d0-ab53-b5d5bc68df7e)
 
-![image](https://github.com/user-attachments/assets/7b6f6282-f8ea-4440-b403-55cae7c43bef)
+#### Mensajes de advertencia 
+
+![image](https://github.com/user-attachments/assets/fbb5de54-9bf9-4230-8a9a-539f39436009)
 
 
 ---
 
-**Menu**
+#### Neofetch 'casero'
+
+![image](https://github.com/user-attachments/assets/54146710-9b44-4687-9716-ceb01954b980)
+
+---
+
+#### Modulo para actualizar el sistema
+
+![image](https://github.com/user-attachments/assets/6abfaba9-3395-429c-b829-aaa77d58fa67)
+
+
+---
+#### Eventos clicables en todos los modulos de la Polybar
+![image](https://github.com/user-attachments/assets/4a9ff273-790f-4bf1-9588-3ba7a76fbf56)
+
+
+---
+
+**Menu de apagado**
 
 Creador original del [menú](https://github.com/zelaya420/bspwm)
 
@@ -33,18 +53,17 @@ Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 ![image](https://github.com/user-attachments/assets/47376f6d-3b5e-4ef1-af53-982dfc361235)
 
 
-- Se activara al presionar el icono de arch con click izquierdo, mataremos el proceso con click derecho.
-
-> [!NOTE]
-> Si estas usando **Parrot OS** no podras instalar *eww*.
+- Se activara al presionar el icono de calendario con click derecho.
 
 ---
 # Resultado *(Kali Linux)*
-![image](https://github.com/user-attachments/assets/518474eb-5f5a-4af0-b047-e0048bef4f32)
+![image](https://github.com/user-attachments/assets/81e5eeba-36c8-4f31-8022-4d0c569b5b8d)
+
 
 
 # Resultado *(Parrot OS)*
-![image](https://github.com/user-attachments/assets/1791fe97-b9be-4315-b17b-32c84eb7ee01)
+![image](https://github.com/user-attachments/assets/523cfb9b-6118-4db5-8604-30d61e7cf3d0)
+
 
 
 ---
@@ -74,100 +93,48 @@ Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 
 # Atajos de teclado
 
-## Hotkeys independientes del gestor de ventanas (WM Independent Hotkeys)
+| Atajo                        | Comando / Acción                                                        |
+|-----------------------------|---------------------------------------------------------------------------|
+| Win + Enter                 | `kitty` – Abre el emulador de terminal                                  |
+| Win + Shift + o             | `obsidian` – Abre la aplicación de notas Obsidian                       |
+| Win + Shift + x             | `i3lock-fancy` – Bloquea la pantalla                                    |
+| Win + d                     | `rofi -show drun` – Abre el lanzador de aplicaciones                    |
+| Win + Escape                | `pkill -USR1 -x sxhkd` – Recarga la configuración de atajos (sxhkd)     |
+| Win + Shift + f             | `firefox` – Abre el navegador Firefox                                   |
+| Win + Shift + q             | Cierra BSPWM                                                            |
+| Win + Shift + r             | Reinicia BSPWM                                                          |
+| Win + q                     | Cierra la ventana actual                                                |
+| Win + m                     | Alterna entre modo en mosaico y pantalla completa                       |
+| Win + y                     | Mueve una ventana marcada a otra posición                               |
+| Win + g                     | Intercambia con la ventana más grande                                   |
+| Win + t                     | Establece la ventana como en mosaico (`tiled`)                          |
+| Win + Shift + t             | Establece modo pseudo-tiled                                             |
+| Win + s                     | Cambia a modo flotante                                                  |
+| Win + f                     | Cambia a pantalla completa                                              |
+| Win + Ctrl + m              | Marca la ventana                                                        |
+| Win + Ctrl + x              | Bloquea la ventana (impide moverla o redimensionarla)                   |
+| Win + Ctrl + y              | Hace que la ventana sea visible en todos los escritorios (sticky)       |
+| Win + Ctrl + z              | Marca la ventana como privada                                           |
+| Win + ← / ↓ / ↑ / →         | Mueve el foco entre ventanas en esa dirección                          |
+| Win + Shift + ← ↓ ↑ →       | Intercambia la posición con otra ventana en esa dirección               |
+| Win + p                     | Mueve el foco al nodo padre                                             |
+| Win + b                     | Mueve el foco al "hermano" (ventana paralela)                           |
+| Win + ,                     | Mueve el foco al primer nodo                                            |
+| Win + .                     | Mueve el foco al segundo nodo                                           |
+| Win + c / Shift + c         | Mueve el foco al nodo siguiente / anterior del escritorio               |
+| Win + [ / ]                 | Cambia al siguiente / anterior nodo en el escritorio actual             |
+| Win + ` / Tab               | Foco al último nodo / escritorio usado                                 |
+| Win + o / i                 | Foco a la ventana más antigua / más reciente                           |
+| Win + {1-9,0}               | Cambia al escritorio correspondiente                                    |
+| Win + Shift + {1-9,0}       | Mueve la ventana al escritorio correspondiente                          |
+| Win + Ctrl + Alt + ← ↓ ↑ → | Preselecciona dirección para próxima división de ventana                |
+| Win + Ctrl + {1-9}          | Establece proporción del espacio para próxima ventana                   |
+| Win + Ctrl + Alt + Space    | Cancela la preselección del nodo actual                                 |
+| Win + Ctrl + Shift + Space  | Cancela la preselección del escritorio                                  |
+| Win + Shift + ← ↓ ↑ →       | Mueve una ventana flotante                                              |
+| Win + Alt + ← ↓ ↑ →         | Redimensiona la ventana (con script `bspwm_resize`)                     |
+| Win + a                     | Hace captura con `flameshot`, la guarda y copia al portapapeles         |
 
-- **Windows + Enter**  
-  Abre el emulador de terminal `kitty`.
-
-- **Windows + Shift + o**  
-  Abre la aplicación `Obsidian`.
-
-- **Windows + Shift + x**  
-  Bloquea la pantalla con `i3lock-fancy`.
-
-- **Windows + d**  
-  Abre el lanzador de aplicaciones `rofi` con la opción `drun`.
-
-- **Windows + Escape**  
-  Recarga la configuración de `sxhkd`.
-
-- **Windows + Shift + f**  
-  Abre el navegador `Firefox`.
-
-## Hotkeys específicos de BSPWM (BSPWM Hotkeys)
-
-- **Windows + Shift + {q,r}**  
-  Cierra o reinicia BSPWM.
-
-- **Windows + {_,Shift + }q**  
-  Cierra o mata la ventana o nodo actual.
-
-- **Windows + m**  
-  Alterna entre los modos de disposición en BSPWM: **tiled** (cuadrícula) y **monocle** (pantalla completa).
-
-- **Windows + y**  
-  Mueve el nodo marcado más reciente a la posición del nodo preseleccionado más reciente.
-
-- **Windows + g**  
-  Intercambia el nodo actual con la ventana más grande.
-
-## Estado y banderas (State/Flags)
-
-- **Windows + {t, Shift + t, s, f}**  
-  Cambia el estado de la ventana actual a: **tiled** (cuadrícula), **pseudo_tiled**, **floating** (flotante), o **fullscreen** (pantalla completa).
-
-- **Windows + Ctrl + {m,x,y,z}**  
-  Activa las banderas del nodo: **marked**, **locked**, **sticky**, o **private**.
-
-## Foco e intercambio (Focus/Swap)
-
-- **Windows + {_, Shift + }{Left, Down, Up, Right}**  
-  Focaliza el nodo en la dirección indicada: **west** (izquierda), **south** (abajo), **north** (arriba), **east** (derecha).
-
-- **Windows + {p, b, comma, period}**  
-  Focaliza un nodo relacionado según el tipo de salto de ruta: **parent**, **brother**, **first**, **second**.
-
-- **Windows + {_, Shift + }c**  
-  Focaliza el siguiente o el nodo anterior de la ventana en el escritorio actual.
-
-- **Windows + bracket{left, right}**  
-  Focaliza el siguiente o el nodo anterior en el escritorio del monitor actual.
-
-- **Windows + {grave, Tab}**  
-  Focaliza el último nodo o escritorio utilizado.
-
-- **Windows + {o,i}**  
-  Focaliza el nodo más antiguo o más reciente en el historial de enfoque.
-
-- **Windows + {_, Shift + }{1-9,0}**  
-  Focaliza o mueve el nodo al escritorio correspondiente.
-
-## Preselección (Preselect)
-
-- **Windows + Ctrl + Alt + {Left, Down, Up, Right}**  
-  Preselecciona la dirección: **west**, **south**, **north**, **east**.
-
-- **Windows + Ctrl + {1-9}**  
-  Preselecciona la relación de tamaño (ratio) del nodo: 0.1 a 0.9.
-
-- **Windows + Ctrl + Alt + space**  
-  Cancela la preselección del nodo actual.
-
-- **Windows + Ctrl + Shift + space**  
-  Cancela la preselección del escritorio actual.
-
-## Mover/Redimensionar (Move/Resize)
-
-- **Windows + Shift + {Left, Down, Up, Right}**  
-  Mueve una ventana flotante en la dirección indicada.
-
-- **Windows + Alt + {Left, Down, Up, Right}**  
-  Redimensiona la ventana en la dirección indicada con un script personalizado `bspwm_resize`.
-
-## Captura de pantalla
-
-- **Windows + a**  
-  Realiza una captura de pantalla con `flameshot`, la guarda en el directorio `~/Imágenes/capturas/` y la copia al portapapeles con `xclip`.
 
 **Un saludo a nuestro gran amigo S4vitar :)) y a ZLCube que fue de quien me inspire para este proyecto desde un principio. Cualquier problema que tengan no duden en contactarme a discord como pwnedbyme**
 

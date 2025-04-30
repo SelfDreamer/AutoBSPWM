@@ -371,10 +371,10 @@ class BSPWM():
                 if linea.strip().lstrip("#").strip() == linea_objetivo:
                     if switch.get():
                         f.write(linea.lstrip("#"))  # Descomentar
-                        CTkMessagebox(master=master, message='Animaciones habilitadas', icon='info')
+                        CTkMessagebox(master=master, message='Animaciones habilitadas', icon='info', title='Animaciones')
                     else:
                         if not linea.strip().startswith("#"):
-                            CTkMessagebox(master=master, message='Animaciones inhabilitadas', icon='info')
+                            CTkMessagebox(master=master, message='Animaciones inhabilitadas', icon='info', title='Animaciones')
                             f.write("#" + linea)  # Comentar
                         else:
                             f.write(linea)

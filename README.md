@@ -38,6 +38,11 @@ cd AutoBSPWM
 
 
 ---
+#### Editor de BSPWM 
+
+![image](https://github.com/user-attachments/assets/379010c9-30a7-4ca7-aec0-af944d30c6ba)
+
+---
 
 **Menu de apagado**
 

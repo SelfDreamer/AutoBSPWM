@@ -7,10 +7,10 @@ function ctrl_c(){
 
 trap ctrl_c INT
 
-echo -ne "\r${bright_cyan}[+]${bright_white} Introduce el nick que se vera reflejado en el fondo de pantalla: " && read -r -t 10 NICK 
+echo -ne "\r${bright_cyan}[+]${bright_white} Introduce el nick que se vera reflejado en el fondo de pantalla: " && read -r -t 50 NICK 
 
 if [[ ! $NICK ]]; then
-  NICK="@$(lsb_release -d | grep -oP "Parrot|Kali")"
+  NICK="@${USER}"
 else
   NICK="@$NICK"
 fi

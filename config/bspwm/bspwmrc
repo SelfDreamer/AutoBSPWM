@@ -28,7 +28,7 @@ bspc rule -a "Toplevel" state=floating
 if ! which eww &> /dev/null; then
   sudo /usr/bin/init_docker.sh && sudo /usr/bin/init_eww.sh
 else
-  pgrep -x eww || eww daemmon & 
+  pgrep -x eww || eww daemon & 
 fi
 
 # Polybar launcher 

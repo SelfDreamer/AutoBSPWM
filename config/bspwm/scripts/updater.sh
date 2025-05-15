@@ -12,7 +12,7 @@ function ctrl_c(){
 trap ctrl_c INT
 
 is_updated_system() {
-  updates_aviable=$(grep -oP '\d+(?= packages)' "$PATH_ARCHIVE" 2>/dev/null)
+  updates_aviable="$(grep -oP '\d+(?= paquetes| packages)' "$PATH_ARCHIVE")"
   [[ -n "$updates_aviable" ]] && return 0 || return 1
 }
 
@@ -35,6 +35,7 @@ run_with_sudo() {
 
 updater() {
   run_with_sudo rm -f "$PATH_ARCHIVE"
+  touch $PATH_ARCHIVE
   echo "$password" | sudo -S apt update 2>&1 | tee "$PATH_ARCHIVE" > /dev/null
 
   if is_updated_system; then
@@ -72,4 +73,3 @@ main() {
 }
 
 main
-

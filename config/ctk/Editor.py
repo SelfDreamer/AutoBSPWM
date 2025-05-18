@@ -1,11 +1,10 @@
 #!/usr/bin/env python
-import sys
 import customtkinter as ctk 
 from CTkMessagebox import CTkMessagebox
-import subprocess, re, os 
+import subprocess, re, os, sys, cv2, random 
 from PIL import Image
-from tkinter import filedialog
-import cv2, random 
+from tkinter import filedialog 
+from CTkColorPicker import AskColor
 
 def is_hex(color_entry) -> bool:
 
@@ -13,10 +12,6 @@ def is_hex(color_entry) -> bool:
         return False
 
     return True
-
-def is_running(app: str) -> bool:
-
-    return bool(subprocess.Popen(['pgrep', '-x', app], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate())
 
 def is_valid_image(image_path) -> bool:
     try:
@@ -50,9 +45,11 @@ class BSPWM():
 
             process.communicate()
 
+            CTkMessagebox(message=f'Bordeado {border_color} aplicado', title='info', icon='info')
+
             return 
         else:
-            CTkMessagebox(message='Esto no parece ser un color ANSII', title='Ups!!', icon='warning')
+            CTkMessagebox(message='Esto no parece ser un color hex', title='Ups!!', icon='warning')
         
         if entry_widget.get():
             entry_widget.delete(0, 'end')
@@ -68,9 +65,11 @@ class BSPWM():
 
             process.communicate()
 
+            CTkMessagebox(message=f'Bordeado {border_color} aplicado', title='info', icon='info')
+
             return 
         else:
-            CTkMessagebox(message='Esto no parece ser un color ANSII', title='Ups!!', icon='warning')
+            CTkMessagebox(message='Esto no parece ser un color hex', title='Ups!!', icon='warning')
         
         if entry_widget.get():
             entry_widget.delete(0, 'end')
@@ -469,9 +468,275 @@ class BSPWM():
                     corner = (match.group(0).split('=')[1].strip())
                     return int(corner)
 
+    @staticmethod
+    def is_remote_control_enabled(kitty_file : str = '~/.config/kitty/kitty.conf') -> bool:
+        if kitty_file.startswith('~'):
+            kitty_file = os.path.expanduser(path=kitty_file)
+
+        with open(kitty_file, 'r') as f:
+            for line in f:
+                target = (line.strip())
+                
+                match = re.match(pattern=r'allow_remote_control (yes|no)', string=target)
+
+                if match: 
+
+                    if (match.group(1)) == 'yes':
+
+                        return True 
+
+        return False 
+    
+    @staticmethod
+    def Get_FontSize(kitty_file : str = '~/.config/kitty/kitty.conf') -> int:
+
+        if kitty_file.startswith('~'):
+            kitty_file = os.path.expanduser(path=kitty_file)
+
+        with open(kitty_file, 'r') as f:
+
+            for line in f:
+
+                target = line.strip()
+
+                match = re.match(pattern=r'font_size \d{1,3}', string=target)
+                
+                if match: 
+                    Font_size = int(match.group(0).replace('font_size', '').strip())
+
+        return Font_size
+    
+    def Put_Font_size(font_size : str, master: ctk.CTk, entry_widget : ctk.CTkEntry, kitty_file : str = '~/.config/kitty/kitty.conf'):
+        
+        if not font_size.strip():
+            return 
+
+
+        if kitty_file.startswith('~'):
+
+            kitty_file = os.path.expanduser(path=kitty_file)
+
+        if (re.match(pattern=r'^\d+(\.\d+)?$', string=font_size)):
+
+        
+            if BSPWM.Get_FontSize() == int(font_size):
+
+                return 
+
+            process = subprocess.Popen(['/usr/bin/kitter', '--font-size', font_size], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
+            out, err = process.communicate()
+
+            if (err.decode('utf-8')):
+
+                CTkMessagebox(master=master, title = 'Error', message = f'Error ocurrido {err.decode()}')
+        
+            with open(kitty_file, "r") as archivo:
+                lineas = archivo.readlines()
+
+            nuevas_lineas = []
+            for linea in lineas:
+                # Reemplaza 'font_size' seguido de 1 a 3 dígitos por 'font_size 22'
+                nueva_linea = re.sub(r"^font_size\s+\d{1,3}", f"font_size {font_size}", linea)
+                nuevas_lineas.append(nueva_linea)
+
+            with open(kitty_file, "w") as archivo:
+
+                archivo.writelines(nuevas_lineas)        
+
+            CTkMessagebox(master=master, message = 'Tamaño de fuente aplicado', title = 'Info', icon = 'info')
+
+        else:
+
+            entry_widget.delete(0, 'end')
+            entry_widget.configure(placeholder_text=f'Font Size ({BSPWM.Get_FontSize()})')
+            CTkMessagebox(master=master, title = 'Invalid Font Size', message = f'El tamaño de fuente debe de ser un numero entero!', icon='error')
+
+    @staticmethod
+    def Get_Size_Background(kitty_file : str = '~/.config/kitty/kitty.conf'):
+        
+        if kitty_file.startswith('~'):
+            kitty_file = os.path.expanduser(path=kitty_file)
+
+        with open(kitty_file) as f:
+
+            for line in f:
+
+                target = line.strip()
+
+                match = re.match(pattern=r'^background_opacity\s+\d{1,3}.\d{1,3}', string=target)
+                
+                if match:
+                    return (float(match.group(0).replace('background_opacity', '').strip()))
+    
+
+    @staticmethod
+    def PutBackgroundWidget(master: ctk.CTk, frame: ctk.CTkFrame) -> None:
+        background_opacity = BSPWM.Get_Size_Background()
+        background_opacity_label = ctk.CTkLabel(master=frame, fg_color='transparent', text=f'Kitty Background Opacity {background_opacity}', font=('Arial', 15))
+        background_opacity_label.pack(side='left', fill='y')
+        
+        entry_background_size = ctk.CTkSlider(master=frame, from_=0.0, to=1.0, width=135, command = lambda value: BSPWM.UpdateLabel(value, label=background_opacity_label))#, #placeholder_text=f'Font Size ({BSPWM.Get_FontSize()})')
+        entry_background_size.set(background_opacity)
+        entry_background_size.pack(side='right', fill='x')
+
+        button_apply_back_size = ctk.CTkButton(master=frame, text='Apply', command = lambda: BSPWM.UpdateBackgroundOpacity(master=master, opacity=entry_background_size.get()))
+        button_apply_back_size.pack(side='right', padx=14)
+
+    @staticmethod
+    def UpdateLabel(value: float, label: ctk.CTkLabel) -> None:
+        text = (f"{float(value):.2f}")
+
+        label.configure(text=f'Kitty Background Opacity {text}')
+
+    @staticmethod
+    def UpdateBackgroundOpacity(master: ctk.CTk, opacity: float, kitty_file : str = '~/.config/kitty/kitty.conf'):
+        
+        if kitty_file.startswith('~'):
+            kitty_file = os.path.expanduser(kitty_file)
+
+        if BSPWM.Get_Size_Background() == opacity:
+            return 
+        
+        opacity = (f"{float(opacity):.2f}")
+
+        cmd = f'''
+        /usr/bin/kitter --background-opacity {opacity}
+        ''' 
+
+        process = subprocess.run(cmd, shell=True, stderr=True, stdout=True).stdout 
+   
+        with open(kitty_file, "r") as archivo:
+            lineas = archivo.readlines()
+
+        nuevas_lineas = []
+        for linea in lineas:
+            nueva_linea = re.sub(r"^background_opacity\s+\d{1,3}.\d{1,3}", f"background_opacity {opacity}", linea)
+            nuevas_lineas.append(nueva_linea)
+
+        with open(kitty_file, "w") as archivo:
+
+            archivo.writelines(nuevas_lineas)        
+
+        CTkMessagebox(master=master, message='Opacidad aplicada', title='Info', icon='info')
+    
+    @staticmethod
+    def UpgradeBackgroundColor(color: str, Entry_Widget: ctk.CTkEntry, master: ctk.CTk, frame: ctk.CTkFrame) -> None: 
+
+        if not color.strip():
+
+            return 
+
+        if not is_hex(color_entry=color):
+            Entry_Widget.delete(0, 'end')
+            Entry_Widget.configure(placeholder_text='#000000')
+            CTkMessagebox(message='Esto no parece ser un color en hexadecimal', title='Info', icon='info', master=master)
+            return
+        # kitter --background-color '#000000'
+        process = subprocess.Popen(['kitter', '--background-color', f'{color}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        out, err = process.communicate()
+
+        BSPWM.UpdateColorFile(color)
+
+    @staticmethod
+    def UpdateColorFile(color: str, file: str = '~/.config/kitty/color.ini'):
+
+        if file.startswith('~'):
+            file = os.path.expanduser(path=file)
+
+        with open(file, "r") as archivo:
+            lineas = archivo.readlines()
+
+        nuevas_lineas = []
+        for linea in lineas:
+            nueva_linea = re.sub(r"^background #([A-Fa-f0-9]{6})", f"background {color}", linea)
+            nuevas_lineas.append(nueva_linea)
+
+        with open(file, "w") as archivo:
+
+            archivo.writelines(nuevas_lineas)  
+
+        CTkMessagebox(message=f'background {color} aplicado', title='Mensaje', icon='info')
+
+    @staticmethod
+    def GetBackgroundColor(color_files : str = '~/.config/kitty/color.ini'):
+        if color_files.startswith('~'):
+            color_files = os.path.expanduser(path=color_files)
+
+        with open(color_files, 'r') as f:
+            for line in f:
+
+                target = line.strip()
+
+                match = re.match(pattern=r'^background #([A-Fa-f0-9]{6})', string=target)
+
+                if match:
+
+                    return (match.group(0).replace('background ', '').strip())
+    
+    @staticmethod
+    def GetForeground(fore_file : str = '~/.config/kitty/color.ini'):
+
+        if fore_file.startswith('~'):
+            fore_file = os.path.expanduser(path=fore_file)
+
+        with open(fore_file, 'r') as f:
+
+            for line in f:
+
+                target = line.strip()
+                
+                match = re.match(pattern=r'foreground #([A-Fa-f0-9]{6})', string=target)
+
+                if match:
+
+                    foreground = (match.group(0).replace('foreground ', ''))
+
+                    if is_hex(color_entry=foreground):
+
+                        return str(foreground)
+
+    @staticmethod
+    def Apply_foreground(foreground: str, entry_widget: ctk.CTkEntry, master: ctk.CTk, config_file: str = '~/.config/kitty/color.ini') -> None:
+        
+        if config_file.startswith('~'):
+            config_file = os.path.expanduser(config_file)
+
+        if not foreground:
+            return
+
+        if not is_hex(foreground):
+            
+            entry_widget.delete(0, 'end')
+            entry_widget.configure(placeholder_text=f'{BSPWM.GetForeground()}')
+            CTkMessagebox(message='Esto no parece ser un color en hexadecimal!', title='Error', icon='warning')
+            return 
+
+        process = subprocess.Popen(['kitter', '--foreground-color', foreground], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        out, err = process.communicate()
+    
+        with open(config_file, "r") as archivo:
+            lineas = archivo.readlines()
+
+        nuevas_lineas = []
+        for linea in lineas:
+            nueva_linea = re.sub(r"^foreground #([A-Fa-f0-9]{6})", f"foreground {foreground}", linea)
+            nuevas_lineas.append(nueva_linea)
+
+        with open(config_file, "w") as archivo:
+
+            archivo.writelines(nuevas_lineas)        
+        
+        CTkMessagebox(message=f'Foreground {foreground} aplicado', title='Mensaje', icon='info')
+
+
 class Editor():
 
     def __init__(self) -> None:
+        
+
         self.root = ctk.CTk()
         
         # Validation if we in bspwm
@@ -489,11 +754,127 @@ class Editor():
         # Create the picom secction
         self.create_picom_sec(root=self.root)
 
+        # Create the kitty section 
+        self.create_kitty_sec(root=self.root)
+
         # Create the danguer sect 
         self.danguer_sect(root=self.root)
 
         # Start the app
         self.__app__(root=self.root)
+
+    def create_kitty_sec(self, root: ctk.CTk) -> None: 
+        background_color = BSPWM.GetBackgroundColor()
+        # Frame que contendra los widgets para la configuracion de kitty 
+        container_widgets_kitty = ctk.CTkFrame(master=root)
+        container_widgets_kitty.pack(pady=10, fill='x', padx=10)
+
+        # Kitty font size 
+        kitty_font_size_frame = ctk.CTkFrame(master=container_widgets_kitty, fg_color='transparent')
+        kitty_font_size_frame.pack(pady=10, fill='x', padx=10)
+        
+        label_font_size = ctk.CTkLabel(master=kitty_font_size_frame, fg_color='transparent', text=f'Kitty Font Size', font=('Arial', 15))
+        label_font_size.pack(side='left', fill='y')
+        
+        entry_font_size = ctk.CTkEntry(master=kitty_font_size_frame, placeholder_text=f'Font Size ({BSPWM.Get_FontSize()})')
+        entry_font_size.pack(side='right', fill='x')
+
+        button_apply_font_size = ctk.CTkButton(master=kitty_font_size_frame, text='Apply', command=lambda:BSPWM.Put_Font_size(font_size=entry_font_size.get(), entry_widget=entry_font_size, master=root))
+        button_apply_font_size.pack(side='right', padx=10)
+
+        # set-background-opacity || kitty @ set-background-opacity 0.0
+        kitty_background_opacity_frame = ctk.CTkFrame(master=container_widgets_kitty, fg_color='transparent')
+        kitty_background_opacity_frame.pack(pady=10, fill='x', padx=10)
+
+        BSPWM.PutBackgroundWidget(master=root, frame=kitty_background_opacity_frame)
+
+        # set kitty color || kitter --background-color #f2f2f2 
+        kitty_background_color_frame = ctk.CTkFrame(master=container_widgets_kitty, fg_color='transparent') 
+        kitty_background_color_frame.pack(pady=10, fill='x', padx=10)
+
+        kitty_color_label = ctk.CTkLabel(master=kitty_background_color_frame, fg_color='transparent', text='Kitty background Color', font=('Arial', 15))
+        kitty_color_label.pack(side='left', fill='y')
+
+        color_label_kitty = ctk.CTkFrame(master=kitty_background_color_frame, fg_color='gray', corner_radius=6, width=17, height=17)
+        color_label_kitty.pack(side='left', padx=(10, 10))
+
+        def kitty_frame_label(event):
+            color = AskColor()
+
+            color = color.get()
+
+            if color: 
+
+                entry_label_kitty.delete(0, 'end') 
+                entry_label_kitty.insert(index=0, string=color)
+    
+                color_label_kitty.configure(fg_color=color)
+
+        color_label_kitty.bind("<Button-1>", command=kitty_frame_label)
+
+        entry_label_kitty = ctk.CTkEntry(master=kitty_background_color_frame, placeholder_text=background_color)
+        entry_label_kitty.pack(side='right', fill='x')
+
+        button_kitty_apply = ctk.CTkButton(master=kitty_background_color_frame, text='Apply', command = lambda: BSPWM.UpgradeBackgroundColor(entry_label_kitty.get(), entry_label_kitty, root, kitty_background_color_frame))
+        button_kitty_apply.pack(side='right', padx=10)
+        def update_background_frame_kitty(event):
+            color = entry_label_kitty.get()
+            if color.startswith('#') and len(color) == 7:
+                try:
+                    # Intentar aplicar el color
+                    color_label_kitty.configure(fg_color=color)
+                    return
+                except:
+                    pass
+            # Si no es válido o está vacío, poner gris
+            color_label_kitty.configure(fg_color="gray")
+
+        entry_label_kitty.bind("<KeyRelease>", update_background_frame_kitty)
+        
+        # Last label foreground #a9b1d6 kitty 
+        foreground_frame_kitty = ctk.CTkFrame(master=container_widgets_kitty, fg_color='transparent')
+        foreground_frame_kitty.pack(pady=10, fill='x', padx=10)
+
+        foreground_label = ctk.CTkLabel(master=foreground_frame_kitty, fg_color='transparent', font=('Arial', 15), text='Kitty Foreground')
+        foreground_label.pack(side='left', fill='y')
+        
+        # Frame al estilo NvChad, es el ultimo para la configuración de la kitty, para que lo tengas en cuenta.
+        frame_foreground_kitty = ctk.CTkFrame(master=foreground_frame_kitty, fg_color='gray', corner_radius=6, width=17, height=17)
+        frame_foreground_kitty.pack(side='left', padx=(10, 10))
+
+        
+        foreground = BSPWM.GetForeground()
+        entry_foreground_kitty = ctk.CTkEntry(master=foreground_frame_kitty, placeholder_text=foreground)
+        entry_foreground_kitty.pack(side='right', fill='x') 
+        def update_foreground_frame_kitty(event):
+            color = entry_foreground_kitty.get()
+            if color.startswith('#') and len(color) == 7:
+                try:
+                    # Intentar aplicar el color
+                    frame_foreground_kitty.configure(fg_color=color)
+                    return
+                except:
+                    pass
+            # Si no es válido o está vacío, poner gris
+            frame_foreground_kitty.configure(fg_color="gray")
+
+        entry_foreground_kitty.bind("<KeyRelease>", update_foreground_frame_kitty)
+
+        foreground_kitty_apply = ctk.CTkButton(master=foreground_frame_kitty, text='Apply', command=lambda: BSPWM.Apply_foreground(foreground=entry_foreground_kitty.get(), entry_widget=entry_foreground_kitty, master=root))
+        foreground_kitty_apply.pack(side='right', padx=10)
+        def kitty_foreground_frame(event):
+            color = AskColor()
+
+            color = color.get()
+            
+            if color: 
+                entry_foreground_kitty.delete(0, 'end') 
+                entry_foreground_kitty.insert(index=0, string=color)
+
+                frame_foreground_kitty.configure(fg_color=color)
+
+        frame_foreground_kitty.bind("<Button-1>", command=kitty_foreground_frame)
+
 
     def create_picom_sec(self, root: ctk.CTk):
         # Frame que contendra los widgets para la configuración de picom
@@ -640,53 +1021,17 @@ class Editor():
         color_label_fbcw.pack(side='left', padx=(10, 10))
 
         def color_label_fbcw_event(event):
-            palette_window = ctk.CTkToplevel()
-            palette_window.title("Elige un color")
-            palette_window.geometry("600x600")
-            palette_window.lift()
-            palette_window.focus_force()
+            
+            color = AskColor()
 
-            # Scrollable Frame para los colores
-            scroll_frame = ctk.CTkScrollableFrame(palette_window, width=780, height=580)
-            scroll_frame.pack(padx=10, pady=10, fill="both", expand=True)
+            color = color.get()
 
-            # Lista de 100 colores HEX aleatorios
-            colors = [f'#{random.randint(0, 0xFFFFFF):06x}' for _ in range(100)]
+            if color: 
 
-            def _on_mousewheel(event):
-                scroll_frame._parent_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+                entry_fbcw.delete(0, 'end')
+                entry_fbcw.insert(index=0, string=color)
 
-            scroll_frame.bind_all("<MouseWheel>", _on_mousewheel)  # Windows y Linux
-            scroll_frame.bind_all("<Button-4>", lambda e: scroll_frame._parent_canvas.yview_scroll(-1, "units"))  # Mac arriba
-            scroll_frame.bind_all("<Button-5>", lambda e: scroll_frame._parent_canvas.yview_scroll(1, "units"))   # Mac abajo
-
-            for idx, color in enumerate(colors):
-                row = idx // 5   # 5 columnas por fila
-                col = idx % 5
-
-                # Botón de color grande
-                color_button = ctk.CTkButton(
-                    scroll_frame, 
-                    width=80, 
-                    height=80,
-                    fg_color=color,
-                    hover_color=color,
-                    text="",
-                    command= lambda c=color: self.__update__(label=color_label_fbcw, entry_widget=entry_fbcw, palette_window=palette_window, color=c)
-                )
-                color_button.grid(row=row*2, column=col, padx=15, pady=10)
-
-                # Entry grande debajo del botón
-                color_entry = ctk.CTkEntry(
-                    scroll_frame, 
-                    width=80,
-                    height=30,
-                    justify="center",
-                    font=("Arial", 14)
-                )
-                color_entry.grid(row=row*2+1, column=col, padx=15, pady=(0, 20))
-                color_entry.insert(0, color)
-                color_entry.configure(state="readonly") 
+                color_label_fbcw.configure(fg_color=color)
 
         color_label_fbcw.bind('<Button-1>', color_label_fbcw_event)
 
@@ -713,54 +1058,15 @@ class Editor():
         color_label_nbc.pack(side='left', padx=(10, 10))
 
         def color_label_nbc_event(event):
-            palette_window2 = ctk.CTkToplevel()
-            palette_window2.title("Elige un color")
-            palette_window2.geometry("600x600")
-            palette_window2.lift()
-            palette_window2.focus_force()
-
-            # Scrollable Frame para los colores
-            scroll_frame = ctk.CTkScrollableFrame(palette_window2, width=780, height=580)
-            scroll_frame.pack(padx=10, pady=10, fill="both", expand=True)
+            color = AskColor()
             
-            def _on_mousewheel(event):
-                scroll_frame._parent_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+            color = color.get()
+            
+            if color: 
+                entry_nbc.delete(0, 'end')
+                entry_nbc.insert(index=0, string=color)
 
-            scroll_frame.bind_all("<MouseWheel>", _on_mousewheel)  # Windows y Linux
-            scroll_frame.bind_all("<Button-4>", lambda e: scroll_frame._parent_canvas.yview_scroll(-1, "units"))  # Mac arriba
-            scroll_frame.bind_all("<Button-5>", lambda e: scroll_frame._parent_canvas.yview_scroll(1, "units"))   # Mac abajo
-
-
-            # Lista de 100 colores HEX aleatorios
-            colors = [f'#{random.randint(0, 0xFFFFFF):06x}' for _ in range(100)]
-
-            for idx, color in enumerate(colors):
-                row = idx // 5   # 5 columnas por fila
-                col = idx % 5
-
-                # Botón de color grande
-                color_button = ctk.CTkButton(
-                    scroll_frame, 
-                    width=80, 
-                    height=80,
-                    fg_color=color,
-                    hover_color=color,
-                    text="",
-                    command= lambda c=color: self.__update__(label=color_label_nbc, entry_widget=entry_nbc, palette_window=palette_window2, color=c)
-                )
-                color_button.grid(row=row*2, column=col, padx=15, pady=10)
-
-                # Entry grande debajo del botón
-                color_entry = ctk.CTkEntry(
-                    scroll_frame, 
-                    width=80,
-                    height=30,
-                    justify="center",
-                    font=("Arial", 14)
-                )
-                color_entry.grid(row=row*2+1, column=col, padx=15, pady=(0, 20))
-                color_entry.insert(0, color)
-                color_entry.configure(state="readonly") 
+                color_label_nbc.configure(fg_color=color)
 
         color_label_nbc.bind('<Button-1>', color_label_nbc_event)
 
@@ -803,7 +1109,6 @@ class Editor():
     def danguer_sect(self, root: ctk.CTk) -> None:
 
         # Frame contenedor de 2 widgets 
-
         self._danguer_frame = ctk.CTkFrame(master=root, corner_radius=10)
         self._danguer_frame.pack(fill='both', padx=10, pady=10)
 
@@ -830,17 +1135,15 @@ class Editor():
     def __mouse__(event, scroll_frame: ctk.CTkScrollableFrame) -> None:
         scroll_frame._parent_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
 
-
     @staticmethod
     def __configure__(root: ctk.CTk) -> None:
         ctk.set_appearance_mode(mode_string='Dark')
-        root.geometry('800x700')
+        root.geometry('800x870')
 
     def in_bspwm(self, root: ctk.CTk) -> None:
         if os.getenv(key='DESKTOP_SESSION') != 'bspwm':
             print("\n[!] Este script solo puede ser ejecutado en bspwm!")
             sys.exit(1)
             
-
 if __name__ == "__main__":
     editor = Editor()

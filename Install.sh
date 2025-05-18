@@ -333,10 +333,11 @@ install_editor(){
   sudo apt install python3-tk -y 
   python3 -m venv .venv 
   source .venv/bin/activate 
-  pip install customtkinter CTkMessageBox pillow opencv-python
+  pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker
   cd $ruta 
 
   sudo cp ./config/ctk/AnimatedWall /usr/bin/ 
+  sudo cp ./config/ctk/kitter /usr/bin/ 
 
   sudo apt install -y git g++ libx11-dev libxext-dev libxrender-dev libxcomposite-dev libxdamage-dev
   cd ~
@@ -378,6 +379,7 @@ main(){
 }
 
 if [[ "$EUID" -eq 0 ]]; then 
+  cd $ruta 
   source ./Colors
   echo -e "\n${bright_red}[!] Este script no puede ser ejecutado como usuario root!${end}"
   exit 1 

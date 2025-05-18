@@ -14,14 +14,14 @@ source .venv/bin/activate
 
 # Función para verificar si un paquete está instalado
 function check_package() {
-    echo $1
-    python3 -c "import $1" &> /dev/null
+    package="$1"
+    python3 -c "import $package" &>/dev/null 
 }
 
 # Instalar dependencias si no están instaladas
 faltan_paquetes=0
 
-for paquete in customtkinter CTkMessageBox PIL cv2; do
+for paquete in customtkinter CTkMessageBox pillow opencv-python CTkColorPicker; do
     if ! check_package "$paquete"; then
         faltan_paquetes=1
         break
@@ -29,7 +29,7 @@ for paquete in customtkinter CTkMessageBox PIL cv2; do
 done
 
 if [[ $faltan_paquetes -eq 1 ]]; then
-    pip install customtkinter CTkMessageBox pillow opencv-python
+    pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker
 fi
 
 # Ejecutar el script principal

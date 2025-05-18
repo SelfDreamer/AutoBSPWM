@@ -1,0 +1,94 @@
+#!/bin/bash
+
+function print_help() {
+  STATUS_CODE="${1:-0}"
+  echo -e "\nUsage: $0 [OPT] [ARGUMENT]"
+  echo -e "--font-size (1..∞)"
+  echo -e "--background-opacity (0.0 - 1.0)"
+  echo -e "--background-color #1a1b26"
+  echo -e "--foreground-color #a9b1d6\n"
+  exit "$STATUS_CODE"
+}
+
+function changue_font_size(){
+
+  font_size="${1}"
+
+  if [[ -z "$font_size" ]]; then
+    echo -e "\n[+] The option: --font-size requires an argument!"
+    print_help 1 
+  fi
+
+  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+
+  for SOCKET in ${SOCKETS}; do
+     kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-font-size "${font_size}" & 
+  done
+  
+}
+
+function changue_background_opacity(){
+
+  background_opacity="${1}"
+
+  if [[ -z "$background_opacity" ]]; then
+    echo -e "\n[+] The option: --background-opacity requires an argument!"
+    print_help 1 
+  fi
+
+  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+
+  for SOCKET in ${SOCKETS}; do
+    kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-background-opacity "$background_opacity" &
+  done
+
+}
+
+function set_foreground_color(){
+
+  foreground_color="${1}"
+
+  if [[ -z "$foreground_color" ]]; then
+    echo -e "\n[+] The option: --foreground-color requires an argument!"
+    print_help 1 
+  fi
+
+  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+
+  for SOCKET in ${SOCKETS}; do
+    kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-colors foreground="$foreground_color" &
+  done
+
+}
+
+function changue_color_background(){
+  color="${1}"
+
+  if [[ -z "$color" ]]; then
+    echo -e "\n[+] The option: --background-color requires an argument!"
+    print_help 1 
+  fi
+
+  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+
+  for SOCKET in ${SOCKETS}; do
+    kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-colors --configured background="$color" &
+  done
+
+}
+
+if [[ ! "$#" -gt 0 ]]; then
+  print_help
+fi
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --font-size) changue_font_size "$2"; shift ;;
+        --background-opacity) changue_background_opacity "$2"; shift ;;
+        --background-color) changue_color_background "$2"; shift ;; 
+        --foreground-color) set_foreground_color "$2"; shift ;;
+        --help) print_help; shift ;; 
+        *) echo "Unknown parameter: $1"; print_help; exit 1 ;;
+    esac
+    shift
+done

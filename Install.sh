@@ -136,20 +136,20 @@ install_bspwm(){
   done 
 
   [[ ! -d "${HOME}/Imágenes/" ]] && mkdir -p ~/Imágenes
-  cp -r ./wallpapers/ ~/Imágenes
+  cp -r ./wallpapers/ ~/Imágenes &>/dev/null
   [[ ! -d "${HOME}/Imágenes/capturas" ]] && mkdir -p ~/Imágenes/capturas
   
   # Buscador de máquinas 
   sudo apt install coreutils util-linux npm nodejs bc moreutils translate-shell -y &>/dev/null
   sudo apt install node-js-beautify -y &>/dev/null 
-  sudo cp -r scripts/s4vimachines.sh/ /opt 
-  sudo chown -R $usuario:$usuario /opt/s4vimachines.sh 
-  sudo apt install wmname -y 
+  sudo cp -r scripts/s4vimachines.sh/ /opt &>/dev/null
+  sudo chown -R $usuario:$usuario /opt/s4vimachines.sh &>/dev/null
+  sudo apt install wmname -y &>/dev/null
   cd "${ruta}" || return 1 
   cp ./Icons/Editor.desktop /tmp/ 
-  sed -i "s|user_replace|${usuario}|" /tmp/Editor.desktop
-  sudo cp ./Icons/neovim.desktop /usr/share/applications/
-  sudo cp /tmp/Editor.desktop /usr/share/applications/
+  sed -i "s|user_replace|${usuario}|" /tmp/Editor.desktop &>/dev/null
+  sudo cp ./Icons/neovim.desktop /usr/share/applications/ &>/dev/null
+  sudo cp /tmp/Editor.desktop /usr/share/applications/ &>/dev/null
   if ! sudo apt install fastfetch -y &>/dev/null; then 
     install_fetch &>/dev/null
   fi 
@@ -184,7 +184,6 @@ install_sxhkd(){
   sudo apt install maim -y &>/dev/null
   
   sudo -S apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util0-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev libgif-dev -y  &>/dev/null
-  cp -r  ./config/flameshot/ ~/.config/
   
   cd /tmp 
   git clone https://github.com/Raymo111/i3lock-color.git &>/dev/null

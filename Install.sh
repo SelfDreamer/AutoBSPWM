@@ -150,13 +150,13 @@ install_bspwm(){
   sudo cp ./Icons/neovim.desktop /usr/share/applications/
   sudo cp /tmp/Editor.desktop /usr/share/applications/
   if ! sudo apt install fastfetch -y &>/dev/null; then 
-    install_fetch 
+    install_fetch &>/dev/null
   fi 
   ) & 
 
   PID=$!
 
-  spinner_log "${bright_white}Instalando${bright_magenta}bspwm ${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando${bright_magenta} bspwm ${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
   
   wait "${PID}"
 
@@ -265,7 +265,7 @@ install_kitty(){
   ) & 
 
   PID=$!
-  spinner_log "${bright_white}Instalando${bright_magenta}Kitty${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando${bright_magenta} Kitty${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
   
   wait "${PID}"
 

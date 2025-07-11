@@ -1,7 +1,6 @@
 #!/bin/bash
 readonly path="$(realpath $0 | rev | cut -d'/' -f2- | rev)"
-readonly self=${0##*/}
-cd "${path}"
+cd "${path}" || return 1
 source ./Colors
 function ctrl_c(){
   echo -e "\n\n${bright_red}[!] Deteniendo script...${end}\n"
@@ -12,11 +11,7 @@ trap ctrl_c INT
 
 echo -ne "\r${bright_cyan}[+]${bright_white} Introduce el nick que se vera reflejado en el fondo de pantalla: " && read -r -t 50 NICK 
 
-if [[ ! $NICK ]]; then
-  NICK="@${USER}"
-else
-  NICK="@$NICK"
-fi
+NICK="@${NICK:-$USER}"
 
 INPUT_IMAGE="./wallpapers/HTB.jpg"
 
@@ -24,7 +19,6 @@ FONT_PATH="/usr/share/fonts/truetype/HackNerdFont-Regular.ttf"
 
 OUTPUT_IMAGE="./wallpapers/Wallpaper.jpg"
 
-# Agregar el texto en la imagen
 convert "$INPUT_IMAGE" \
     -font "$FONT_PATH" \
     -pointsize 48 \

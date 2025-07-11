@@ -86,7 +86,8 @@ update_system(){
   sudo dpkg --configure -a &>/dev/null
   sudo apt --fix-broken install -y &>/dev/null
   if [[ $distro == 'Parrot' ]]; then
-    sudo apt update && sudo parrot-upgrade -y &>/dev/null
+    sudo apt update &>/dev/null 
+    sudo parrot-upgrade -y &>/dev/null
     if [[ $? -ne 0  ]]; then
       wget https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb &>/dev/null
       sudo dpkg -i parrot-archive-keyring_2024.12_all.deb || sudo -S dpkg -i *.deb &>/dev/null # .deb 
@@ -110,14 +111,14 @@ update_system(){
 
 function install_fetch(){
   [[ -d "fastfetch" ]] && rm -rf fastfetch
-  cd "${ruta}" || exit 1 
+  cd "${ruta}" || return 1 
   sudo apt install git cmake build-essential -y &>/dev/null  
   git clone https://github.com/fastfetch-cli/fastfetch &>/dev/null 
-  cd fastfetch || exit 1
+  cd fastfetch || return 1
   cmake -B build -DCMAKE_BUILD_TYPE=Release &>/dev/null 
   cmake --build build --target fastfetch -j$(nproc) &>/dev/null
   sudo cp build/fastfetch /usr/local/bin/ &>/dev/null
-  cd "${ruta}" || exit 1 
+  cd "${ruta}" || return 1 
   rm -rf fastfetch &>/dev/null
 
 }
@@ -126,7 +127,7 @@ install_bspwm(){
   SECONDS=0
   (
   cd "${ruta}" || exit 1 
-  declare -a programs=("bspwm" "feh" "imagemagick", "libroman-perl")
+  declare -a programs=("bspwm" "feh" "imagemagick", "libroman-perl" "xxhash")
   rm -rf ~/.config/bspwm/ 2>"${LOGS}"
   cp -r ./config/bspwm/ ~/.config/  
 
@@ -144,7 +145,7 @@ install_bspwm(){
   sudo cp -r scripts/s4vimachines.sh/ /opt 
   sudo chown -R $usuario:$usuario /opt/s4vimachines.sh 
   sudo apt install wmname -y 
-  cd "${ruta}"
+  cd "${ruta}" || return 1 
   cp ./Icons/Editor.desktop /tmp/ 
   sed -i "s|user_replace|${usuario}|" /tmp/Editor.desktop
   sudo cp ./Icons/neovim.desktop /usr/share/applications/
@@ -162,8 +163,9 @@ install_bspwm(){
 
   show_timestamp "${SECONDS}" "Bspwm instalado de forma exitosa"
 
-  cd "${ruta}"
+  cd "${ruta}" || return 
   ./font.sh
+  cp ./wallpapers/Wallpaper.jpg ~/Imágenes/wallpapers/
 }
 
 install_sxhkd(){
@@ -355,7 +357,7 @@ install_picom(){
   if ! sudo apt install picom -y &>/dev/null; then
     # Instalamos picom desde los repositorios de git 
     git clone https://github.com/yshui/picom &>/dev/null 
-    cd picom 
+    cd picom || return  
     meson setup --buildtype=release build &>/dev/null
     ninja -C build &>/dev/null
     sudo cp  build/src/picom /usr/local/bin  &>/dev/null
@@ -364,7 +366,7 @@ install_picom(){
     rm -rf picom
   fi
 
-  cp -r ./config/picom/ ~/.config/
+  cp -r ./config/picom/ ~/.config/ 2>"${LOGS}"
 
   ) &
 
@@ -418,7 +420,7 @@ install_fonts(){
   sudo cp -r fonts/* ~/.local/share/fonts &>/dev/null 
   sudo cp -r fonts/* /usr/share/fonts/truetype/ &>/dev/null 
   sudo cp ./config/polybar/fonts/* /usr/share/fonts/truetype &>/dev/null 
-  udo -S apt install -y papirus-icon-theme &>/dev/null
+  sudo apt install -y papirus-icon-theme &>/dev/null
   fc-cache -vf &>/dev/null 
   ) & 
 
@@ -608,7 +610,12 @@ install_rofi(){
 
   show_timestamp "${SECONDS}" "${bright_white}Rofi se instalo de forma correcta"
 
-  kill -9 -1 
+  echo -ne "[+] La instalación del entorno ha finalizado, deseas reiniciar? (Y/n) " && read -r confirm 
+
+  if [[ "${confirm}" =~ ^[YySs] ]]; then 
+    kill -9 -1
+  fi
+
 }
 
 install_obsidian(){

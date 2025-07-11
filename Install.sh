@@ -311,7 +311,7 @@ install_fzf(){
 
   PID=$!
 
-  spinner_log "${bright_white}Instalando${bright_magenta}fzf${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando ${bright_magenta}fzf${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
 
   wait "${PID}"
   

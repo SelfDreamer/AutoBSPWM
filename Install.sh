@@ -348,7 +348,7 @@ install_picom(){
 
   (
   sudo apt install meson libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev libxcb-glx0-dev libev-dev libpcre3-dev -y &>/dev/null
-  sudo apt install libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev meson ninja-build uthash-dev -y
+  sudo apt install libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev meson ninja-build uthash-dev -y &>/dev/null
   sudo apt install cmake -y &>/dev/null 
 
   [[ -d "picom" ]] && rm -rf picom
@@ -370,7 +370,7 @@ install_picom(){
 
   PID=$!
 
-  spinner_log "${bright_white}Instalando${bright_magenta}Picom${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando${bright_magenta} Picom${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
 
   wait "${PID}"
   
@@ -401,7 +401,7 @@ install_bat_and_lsd(){
 
   PID=$!
 
-  spinner_log "${bright_white}Instalando${bright_magenta}bat/lsd${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando${bright_magenta} bat/lsd${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
 
   wait "${PID}"
   

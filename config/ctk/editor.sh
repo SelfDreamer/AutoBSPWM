@@ -21,7 +21,7 @@ function check_package() {
 # Instalar dependencias si no están instaladas
 faltan_paquetes=0
 
-for paquete in customtkinter CTkMessageBox pillow opencv-python CTkColorPicker; do
+for paquete in customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog; do
     if ! check_package "$paquete"; then
         faltan_paquetes=1
         break
@@ -29,7 +29,7 @@ for paquete in customtkinter CTkMessageBox pillow opencv-python CTkColorPicker; 
 done
 
 if [[ $faltan_paquetes -eq 1 ]]; then
-    pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker
+    pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog
 fi
 
 # Ejecutar el script principal

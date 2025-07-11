@@ -1,7 +1,35 @@
 #!/bin/bash
-IP_ADDR=$(ip a  | grep -vE '127|172|tun0' | grep -oP "inet \K\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}" 2>/dev/null)
-if [[ "$IP_ADDR" ]]; then
-  echo "%{F#1bbf3e}󰖩 %{F#ffffff}$IP_ADDR%{u-}"
-else
-  echo "%{F#FF4C4C}󱛅 %{F#ffffff}Disconnected"
-fi
+IFACE=$(ip addr show | awk '/inet .* brd/ {print $NF; exit}')
+
+readonly HELP="""
+Show ethernet status [polybar module]
+Usage: ethernet_status [PARAM]
+  --normal 
+  --polybar 
+"""
+
+_polybar(){
+  if [[ "$IFACE" ]]; then
+    echo "%{F#1bbf3e}󰖩 %{F#ffffff}$(ip addr show "$IFACE" | awk '/inet / {print $2; exit}' | cut -d/ -f1)%{u-}"
+  else
+    echo "%{F#FF4C4C}󱛅 %{F#ffffff}Disconnected"
+  fi
+}
+
+_normal(){
+  IP="$(ip addr show "$IFACE" | awk '/inet / {print $2; exit}' | cut -d/ -f1)"
+
+  if [[ "${IP}" ]]; then 
+    echo "${IP}"
+  fi
+
+}
+
+while [[ "${1}" ]]; do
+  case "${1}" in 
+    --polybar) _polybar; shift ;;
+    --normal) _normal; shift; ;;
+    --help) echo "${HELP}"; exit 0; shift ;;
+    *) _polybar; shift;; 
+  esac 
+done

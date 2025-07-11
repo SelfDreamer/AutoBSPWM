@@ -1,4 +1,7 @@
 #!/bin/bash
+readonly path="$(realpath $0 | rev | cut -d'/' -f2- | rev)"
+readonly self=${0##*/}
+cd "${path}"
 source ./Colors
 function ctrl_c(){
   echo -e "\n\n${bright_red}[!] Deteniendo script...${end}\n"
@@ -15,13 +18,10 @@ else
   NICK="@$NICK"
 fi
 
-# Ruta de la imagen original
 INPUT_IMAGE="./wallpapers/HTB.jpg"
 
-# Ruta de la fuente personalizada
 FONT_PATH="/usr/share/fonts/truetype/HackNerdFont-Regular.ttf"
 
-# Imagen de salida
 OUTPUT_IMAGE="./wallpapers/Wallpaper.jpg"
 
 # Agregar el texto en la imagen

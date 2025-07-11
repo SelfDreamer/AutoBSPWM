@@ -1,13 +1,29 @@
 #!/bin/bash
-
 function print_help() {
+  _name=$(basename $0)
   STATUS_CODE="${1:-0}"
-  echo -e "\nUsage: $0 [OPT] [ARGUMENT]"
-  echo -e "--font-size (1..∞)"
-  echo -e "--background-opacity (0.0 - 1.0)"
-  echo -e "--background-color #1a1b26"
-  echo -e "--foreground-color #a9b1d6\n"
+  USAGE="""\nUsage: ${_name} [OPT] [ARGUMENT]
+    --font-size (1..∞)
+    --background-opacity (0.0 - 1.0)
+    --background-color #1a1b26
+    --foreground-color #a9b1d6
+    --font-family  Hack Nerd Font
+    --load-config /path/to/config
+  """
+
+  echo -e "$USAGE"
+
   exit "$STATUS_CODE"
+}
+
+CONFIG="$HOME/.config/kitty/kitty.conf"
+
+function get_sockets(){
+  SOCKET_PREFIX=$(grep -oP "listen_on unix:\K.*" "${CONFIG}")
+
+  if [[ "${SOCKET_PREFIX}" ]]; then
+    find /tmp -type s -path "${SOCKET_PREFIX}*" -user "${USER}" 2>/dev/null 
+  fi 
 }
 
 function changue_font_size(){
@@ -19,10 +35,10 @@ function changue_font_size(){
     print_help 1 
   fi
 
-  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+  SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-     kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-font-size "${font_size}" & 
+     kitty @ --to unix:${SOCKET} set-font-size "${font_size}" & 
   done
   
 }
@@ -36,10 +52,10 @@ function changue_background_opacity(){
     print_help 1 
   fi
 
-  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+  SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-    kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-background-opacity "$background_opacity" &
+    kitty @ --to unix:${SOCKET} set-background-opacity "$background_opacity" &
   done
 
 }
@@ -53,10 +69,10 @@ function set_foreground_color(){
     print_help 1 
   fi
 
-  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+  SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-    kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-colors foreground="$foreground_color" &
+    kitty @ --to unix:${SOCKET} set-colors foreground="$foreground_color" &
   done
 
 }
@@ -69,12 +85,66 @@ function changue_color_background(){
     print_help 1 
   fi
 
-  SOCKETS=$(ls /tmp/kitty-global* | grep -oP "\d{1,10}")
+  SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-    kitty @ --to unix:/tmp/kitty-global-${SOCKET} set-colors --configured background="$color" &
+    kitty @ --to unix:${SOCKET} set-colors --configured background="$color" &
   done
 
+}
+
+function set_font_family(){
+  font_family="${1}"
+
+  # kitten @ --to unix:/tmp/kitty-global-1354  load-config ~/.config/kitty/kitty.conf
+  
+  if [[ -z $font_family ]]; then
+    echo -e "\n[+] The option --font-family requires an argument!"
+    print_help 1
+  fi 
+
+  SOCKETS=$(get_sockets)
+  
+  if [[ "$SOCKETS" ]]; then 
+    sed -i "s/^font_family .*/font_family $font_family/" ~/.config/kitty/kitty.conf
+  fi
+
+  for SOCKET in ${SOCKETS}; do  
+    kitten @ --to unix:${SOCKET}  load-config ~/.config/kitty/kitty.conf & 
+  done
+}
+
+function load_config(){
+  SOCKET="${KITTY_LISTEN_ON}"
+  FILE="${1}"
+  ALL_SOCKETS="${2}"
+
+  if [[ -z "${FILE}" ]]; then
+    echo -e "\n[!] The option --load-config requires an argument but given 0!"
+    exit 1 
+  fi
+
+  if [[ ! -f "${FILE}" ]]; then
+    echo -e "\n[!] No such file: ${FILE}"
+    exit 1 
+  fi 
+
+
+  if [[ -z "${KITTY_PID}" ]]; then
+    echo -e "\n[!] Maybe you haven't the remote control enabled."
+    exit 1 
+  fi 
+
+  if [[ "${ALL_SOCKETS}" == '--all-sockets' ]]; then
+    SOCKETS=$(get_sockets)
+
+    for SOCKET in ${SOCKETS}; do  
+      kitten @ --to unix:${SOCKET}  load-config ${FILE} & 
+    done
+  else
+    kitten @ --to ${SOCKET} load-config "${FILE}" & 
+  fi
+  
 }
 
 if [[ ! "$#" -gt 0 ]]; then
@@ -87,8 +157,11 @@ while [[ "$#" -gt 0 ]]; do
         --background-opacity) changue_background_opacity "$2"; shift ;;
         --background-color) changue_color_background "$2"; shift ;; 
         --foreground-color) set_foreground_color "$2"; shift ;;
-        --help) print_help; shift ;; 
-        *) echo "Unknown parameter: $1"; print_help; exit 1 ;;
+        --font-family) set_font_family "$2"; shift ;;
+        --all-sockets) ALL_SOCKETS=true; ;;  
+        --load-config) load_config "$2" "${3}"; shift ;;
+        --help) print_help; ;; 
+        *) echo "Unknown parameter: $1"; print_help 1 ;;
     esac
     shift
 done

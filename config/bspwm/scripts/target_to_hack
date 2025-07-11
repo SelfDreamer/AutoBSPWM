@@ -1,10 +1,33 @@
 #!/bin/bash
+
+readonly HELP="""
+Show vpn status [polybar module]
+Usage: vpn_status [PARAM]
+  --normal 
+  --polybar 
+"""
+TARGET="${HOME}/.config/bin/target"
+ip_address=$(/bin/cat ${TARGET} | awk '{print $1}')
+machine_name=$(/bin/cat ${TARGET} | awk '{print $2}')
  
-ip_address=$(/bin/cat ~/.config/bin/target | awk '{print $1}')
-machine_name=$(/bin/cat ~/.config/bin/target | awk '{print $2}')
- 
+_polybar(){
 if [ $ip_address ] && [ $machine_name ]; then
     echo "%{F#e51d0b}󰯐 %{F#ffffff}$ip_address%{u-} - $machine_name"
 else
     echo "%{F#e51d0b}󰓾 %{u-}%{F#ffffff} No target"
 fi
+}
+
+_normal(){
+  /bin/cat "${TARGET}" | grep -oP "\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}"
+}
+
+while [[ "${1}" ]]; do
+  case "${1}" in 
+    --polybar) _polybar; shift ;;
+    --normal) _normal; shift; ;;
+    --help) echo "${HELP}"; exit 0; shift ;;
+    *) _polybar; shift;; 
+  esac 
+done
+

@@ -10,6 +10,7 @@ lspconfig.servers = {
   "basedpyright",
   "clangd",
   "rust_analyzer",
+  "intelephense",
 }
 
 -- list of servers configured with default config.
@@ -29,7 +30,24 @@ for _, lsp in ipairs(default_servers) do
   }
 end
 
+
+-- PHP
+lspconfig.intelephense.setup {
+  on_attach = on_attach,
+  on_init = on_init,
+  capabilities = capabilities,
+  root_dir = require("lspconfig.util").root_pattern(".git", "composer.json", "."),
+  settings = {
+    intelephense = {
+      environment = {
+        includePaths = {},
+      },
+    },
+  },
+}
+
 lspconfig.bashls.setup {
+  cmd_env = { LANG = "es_ES.UTF-8" },
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
@@ -43,8 +61,8 @@ lspconfig.lua_ls.setup {
   settings = {
     Lua = {
       diagnostics = {
-        enable = false, -- Disable all diagnostics from lua_ls
-        -- globals = { "vim" },
+        enable = false, 
+
       },
       workspace = {
         library = {
@@ -67,18 +85,14 @@ lspconfig.basedpyright.setup {
   on_init = on_init,
   settings = {
     basedpyright = {
-      -- https://docs.basedpyright.com/#/configuration
+
       typeCheckingMode = "standard",
     },
   },
 }
 
 lspconfig.clangd.setup {
-  -- on_attach = function(client, bufnr)
-  --   client.server_capabilities.signatureHelpProvider = false
-  --   on_attach(client, bufnr)
-  -- end,
-  -- capabilities = capabilities,
+
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
@@ -100,4 +114,3 @@ lspconfig.rust_analyzer.setup {
     },
   },
 }
-

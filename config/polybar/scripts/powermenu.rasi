@@ -1,108 +1,74 @@
-// # z0mbi3 - https://github.com/gh0stzk/dotfiles
-
 configuration {
-	hover-select:				true;
-	me-select-entry:			"";
-	me-accept-entry:			"MousePrimary";
+    transparency: "real";
+    location:                       0;
+    font:                           "Font Awesome 30";
+    opacity:                        1000;
 }
-
-@import "colors.rasi"
-configuration {
-	hover-select:				true;
-	me-select-entry:			"";
-	me-accept-entry:			"MousePrimary";
+ 
+ 
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+  background: #1B1B27;
+  background-alt: #282a36;  
+  line: #44475a; 
+  foreground: #f8f8f2;  
+  foreground-alt: #f8f8f2;  
+  Comment: #6272a4; 
+  selected: #ffb86c;
+  Pink: #ff79c6;    
+  purple: #bd93f9;
+  background-color: @background;
+  text-color: @purple;
 }
-
+ 
+ 
 window {
-    transparency:                "real";
-    location:                    center;
-    anchor:                      center;
-    fullscreen:                  false;
-    width:                       1000px;
-    border-radius:               50px;
-    cursor:                      "default";
-    background-color:            @bg;
+    background-color:               @background;
+    border:                         2px;
+    border-color:                   @line;
+    border-radius:                  50px;
+    width:                          490px;   
+    height:                         130px;          
+    x-offset:                       -4;
+    y-offset:                       0;
 }
-
-mainbox {
-    enabled:                     true;
-    spacing:                     50px;
-    margin:                      50px;
-    background-color:            transparent;
-    children:                    [ "inputbar", "listview", "message" ];
-}
-
-inputbar {
-    enabled:                     true;
-    background-color:            transparent;
-    children:                    [ "dummy", "prompt", "dummy"];
-}
-
-dummy {
-    background-color:            transparent;
-}
-
-prompt {
-    enabled:                     true;
-    font:                        "JetBrainsMono Nerd Font Bold 48";
-    background-color:            transparent;
-    text-color:                  @fg;
-}
-
-message {
-    enabled:                     true;
-    margin:                      0px 300px;
-    padding:                     12px;
-    border-radius:               12px;
-    background-color:            @bg1;
-    text-color:                  @fg;
-}
-
-textbox {
-    font:                        "JetBrainsMono Nerd Font 12";
-    background-color:            transparent;
-    text-color:                  inherit;
-    vertical-align:              0.5;
-    horizontal-align:            0.5;
-}
-
+ 
 listview {
-    enabled:                     true;
-    expand:                      false;
-    columns:                     5;
-    lines:                       1;
-    cycle:                       true;
-    dynamic:                     true;
-    scrollbar:                   false;
-    layout:                      vertical;
-    reverse:                     false;
-    fixed-height:                true;
-    fixed-columns:               true;
-    
-    spacing:                     25px;
-    background-color:            transparent;
-    cursor:                      "default";
+    background-color:               @background;
+    columns:                        1;
+    lines:                          5;
+    spacing:                        60px;
+    layout:                         horizontal;
 }
-
+ 
+mainbox {
+    background-color:               @background;
+    children:                       [ listview ];
+    padding:                        40px;
+}
+ 
 element {
-    enabled:                     true;
-    padding:                     30px 0px;
-    border-radius:               50px;
-    background-color:            @bg2;
-    text-color:                  @fg;
-    cursor:                      pointer;
+    background-color:               @background;
+    text-color:                     @line;
+    orientation:                    horizontal;
 }
-
+ 
 element-text {
-    font:                        "Material Design Icons Desktop 58";
-    background-color:            transparent;
-    text-color:                  inherit;
-    cursor:                      inherit;
-    vertical-align:              0.5;
-    horizontal-align:            0.5;
+    background-color:               inherit;
+    text-color:                     inherit;
+    font:                           "Font Awesome 25";
+    expand:                         false;
+    horizontal-align:               0.5;
+    vertical-align:                 0.5;
+    margin:                         0px;
 }
-
-element selected.normal {
-    background-color:            @bg3;
-    text-color:                  @fg;
+ 
+element selected {
+    background-color:               @background;
+    text-color:                     @purple;
+    border:                         0px;
+    border-color:                   @selected;
 }

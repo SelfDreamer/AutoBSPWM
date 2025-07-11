@@ -1,75 +1,104 @@
 #!/usr/bin/env bash
-ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev) 
-cd $ruta
+
+readonly ruta=$(realpath "${0}" | rev | cut -d'/' -f2- | rev)
+readonly distro=$(lsb_release -d | grep -oP "Parrot|Kali")
+cd "${ruta}" || exit 1
 
 source ./Colors
+
 PATH_ARCHIVE="/tmp/data.txt"
 
-function ctrl_c(){
+export SUDO_PROMPT="$(tput setaf 3)[${USER}]$(tput setaf 15) Introduce tu contraseña de root: $(tput sgr0)"
+
+cleanup() {
+  tput cnorm
+  kill "$KEEP_ALIVE_PID" 2>/dev/null
   exit 1
 }
+trap cleanup INT EXIT
 
-trap ctrl_c INT
-
-is_updated_system() {
-  updates_aviable="$(grep -oP '\d+(?= paquetes| packages)' "$PATH_ARCHIVE")"
-  [[ -n "$updates_aviable" ]] && return 0 || return 1
-}
-
-get_passwd() {
-  echo -ne "\n${bright_yellow}[$USER]${bright_white} Enter your password for root:${end} "
-  read -r -s password
-
-  timeout 1 echo "$password" | sudo -S whoami &>/dev/null 
-  if [[ ! $? -eq 0 ]]; then
-    tput civis 
-    echo -e "\n${bright_red}[!] Incorrect password! Program finished, press any key to exit${end} " && read -n 1 key; echo 
-    exit 1
+show_timestamp() {
+  local secs=$1 msg=$2
+  if (( secs < 60 )); then
+    echo -e "${bright_green}[+]${bright_white} ${msg} en ${bright_magenta}${secs}${bright_white} segundos.${end}\n"
+  else
+    local mins=$(awk -v s="$secs" 'BEGIN { printf "%.2f", s/60 }')
+    echo -e "${bright_green}[+]${bright_white} ${msg} en aprox. ${bright_magenta}${mins}${bright_white} minutos.${end}\n"
   fi
 }
 
-run_with_sudo() {
-  echo "$password" | sudo -S "$@" 2>/dev/null
-  
+spinner() {
+  local delay=0.2 pid=$1
+  local chars=('|' '/' '-' "\\")
+  tput civis
+  while kill -0 "$pid" 2>/dev/null; do
+    for c in "${chars[@]}"; do
+      echo -ne "\r${bright_green}[${c}]${end} Buscando actualizaciones en ${bright_magenta}${distro}${end}"
+      sleep "$delay"
+    done
+  done
+  printf "\r\033[K"
+  tput cnorm
+}
+
+has_updates() {
+  grep -oPq '\\d+(?= paquetes| packages)' "$PATH_ARCHIVE"
 }
 
 updater() {
-  run_with_sudo rm -f "$PATH_ARCHIVE"
-  touch $PATH_ARCHIVE
-  echo "$password" | sudo -S apt update 2>&1 | tee "$PATH_ARCHIVE" > /dev/null
+  SECONDS=0
+  sudo rm -f "$PATH_ARCHIVE"
+  sudo touch "$PATH_ARCHIVE"
 
-  if is_updated_system; then
-    echo -e "\n${yellow}There are $updates_aviable updates available:${end}"
-    echo -e "\n${blue}Regular updates:${end}\n"
+  (
+    sudo apt update 2>&1 | tee "$PATH_ARCHIVE" &>/dev/null
+  ) &
+  local pid=$!
+  spinner "$pid"
+  wait "$pid"
 
-    bright_white_awk=$(echo -e "${bright_white}")
-    bright_green_awk=$(echo -e "${bright_green}")
-    end_awk=$(echo -e "${end}")
-
-    apt list --upgradable 2>/dev/null | grep -vi 'Listing...' | \
-    awk -F'[ /\\[\\]]' -v white="$bright_white_awk" -v green="$bright_green_awk" -v end="$end_awk" \
-    '{print white $1 end, green $8 " >> " $3 end}' | tee "/tmp/avaiable_updates.txt" 2>/dev/null
-
-    echo -en "\n${bright_yellow}[+]${end}${bright_white} Program finished, press any key to exit${end} " && read -n1 key; echo 
+  if has_updates; then
+    echo -e "\n${bright_yellow}[+] Hay actualizaciones disponibles.${end}\n"
+    apt list --upgradable 2>/dev/null \
+      | grep -v 'Listing...' \
+      | awk -F'[ /\[\]]' \
+          -v w="$bright_white" -v g="$bright_green" -v e="$end" \
+          '{ print w $1 e, g $8 " >> " $3 e }' \
+      | tee "/tmp/available_updates.txt" &>/dev/null
   else
-    echo -e "\n${bright_yellow}[*] No updates available${end}" && read -n1 key; echo
+    echo -e "\n${bright_yellow}[+]${end}${bright_white} Estás al día, chaval ;)
+"
   fi
-} 
 
-function floating_window(){
+  show_timestamp "$SECONDS" "Se actualizo la base de datos de tú sistema $distro"
+  echo -e "\n${bright_yellow}[+]${bright_white} Fin del programa. Presiona cualquier tecla para salir...${end} "
+  read -n1 -s
+}
+
+keep_sudo_alive() {
+  while true; do
+    sudo -n true 2>/dev/null || break
+    sleep 60
+  done
+}
+
+floating_window() {
   bspc node -t floating
-  bspc node -z "right" "56" "34"
-#  bspc node -v  400  0
-  bspc node -v  0 -90
-  bspc rule -r 'kitty'
+  bspc node -z right 56 34
+  bspc node -v 0 -90
 }
 
 main() {
   floating_window
-  get_passwd
-  tput civis 
-  updater
-  unset password
+  if sudo -v; then
+    keep_sudo_alive &
+    KEEP_ALIVE_PID=$!
+    updater
+  else
+    echo -e "\n${bright_red}[!] Contraseña inválida para root.${end}\n"
+    read -n1 -s
+  fi
 }
 
 main
+

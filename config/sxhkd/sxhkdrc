@@ -1,31 +1,47 @@
-#
-# wm independent hotkeys
-#
+# ============================================================
+# ░█▀▀░█░█░█░█░█░█░█▀▄░█▀▄░█▀▀
+# ░▀▀█░▄▀▄░█▀█░█▀▄░█░█░█▀▄░█░░
+# ░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀░░▀░▀░▀▀▀
+# Author: Flick 
+# Repo: https://github.com/FlickGMD/AutoBSPWM
+# Date: 2025-06-25 20:48:05
+# ============================================================
 
-# terminal emulator
+# ░█▀█░█▀█░█░░░▀█▀░█▀▀░█▀█░▀█▀░▀█▀░█▀█░█▀█░█▀▀
+# ░█▀█░█▀▀░█░░░░█░░█░░░█▀█░░█░░░█░░█░█░█░█░▀▀█
+# ░▀░▀░▀░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀
+
+# Terminal Emulator 
 super + Return
   kitty
 
+# NoteBook emulator 
 super + shift + o
   /usr/bin/obsidian
 
+# ScreenLocker Emulator 
 super + shift + x
-  /usr/bin/i3lock-fancy
+  /usr/bin/ScreenLocker
 
 # program launcher
 super + d
-  rofi -show drun  
+  rofi -show drun -theme ~/.config/rofi/config.rasi
+
+# Wallpaper Selector 
+super + w 
+  bash ~/.config/rofi/Selector/selector.sh
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
 
+# Open Firefox 
 super + shift + f
   /usr/bin/firefox
 
-#
-# bspwm hotkeys
-#
+# ░█▀▄░█▀▀░█▀█░█░█░█▄█░░░█░█░█▀█░▀█▀░█░█░█▀▀░█░█░█▀▀
+# ░█▀▄░▀▀█░█▀▀░█▄█░█░█░░░█▀█░█░█░░█░░█▀▄░█▀▀░░█░░▀▀█
+# ░▀▀░░▀▀▀░▀░░░▀░▀░▀░▀░░░▀░▀░▀▀▀░░▀░░▀░▀░▀▀▀░░▀░░▀▀▀
 
 # quit/restart bspwm
 super + shift + {q,r}
@@ -47,9 +63,9 @@ super + y
 super + g
 	bspc node -s biggest.window
 
-#
-# state/flags
-#
+# ░█▀▀░▀█▀░█▀█░▀█▀░█▀▀░░░█▀█░█▀▄░░░█▀▀░█░░░█▀█░█▀▀░█▀▀
+# ░▀▀█░░█░░█▀█░░█░░█▀▀░░░█░█░█▀▄░░░█▀▀░█░░░█▀█░█░█░▀▀█
+# ░▀▀▀░░▀░░▀░▀░░▀░░▀▀▀░░░▀▀▀░▀░▀░░░▀░░░▀▀▀░▀░▀░▀▀▀░▀▀▀
 
 # set the window state
 super + {t,shift + t,s,f}
@@ -59,9 +75,9 @@ super + {t,shift + t,s,f}
 super + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
-#
-# focus/swap
-#
+# ░█▀▀░█▀█░█▀▀░█░█░█▀▀░░░█▀█░█▀▄░░░█▀▀░█░█░█▀█░█▀█
+# ░█▀▀░█░█░█░░░█░█░▀▀█░░░█░█░█▀▄░░░▀▀█░█▄█░█▀█░█▀▀
+# ░▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░░▀▀▀░▀░▀░░░▀▀▀░▀░▀░▀░▀░▀░░
 
 # focus the node in the given direction
 super + {_,shift + }{Left,Down,Up,Right}
@@ -93,10 +109,10 @@ super + {o,i}
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
-#
-# preselect
-#
-
+# ░█▀█░█▀▄░█▀▀░█▀▀░█▀▀░█░░░█▀▀░█▀▀░▀█▀
+# ░█▀▀░█▀▄░█▀▀░▀▀█░█▀▀░█░░░█▀▀░█░░░░█░
+# ░▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░
+ 
 # preselect the direction
 super + ctrl + alt + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
@@ -113,9 +129,10 @@ super + ctrl + alt + space
 super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
-#
-# move/resize
-#
+
+# ░█▄█░█▀█░█░█░█▀▀░░░█▀▄░█▀▀░█▀▀░▀█▀░▀▀█░█▀▀
+# ░█░█░█░█░▀▄▀░█▀▀░░░█▀▄░█▀▀░▀▀█░░█░░▄▀░░█▀▀
+# ░▀░▀░▀▀▀░░▀░░▀▀▀░░░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀ 
 
 # move a floating window
 super + shift + {Left,Down,Up,Right}
@@ -127,5 +144,12 @@ super + alt + {Left,Down,Up,Right}
 
 # Captura recortada/completa y copiada a la clipboard
 super + a 
-  flameshot gui -p "$(realpath ~/Imágenes/capturas)/$(date +%Y-%m-%d_%H-%M-%S).png" && xclip -selection clipboard -t image/png -i "$(realpath ~/Imágenes/capturas/$(ls -t ~/Imágenes/capturas/ | head -n 1))" 
- 
+  flameshot gui -p "$(realpath ~/Imágenes/capturas)/$(date +%Y-%m-%d_%H-%M-%S).png" && xclip -selection clipboard -t image/png -i "$(realpath ~/Imágenes/capturas/$(ls -t ~/Imágenes/capturas/ | head -n 1))"  
+
+# ░█▀▀░█▀█░█▀█░▀█▀░█▀▀░█░█░▀█▀░░░█▄█░█▀▀░█▀█░█░█
+# ░█░░░█░█░█░█░░█░░█▀▀░▄▀▄░░█░░░░█░█░█▀▀░█░█░█░█
+# ░▀▀▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀░▀░░▀░░░░▀░▀░▀▀▀░▀░▀░▀▀▀
+# Abre el menu contextual cuando haces click derecho sobre la ventana. 
+
+~button3
+  xqp 0 $(xdo id -N Bspwm -n root) && jgmenu --csv-file=~/.config/jgmenu/jgmenu.txt --config-file=~/.config/jgmenu/jgmenurc

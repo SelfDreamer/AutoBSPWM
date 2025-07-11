@@ -1,0 +1,30 @@
+Terminal,/usr/bin/kitty,terminal
+Web Browser,/usr/bin/firefox,internet-web-browser
+File Manager,/usr/bin/thunar,org.xfce.thunar
+^sep()
+
+Themes,^checkout(rices),colors
+Favorites,^checkout(favorites),starred
+^sep()
+
+Widgets,^checkout(wg),kmenuedit
+BSPWM,^checkout(wm),gnome-windows
+Exit,^checkout(exit),system-shutdown
+
+^tag(favorites)
+Wallpaper,~/.config/rofi/Selector/selector.sh,colors
+Neovim,/usr/bin/kitty -e nvim,nvim
+Firefox,/usr/bin/firefox,firefox
+
+^tag(wg)
+Calendar,eww -c ~/.config/eww open --toggle date || sudo /usr/bin/eww_calendar.sh,office-calendar
+
+^tag(wm)
+Rice Editor,~/.config/ctk/editor.sh,preferences-desktop-theme
+Restart WM,bspc wm -r,system-reboot
+Logout,bspc quit,system-log-out
+
+^tag(exit)
+Block computer,ScreenLocker,system-lock-screen
+Reboot,systemctl reboot,system-reboot
+Shutdown,systemctl poweroff,system-shutdown

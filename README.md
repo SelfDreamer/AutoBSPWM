@@ -41,23 +41,58 @@ cd AutoBSPWM
 
 ---
 #### Editor de BSPWM 
+<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/bd4f60d1-9a1f-47ef-8bd0-1a257a280f84" />
 
-![image](https://github.com/user-attachments/assets/379010c9-30a7-4ca7-aec0-af944d30c6ba)
+Este editor esta hecho en customtkinter usando librerias como [CTkColorPicker](https://github.com/Akascape/CTkColorPicker) y [CTkFileDialog](https://github.com/FlickGMD/CTkFileDialog/). Pero, por qué usar un editor? 
+El editor se hizo con el fin de hacer una personalización mas sencilla, algo mas amigable para el usuario nuevo de Linux. Puedes editar todas las configuraciones que quieras, y cuando quieras regresarlo a la normalidad ahi tendras una opción para ello, diviertete!
 
 ---
 
 **Menu de apagado**
 
-Creador original del [menú](https://github.com/zelaya420/bspwm)
+<img width="1859" height="334" alt="image" src="https://github.com/user-attachments/assets/21b15942-b0f2-4fbc-ba54-6e87178d425c" />
 
-![image](https://github.com/user-attachments/assets/89a62d69-506c-42fc-9ff8-46919033260a)
+Este menú cuenta con 4 opciones. 
+- Bloquear el sistema usando i3lock
+- Apagar el sistema usando systemctl
+- Salir de la sesión actual de bspwm
+- Reiniciar el sistema 
 
+---
+### Dunst 
+
+<img width="316" height="102" alt="image" src="https://github.com/user-attachments/assets/d3cdbda7-0920-414f-931b-851919453ab7" />
+
+Un simple demonio para notificaciones del sistema
 
 **Calendario**
 
 Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 
 ![image](https://github.com/user-attachments/assets/c2170dce-c22f-420a-b641-1ebb7fdf5e03)
+
+
+---
+
+### Selector de fondos de pantalla 
+
+<img width="1902" height="373" alt="image" src="https://github.com/user-attachments/assets/4206172b-4ba2-4dde-ad22-3379b7691319" />
+
+Creador original del [selector](https://github.com/gh0stzk)
+
+Si quieres meterle mas fondos de pantalla para ser mostrados en el selector debes de irte a ~/Imágenes/wallpapers y ahi meter tu fondo de pantalla.
+
+---
+### Sudo PROMPT
+
+<img width="1850" height="117" alt="image" src="https://github.com/user-attachments/assets/e534eabf-95cc-428c-b7c4-d07ab05631fa" />
+
+---
+### Bloqueador de pantalla 
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0c566a88-4155-4ed2-b1b0-f569a078ae13" />
+
+Creador original del [bloqueador](https://github.com/gh0stzk)
 
 ---
 # Resultado *(Kali Linux)*
@@ -73,23 +108,17 @@ Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
 ---
 # Scripts
 
-### [whichSystem.sh](https://github.com/FlickGMD/whichSystem.sh)
+### WhichSystem
 
-**WhichSystem.py**
+<img width="1863" height="636" alt="image" src="https://github.com/user-attachments/assets/5d8dff7a-dd4c-4860-b18c-814b59962fec" />
 
-![image](https://github.com/user-attachments/assets/805cfbe3-b3b1-4d68-9258-c8960aedbff2)
+Un simple script de bash, que se metio a la **".zshrc"**.
 
-**whichSystem.sh**
-
-![image](https://github.com/user-attachments/assets/8c4d5d11-6507-4b68-a015-a7f2526c5876)
 
 
 ### [S4vimachines.sh](https://github.com/FlickGMD/s4vimachines.sh) **(Buscador de máquinas)**
 
 ![image](https://github.com/user-attachments/assets/c43de338-d4bf-4bfd-9e56-fdb5976013f6)
-
-
-
 
 
 ---

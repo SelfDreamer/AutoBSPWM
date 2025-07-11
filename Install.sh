@@ -642,13 +642,13 @@ install_editor(){
   SECONDS=0
   cd "${ruta}" || exit 1
   ( 
-  cp -r ./config/ctk/ ~/.config/
-  cd ~/.config/ctk/ 
-  sudo apt install python3-tk -y 
+  cp -r ./config/ctk/ ~/.config/ &>/dev/null
+  cd ~/.config/ctk/  || return 1 
+  sudo apt install python3-tk -y &>/dev/null
   python3 -m venv .venv &>/dev/null 
   source .venv/bin/activate &>/dev/null 
   pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog &>/dev/null
-  cd $ruta 
+  cd $ruta || return 1 
 
   sudo cp ./config/ctk/AnimatedWall /usr/bin/ 
   sudo cp ./config/ctk/kitter /usr/bin/ 

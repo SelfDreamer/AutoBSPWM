@@ -565,7 +565,7 @@ install_eww(){
   
   if [[ ${distro} == 'Parrot' ]]; then 
     echo -e "${bright_cyan}[!]${bright_white} Esta instalación puede tomar un tiempo, asi que se paciente...${end}"
-    sudo apt install -y docker.io 
+    sudo apt install -y docker.io &>/dev/null
     install_eww_for_docker
   fi
 

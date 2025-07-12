@@ -90,7 +90,7 @@ update_system(){
     sudo parrot-upgrade -y &>/dev/null
     if [[ $? -ne 0  ]]; then
       wget https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb &>/dev/null
-      sudo dpkg -i parrot-archive-keyring_2024.12_all.deb || sudo -S dpkg -i *.deb &>/dev/null # .deb 
+      sudo dpkg -i parrot-archive-keyring_2024.12_all.deb || sudo dpkg -i *.deb &>/dev/null # .deb 
     fi
   elif [[ $distro == 'Kali' ]]; then
     if ! sudo apt update &>/dev/null; then
@@ -183,7 +183,7 @@ install_sxhkd(){
   libxcb-xinerama0-dev libjpeg-dev libx11-dev libgif-dev -y  &>/dev/null 
   sudo apt install maim -y &>/dev/null
   
-  sudo -S apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util0-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev libgif-dev -y  &>/dev/null
+  sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util0-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev libgif-dev -y  &>/dev/null
   
   cd /tmp 
   git clone https://github.com/Raymo111/i3lock-color.git &>/dev/null
@@ -456,7 +456,7 @@ install_nvim(){
   sudo cp -r ./config/nvim/ /root/.config/
   sudo apt install jq npm nodejs -y &>/dev/null
   sudo apt install shellcheck -y &>/dev/null 
-  sudo -S ./nvim_upload.sh &>/dev/null 
+  sudo ./nvim_upload.sh &>/dev/null 
   ./InstallUserServersNvim.sh &>/dev/null 
   sudo ./InstallUserServersNvim.sh &>/dev/null 
   sudo cp ./nvim_upload.sh /usr/bin/ &>/dev/null 

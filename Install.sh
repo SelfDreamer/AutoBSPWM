@@ -216,15 +216,15 @@ install_sxhkd(){
   git clone https://github.com/vinceliuice/Qogir-icon-theme.git &>/dev/null 
   cd Qogir-icon-theme
   ./install.sh --theme &>/dev/null 
-  [[ ! -d "${HOME}/.icons" ]] && mkdir -p ~/.icons 
-  ./install.sh -c -d ~/.icons 
+  [[ ! -d "${HOME}/.icons" ]] && mkdir -p ~/.icons &>/dev/null
+  ./install.sh -c -d ~/.icons &>/dev/null
   cd "${ruta}" || return 1 
-  cp ./home/.Xresources ~/.Xresources
+  cp ./home/.Xresources ~/.Xresources &>/dev/null
 
   cd "${ruta}"
   rm -rf /tmp/Qogir-icon-theme/ &>/dev/null 
   [[ ! -d  "${HOME}/.config/gtk-3.0" ]] && mkdir -p  ~/.config/gtk-3.0/ 
-  cp ./config/gtk-3.0/settings.ini ~/.config/gtk-3.0/
+  cp ./config/gtk-3.0/settings.ini ~/.config/gtk-3.0/ &>/dev/null
   ) &
 
   PID=$!

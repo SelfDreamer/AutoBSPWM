@@ -120,11 +120,18 @@ run_eww(){
   fi
   distro="$(/usr/bin/lsb_release -a  | grep -oP "Parrot|Kali" | sort -u)"
 
-  case "${distro}" in 
-    Kali) pidof -q eww || /usr/bin/eww daemon & ;; 
-    Parrot) /usr/bin/sudo /usr/bin/init_docker.sh && /usr/bin/sudo /usr/bin/init_eww.sh ;;
+case "${distro}" in 
+  Kali)
+    pidof -q eww || /usr/bin/eww daemon &
+    ;;
+  Parrot)
+    if [[ -x /usr/bin/init_docker.sh && -x /usr/bin/init_eww.sh ]]; then
+      sudo /usr/bin/init_docker.sh
+      sudo /usr/bin/init_eww.sh
+    fi
+    ;;
+esac
 
-  esac 
 }
 run_eww 2>"${ERROR_LOG}" 
 

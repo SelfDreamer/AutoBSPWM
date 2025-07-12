@@ -132,8 +132,10 @@ install_bspwm(){
   cp -r ./config/bspwm/ ~/.config/  
 
   for program in "${programs[@]}"; do 
-    sudo apt install "${program}" -y &>/dev/null 
+    sudo apt install "${program}" -y &>"${LOGS}"
   done 
+
+  sudo apt install imagemagick -y &>/dev/null 
 
   [[ ! -d "${HOME}/Imágenes/" ]] && mkdir -p ~/Imágenes
   cp -r ./wallpapers/ ~/Imágenes &>/dev/null

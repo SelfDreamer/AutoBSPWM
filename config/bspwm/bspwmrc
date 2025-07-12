@@ -95,6 +95,9 @@ set_workspaces 6 2>"${ERROR_LOG}"
 # ░█░░░█░█░█░█░█▀▀░░█░░█░█░█░█░█▀▄░█▀█░░█░░░█░░█░█░█░█░▀▀█
 # ░▀▀▀░▀▀▀░▀░▀░▀░░░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀░▀▀▀
 
+[[ -f "${HOME}/.Xresources" ]] && xrdb -merge "${HOME}/.Xresources"
+xsetroot -cursor_name left_ptr
+
 focused_color="#C2F6FC"
 normal_color="#010812"
 bspc config window_gap          10

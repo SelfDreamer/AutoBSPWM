@@ -127,7 +127,7 @@ install_bspwm(){
   SECONDS=0
   (
   cd "${ruta}" || exit 1 
-  declare -a programs=("bspwm" "feh" "imagemagick", "libroman-perl" "xxhash")
+  declare -a programs=("bspwm" "feh" "libroman-perl" "xxhash")
   rm -rf ~/.config/bspwm/ 2>"${LOGS}"
   cp -r ./config/bspwm/ ~/.config/  
 
@@ -135,7 +135,24 @@ install_bspwm(){
     sudo apt install "${program}" -y &>"${LOGS}"
   done 
 
-  sudo apt install imagemagick -y &>/dev/null 
+  sudo apt install -y build-essential checkinstall \
+    libx11-dev libxext-dev zlib1g-dev libpng-dev \
+    libjpeg-dev libfreetype6-dev libxml2-dev \
+    libtiff-dev libwebp-dev libopenexr-dev \
+    libheif-dev libraw-dev liblcms2-dev \
+    ghostscript curl &>"${LOGS}"
+
+  cd /tmp
+  curl -O https://imagemagick.org/archive/ImageMagick.tar.gz &>/dev/null
+  tar xvzf ImageMagick.tar.gz &>/dev/null
+  cd ImageMagick-7* &>/dev/null
+
+  ./configure &>/dev/null 
+  make -j"$(nproc)" &>/dev/null 
+  sudo make install &>/dev/null 
+  sudo ldconfig &>/dev/null
+
+  cd "${ruta}" || return 
 
   [[ ! -d "${HOME}/Imágenes/" ]] && mkdir -p ~/Imágenes
   cp -r ./wallpapers/ ~/Imágenes &>/dev/null

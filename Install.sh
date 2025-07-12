@@ -613,10 +613,10 @@ install_rofi(){
 
   show_timestamp "${SECONDS}" "${bright_white}Rofi se instalo de forma correcta"
 
-  echo -ne "[+] La instalación del entorno ha finalizado, deseas reiniciar? (Y/n) " && read -r confirm 
+  echo -ne "${bright_yellow}[+]${bright_white} La instalación del entorno ha finalizado, deseas reiniciar?${end}${bright_magneta} (Y/n)${end} " && read -r confirm 
 
   if [[ "${confirm}" =~ ^[YySs] ]]; then 
-    kill -9 -1
+    sudo systemctl reboot
   fi
 
 }

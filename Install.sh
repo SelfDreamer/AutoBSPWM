@@ -294,11 +294,11 @@ install_zsh(){
 
   PID=$!
 
-  spinner_log "${bright_white}Instalando${bright_magenta}Kitty${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando la${bright_magenta} zsh${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
   
   wait "${PID}"
 
-  show_timestamp "${SECONDS}" "La kitty se instalo de forma correcta"
+  show_timestamp "${SECONDS}" "La zsh se instalo de forma correcta"
 
 }
 

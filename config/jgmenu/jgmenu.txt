@@ -15,6 +15,7 @@ Exit,^checkout(exit),system-shutdown
 Wallpaper,~/.config/rofi/Selector/selector.sh,colors
 Neovim,/usr/bin/kitty -e nvim,nvim
 Firefox,/usr/bin/firefox,firefox
+Obsidian,/usr/bin/obsidian,obsidian
 
 ^tag(wg)
 Calendar,eww -c ~/.config/eww open --toggle date || sudo /usr/bin/eww_calendar.sh,office-calendar

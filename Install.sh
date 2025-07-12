@@ -163,9 +163,7 @@ install_bspwm(){
 
   show_timestamp "${SECONDS}" "Bspwm instalado de forma exitosa"
 
-  cd "${ruta}" || return 
-  ./font.sh
-  cp ./wallpapers/Wallpaper.jpg ~/Imágenes/wallpapers/
+
 }
 
 install_sxhkd(){
@@ -612,6 +610,10 @@ install_rofi(){
 
   show_timestamp "${SECONDS}" "${bright_white}Rofi se instalo de forma correcta"
 
+  cd "${ruta}" || return 
+  ./font.sh
+  cp ./wallpapers/Wallpaper.jpg ~/Imágenes/wallpapers/
+
   echo -ne "${bright_yellow}[+]${bright_white} La instalación del entorno ha finalizado, deseas reiniciar?${end}${bright_magneta} (Y/n)${end} " && read -r confirm 
 
   if [[ "${confirm}" =~ ^[YySs] ]]; then 
@@ -650,7 +652,7 @@ install_editor(){
   sudo apt install python3-tk -y &>/dev/null
   python3 -m venv .venv &>/dev/null 
   source .venv/bin/activate &>/dev/null 
-  pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog &>/dev/null
+  pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog tkfontchooser &>/dev/null
   cd $ruta || return 1 
 
   sudo cp ./config/ctk/AnimatedWall /usr/bin/ 

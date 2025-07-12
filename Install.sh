@@ -216,6 +216,10 @@ install_sxhkd(){
   git clone https://github.com/vinceliuice/Qogir-icon-theme.git &>/dev/null 
   cd Qogir-icon-theme
   ./install.sh --theme &>/dev/null 
+  [[ ! -d "${HOME}/.icons" ]] && mkdir -p ~/.icons 
+  ./install.sh -c -d ~/.icons 
+  cd "${ruta}" || return 1 
+  cp ./home/.Xresources ~/.Xresources
 
   cd "${ruta}"
   rm -rf /tmp/Qogir-icon-theme/ &>/dev/null 

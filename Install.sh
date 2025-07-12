@@ -339,7 +339,7 @@ install_polybar(){
 
   PID=$!
 
-  spinner_log "${bright_white}Instalando${bright_magenta}Polybar${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando${bright_magenta} Polybar${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
 
   wait "${PID}"
   

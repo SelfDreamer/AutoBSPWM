@@ -599,7 +599,6 @@ install_tmux(){
 install_rofi(){
   SECONDS=0
   (
-  echo -e "\n${bright_cyan}[+]${bright_white} Instalando rofi...${end}"
   sudo apt install -y rofi &>/dev/null
   cp -r ./config/rofi/ ~/.config/
   sleep 10 

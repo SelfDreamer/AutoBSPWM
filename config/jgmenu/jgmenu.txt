@@ -1,4 +1,4 @@
-Terminal,/usr/bin/kitty,terminal
+Terminal,/opt/kitty/bin/kitty,terminal
 Web Browser,/usr/bin/firefox,internet-web-browser
 File Manager,/usr/bin/thunar,org.xfce.thunar
 ^sep()
@@ -13,7 +13,7 @@ Exit,^checkout(exit),system-shutdown
 
 ^tag(favorites)
 Wallpaper,~/.config/rofi/Selector/selector.sh,colors
-Neovim,/usr/bin/kitty -e nvim,nvim
+Neovim,/opt/kitty/bin/kitty -e nvim,nvim
 Firefox,/usr/bin/firefox,firefox
 Obsidian,/usr/bin/obsidian,obsidian
 

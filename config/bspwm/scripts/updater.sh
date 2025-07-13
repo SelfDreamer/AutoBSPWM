@@ -64,7 +64,7 @@ updater() {
       | awk -F'[ /\[\]]' \
           -v w="$bright_white" -v g="$bright_green" -v e="$end" \
           '{ print w $1 e, g $8 " >> " $3 e }' \
-      | tee "/tmp/available_updates.txt" &>/dev/null
+      | tee "${PATH_ARCHIVE}" &>/dev/null
   else
     echo -e "\n${bright_yellow}[+]${end}${bright_white} Estás al día, chaval ;)
 "

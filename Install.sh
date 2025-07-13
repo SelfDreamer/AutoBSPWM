@@ -285,6 +285,7 @@ install_kitty(){
 
   cp -r ./config/kitty/ ~/.config/
   sudo cp -r ./config/kitty/ /root/.config/
+  sudo cp ./kitty_upload.sh /usr/bin/
   ) & 
 
   PID=$!
@@ -619,7 +620,11 @@ install_rofi(){
   (
   sudo apt install -y rofi &>/dev/null
   cp -r ./config/rofi/ ~/.config/
-  sleep 10 
+  sudo apt install librsvg2-common -y &>"${LOGS}"
+  sudo apt install libgtk-3-bin -y &>"${LOGS}"
+
+  sudo update-icon-caches /usr/share/icons/* &>/dev/null
+  sudo gtk-update-icon-cache /usr/share/icons/Papirus-Dark &>/dev/null 
   ) &
 
   PID=$! 

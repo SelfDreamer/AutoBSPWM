@@ -13,7 +13,7 @@
 
 # Terminal Emulator 
 super + Return
-  kitty
+  /opt/kitty/bin/kitty
 
 # NoteBook emulator 
 super + shift + o

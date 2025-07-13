@@ -1,8 +1,7 @@
 [Desktop Entry]
 Name=neovim
-Exec=kitty -e /opt/nvim/nvim-linux-x86_64/bin/nvim
+Exec=/opt/kitty/bin/kitty -e /opt/nvim/bin/nvim
 Icon=neovim
 Terminal=false
 Type=Application
 Categories=Utility;
-

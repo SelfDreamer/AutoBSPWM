@@ -279,7 +279,7 @@ install_kitty(){
   SECONDS=0 
   (
   cd "${ruta}" || exit 1 
-  sudo apt install kitty -y &>/dev/null
+  ./kitty_upload.sh 2>"${LOGS}"
   rm -rf ~/.config/kitty/ 2>"${LOGS}"
   sudo rm -rf /root/.config/kitty/ 2>"${LOGS}"
 

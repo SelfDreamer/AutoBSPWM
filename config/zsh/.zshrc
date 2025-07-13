@@ -45,7 +45,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Manual configuration
 
-PATH=/root/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/s4vimachines.sh/
+PATH=/root/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/s4vimachines.sh/:/opt/nvim/bin/:/opt/kitty/bin/ 
 
 # Manual aliases
 alias ll='lsd -lh --group-dirs=first'
@@ -197,8 +197,6 @@ bindkey "\e[F" end-of-line
 bindkey "\e[3~" delete-char
 setxkbmap latam
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-NVIM_PATH=$(find /opt/nvim/nvim*/bin/nvim -type f -executable -exec dirname {} \;)
-export PATH=$PATH:$NVIM_PATH
 export EDITOR='nvim'
 # Esto lo que hace es que nunca creara directorios __pycache__ al hacer scripts de python que sabemos que es molesto.
 # Si realmente quieres esos directorios, comenta esa linea y ya 

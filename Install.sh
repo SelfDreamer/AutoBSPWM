@@ -153,6 +153,7 @@ install_bspwm(){
   sudo ldconfig &>/dev/null
 
   cd "${ruta}" || return 
+  sudo rm -rf /tmp/ImageMagick* &>"${LOGS}"
 
   [[ ! -d "${HOME}/Imágenes/" ]] && mkdir -p ~/Imágenes
   cp -r ./wallpapers/ ~/Imágenes &>/dev/null

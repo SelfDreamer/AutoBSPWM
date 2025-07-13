@@ -532,7 +532,7 @@ install_eww_for_docker(){
 
     # Borramos imagenes de tipo none 
     sudo docker rmi $(docker images -f "dangling=true" -q) --force 2>/dev/null 
-
+    sudo gpasswd --delete "${usuario}" docker &>/dev/null
     echo -e "${bright_green}[✓]${bright_white} Instalación completada${end}"
     cd .. 
 }

@@ -140,16 +140,15 @@ install_bspwm(){
     libjpeg-dev libfreetype6-dev libxml2-dev \
     libtiff-dev libwebp-dev libopenexr-dev \
     libheif-dev libraw-dev liblcms2-dev \
-    ghostscript curl &>"${LOGS}"
+    ghostscript curl &>/dev/null
 
-  cd /tmp
-  curl -O https://imagemagick.org/archive/ImageMagick.tar.gz &>/dev/null
-  tar xvzf ImageMagick.tar.gz &>/dev/null
-  cd ImageMagick-7* &>/dev/null
-
-  ./configure &>/dev/null 
-  make -j"$(nproc)" &>/dev/null 
-  sudo make install &>/dev/null 
+  cd /tmp || exit 1 
+  wget https://mirror.accum.se/mirror/imagemagick.org/ftp/releases/ImageMagick-7.1.2-0.tar.xz &>/dev/null 
+  tar xf ImageMagick-7.1.2-0.tar.xz &>/dev/null
+  cd ImageMagick-7.1.2-0 || exit 1 > /dev/null
+  ./configure &>/dev/null
+  make -j$(nproc) &>/dev/null 
+  sudo make install &>/dev/null
   sudo ldconfig &>/dev/null
 
   cd "${ruta}" || return 
@@ -385,10 +384,10 @@ install_picom(){
     sudo cp  build/src/picom /usr/local/bin  &>/dev/null
     sudo cp build/src/picom /usr/bin/ &>/dev/null
     cd ..
-    rm -rf picom
+    rm -rf picom &>/dev/null
   fi
 
-  cp -r ./config/picom/ ~/.config/ 2>"${LOGS}"
+  cp -r ./config/picom/ ~/.config/ &>/dev/null
 
   ) &
 

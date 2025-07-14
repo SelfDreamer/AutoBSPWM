@@ -279,13 +279,13 @@ install_kitty(){
   SECONDS=0 
   (
   cd "${ruta}" || exit 1 
-  ./kitty_upload.sh 2>"${LOGS}"
+  ./kitty_upload.sh &>"${LOGS}"
   rm -rf ~/.config/kitty/ 2>"${LOGS}"
   sudo rm -rf /root/.config/kitty/ 2>"${LOGS}"
 
-  cp -r ./config/kitty/ ~/.config/
-  sudo cp -r ./config/kitty/ /root/.config/
-  sudo cp ./kitty_upload.sh /usr/bin/
+  cp -r ./config/kitty/ ~/.config/ &>/dev/null
+  sudo cp -r ./config/kitty/ /root/.config/ &>/dev/null
+  sudo cp ./kitty_upload.sh /usr/bin/ &>/dev/null
   ) & 
 
   PID=$!

@@ -1,0 +1,8 @@
+configuration {
+    kb-remove-to-eol: "";
+    kb-mode-complete: "";
+    kb-accept-entry: "L,Control+l,Return,KP_Enter";
+    kb-row-down: "J,Control+j,Down";
+    kb-row-up: "K,Control+k,Up";
+    kb-cancel: "Escape,Super+D";
+}

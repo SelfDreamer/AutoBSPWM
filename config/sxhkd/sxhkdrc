@@ -15,6 +15,14 @@
 super + Return
   /opt/kitty/bin/kitty
 
+# Editor Emulator
+super + shift + e 
+  /opt/kitty/bin/kitty -e /opt/nvim/bin/nvim
+
+# Rofi theme selector 
+super + shift + s 
+  ~/.config/polybar/scripts/ThemeSelector/selector.sh
+
 # NoteBook emulator 
 super + shift + o
   /usr/bin/obsidian

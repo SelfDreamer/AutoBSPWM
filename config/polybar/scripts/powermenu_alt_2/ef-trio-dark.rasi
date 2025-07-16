@@ -1,0 +1,10 @@
+/* Ef-Trio-Dark */
+* {
+    background:     #160f0f; /* bg_main */
+    background-alt: #2a2228; /* bg_dim */
+    foreground:     #d8cfd5; /* fg_main */
+    selected:       #6a294f; /* bg_mode_line */
+    selected-fg:    #ffdfdf; /* fg_mode_line */
+    active:         #60b444; /* g_green */
+    urgent:         #f48359; /* red */
+}

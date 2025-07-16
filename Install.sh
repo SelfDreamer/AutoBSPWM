@@ -143,13 +143,37 @@ install_bspwm(){
     ghostscript curl &>/dev/null
 
   cd /tmp || exit 1 
-  wget https://mirror.accum.se/mirror/imagemagick.org/ftp/releases/ImageMagick-7.1.2-0.tar.xz &>/dev/null 
-  tar xf ImageMagick-7.1.2-0.tar.xz &>/dev/null
-  cd ImageMagick-7.1.2-0 || exit 1 > /dev/null
-  ./configure &>/dev/null
-  make -j$(nproc) &>/dev/null 
+  rm -rf ImageMagick-* &>/dev/null
+ 
+  sudo apt install -y build-essential checkinstall \
+  libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev \
+  libfreetype6-dev libxml2-dev libtiff-dev libwebp-dev \
+  libfontconfig1-dev libopenexr-dev libltdl-dev git -y &>/dev/null 
+
+  wget https://imagemagick.org/archive/ImageMagick.tar.gz &>/dev/null
+  tar xvzf ImageMagick.tar.gz &>/dev/null
+  cd ImageMagick-* || return 1
+
+  ./configure --with-modules --enable-shared \
+  --with-fontconfig=yes \
+  --with-freetype=yes \
+  --with-jpeg=yes \
+  --with-png=yes \
+  --with-tiff=yes \
+  --with-webp=yes &>/dev/null 
+
+  make -j"$(nproc)"  &>/dev/null 
+
   sudo make install &>/dev/null
   sudo ldconfig &>/dev/null
+
+#  wget https://mirror.accum.se/mirror/imagemagick.org/ftp/releases/ImageMagick-7.1.2-0.tar.xz &>/dev/null 
+#  tar xf ImageMagick-7.1.2-0.tar.xz &>/dev/null
+#  cd ImageMagick-7.1.2-0 || exit 1 > /dev/null
+#  ./configure &>/dev/null
+#  make -j$(nproc) &>/dev/null 
+#  sudo make install &>/dev/null
+#  sudo ldconfig &>/dev/null
 
   cd "${ruta}" || return 
   sudo rm -rf /tmp/ImageMagick* &>"${LOGS}"

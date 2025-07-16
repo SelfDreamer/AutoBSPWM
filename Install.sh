@@ -309,6 +309,7 @@ install_kitty(){
   cp -r ./config/kitty/ ~/.config/ &>/dev/null
   sudo cp -r ./config/kitty/ /root/.config/ &>/dev/null
   sudo cp ./kitty_upload.sh /usr/bin/ &>/dev/null
+  sudo cp ./Icons/kitty.desktop /usr/share/applications/ &>/dev/null
   ) & 
 
   PID=$!
@@ -672,12 +673,14 @@ install_rofi(){
 
 install_obsidian(){
   SECONDS=0 
+  cd "${ruta}" || return 1 
   (
   obsidian_url=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | jq -r '.assets[] | select(.name | endswith(".AppImage")) | .browser_download_url' | grep -vi 'arm' )
   wget "$obsidian_url" -O Obsidian.AppImage &>/dev/null
   chmod +x Obsidian.AppImage 
   mv Obsidian.AppImage obsidian 
   sudo mv obsidian /usr/bin/
+  sudp cp ./Icons/obsidian.desktop /usr/share/applications/
   ) & 
 
   PID=$! 

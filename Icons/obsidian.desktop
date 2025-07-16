@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=obsidian
+Exec=/usr/bin/obsidian
+Icon=obsidian
+Terminal=false
+Type=Application
+Categories=Utility;

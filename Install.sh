@@ -167,6 +167,8 @@ install_bspwm(){
   sudo make install &>/dev/null
   sudo ldconfig &>/dev/null
 
+  ./upgrader --magick &>/dev/null
+
 #  wget https://mirror.accum.se/mirror/imagemagick.org/ftp/releases/ImageMagick-7.1.2-0.tar.xz &>/dev/null 
 #  tar xf ImageMagick-7.1.2-0.tar.xz &>/dev/null
 #  cd ImageMagick-7.1.2-0 || exit 1 > /dev/null
@@ -302,13 +304,12 @@ install_kitty(){
   SECONDS=0 
   (
   cd "${ruta}" || exit 1 
-  ./kitty_upload.sh &>"${LOGS}"
+  ./upgrader --kitty &>"${LOGS}"
   rm -rf ~/.config/kitty/ 2>"${LOGS}"
   sudo rm -rf /root/.config/kitty/ 2>"${LOGS}"
 
   cp -r ./config/kitty/ ~/.config/ &>/dev/null
   sudo cp -r ./config/kitty/ /root/.config/ &>/dev/null
-  sudo cp ./kitty_upload.sh /usr/bin/ &>/dev/null
   sudo cp ./Icons/kitty.desktop /usr/share/applications/ &>/dev/null
   ) & 
 
@@ -430,21 +431,8 @@ install_bat_and_lsd(){
   SECONDS=0
   (
   cd "${ruta}" || exit 1 
-  bat_url=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url')
-  wget "$bat_url" -O bat.tar.gz &>/dev/null
-  tar -xzf bat.tar.gz &>/dev/null 
-  sudo mv bat-*/bat /usr/bin/ &>/dev/null
-  rm -rf bat-* &>/dev/null
-  rm -rf bat.tar.gz &>/dev/null
-  
-  # Instalación de lsd
-  lsd_url=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url')
-  wget "$lsd_url" -O lsd.tar.gz &>/dev/null
-  tar -xzf lsd.tar.gz &>/dev/null
-  sudo mv lsd-*/lsd /usr/bin/  &>/dev/null
-  rm -rf lsd.tar.gz  &>/dev/null
-  rm -rf lsd-* &>/dev/null
-
+  ./upgrader --bat &>/dev/null 
+  ./upgrader --lsd &>/dev/null
   ) &
 
   PID=$!
@@ -499,10 +487,9 @@ install_nvim(){
   sudo cp -r ./config/nvim/ /root/.config/
   sudo apt install jq npm nodejs -y &>/dev/null
   sudo apt install shellcheck -y &>/dev/null 
-  sudo ./nvim_upload.sh &>/dev/null 
+  ./upgrader --nvim &>/dev/null
   ./InstallUserServersNvim.sh &>/dev/null 
   sudo ./InstallUserServersNvim.sh &>/dev/null 
-  sudo cp ./nvim_upload.sh /usr/bin/ &>/dev/null 
   ) & 
 
   PID="$!"
@@ -681,6 +668,7 @@ install_obsidian(){
   mv Obsidian.AppImage obsidian 
   sudo mv obsidian /usr/bin/
   sudp cp ./Icons/obsidian.desktop /usr/share/applications/
+  sudo cp ./Icons/obsidian.desktop /usr/share/applications/
   ) & 
 
   PID=$! 
@@ -709,12 +697,12 @@ install_editor(){
   sudo cp ./config/ctk/AnimatedWall /usr/bin/ 
   sudo cp ./config/ctk/kitter /usr/bin/ 
 
-  sudo apt install -y git g++ libx11-dev libxext-dev libxrender-dev libxcomposite-dev libxdamage-dev
+  sudo apt install -y git g++ libx11-dev libxext-dev libxrender-dev libxcomposite-dev libxdamage-dev &>/dev/null
   cd ~
   [[ -d "xwinwrap" ]] && rm -rf xwinwrap
 
   git clone https://github.com/ujjwal96/xwinwrap.git &>/dev/null
-  cd xwinwrap
+  cd xwinwrap || return 
   make &>/dev/null
   sudo make install &>/dev/null 
   sudo apt install mpv -y &>/dev/null
@@ -762,6 +750,7 @@ main(){
   install_eww
   install_polybar
   sudo cp ./Colors /usr/bin/
+  sudo cp ./upgrader /usr/bin/
   install_editor
   install_rofi
 }

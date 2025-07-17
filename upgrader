@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+
+function kitty_release(){
+
+  readonly kitty_url=$(curl -s https://api.github.com/repos/kovidgoyal/kitty/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64.txz")) | .browser_download_url')
+
+  [[ -z "${kitty_url}" ]] && return 1 
+
+  dir="/opt/kitty"
+
+  [[ -d "${dir}" ]] && sudo rm -rf "${dir}"
+
+  sudo mkdir "${dir}"
+
+  wget "${kitty_url}" -O kitty_temp.txz && sudo mv kitty_temp.txz /opt/kitty && sudo 7z x /opt/kitty/kitty_temp.txz -o/opt/kitty && sudo tar -xf /opt/kitty/kitty*.tar -C /opt/kitty && sudo rm /opt/kitty/{kitty_temp.tar,kitty_temp.txz} 
+
+}
+
+function obsidian_release(){
+
+  readonly obsidian_url=$(curl -s https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest | jq -r '.assets[] | select(.name | endswith(".AppImage")) | .browser_download_url' | grep -v arm)
+  wget "$obsidian_url" -O Obsidian.AppImage 
+  chmod +x Obsidian.AppImage 
+  mv Obsidian.AppImage obsidian 
+  sudo mv obsidian /usr/bin/
+  
+}
+
+function nvim_release(){
+  readonly nvim_file=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | jq -r '.assets[] | select(.name == "nvim-linux-x86_64.tar.gz") | .browser_download_url')
+
+  sudo rm -rf /opt/nvim 2>/dev/null
+  sudo mkdir -p /opt/nvim/
+
+  [[ -z "${nvim_file}" ]] && return 1 
+
+  curl -L "${nvim_file}" | sudo tar -xzf - --strip-components=1 -C /opt/nvim
+}
+
+function bat_release(){
+  readonly bat_url=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url')
+  wget "$bat_url" -O bat.tar.gz 
+  tar -xzf bat.tar.gz  
+  sudo mv bat-*/bat /usr/bin/ 
+  rm -rf bat-* 
+  rm -rf bat.tar.gz 
+}
+
+function lsd_release(){
+
+  readonly lsd_url=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | jq -r '.assets[] | select(.name | endswith("x86_64-unknown-linux-gnu.tar.gz")) | .browser_download_url')
+  wget "$lsd_url" -O lsd.tar.gz 
+  tar -xzf lsd.tar.gz 
+  sudo mv lsd-*/lsd /usr/bin/  
+  rm -rf lsd.tar.gz  
+  rm -rf lsd-* 
+
+}
+
+function magick_release(){
+  readonly RELEASE="$(curl -s https://api.github.com/repos/ImageMagick/ImageMagick/releases/latest | jq -r '.assets[] | select(.browser_download_url | contains("gcc")) | .browser_download_url')"
+
+  readonly OUT="ImageMagick.AppImage"
+
+  [[ -f "${OUT}" ]] && rm "${OUT}"
+
+  wget "${RELEASE}" -O "${OUT}"
+
+  if [[ -f "${OUT}" ]]; then 
+    chmod +x "${OUT}"
+    sudo mv "${OUT}" /usr/local/bin/ 
+  fi
+}
+
+
+function helpPanel() {
+  local self="${0##*/}"
+  local STATUS="${1:-0}"
+  echo -e "
+\033[1;36m┌─────────────────────────────────────────────────────┐\033[0m
+\033[1;36m│\033[0m \033[1m${self}\033[0m - Instalador de herramientas desde release \033[1;36m│\033[0m  
+\033[1;36m└─────────────────────────────────────────────────────┘\033[0m
+
+\033[1;33mUso:\033[0m
+$(tput setaf 7)${self} [opción]
+
+\033[1;33mOpciones disponibles:\033[0m
+  \033[1;32m-k, --kitty     \033[0m Descargar release de \033[1mKitty\033[0m
+  \033[1;32m-n, --nvim      \033[0m Descargar release de \033[1mNeovim\033[0m
+  \033[1;32m-b, --bat       \033[0m Descargar release de \033[1mBatcat\033[0m
+  \033[1;32m-l, --lsd       \033[0m Descargar release de \033[1mLSD (ls deluxe)\033[0m
+  \033[1;32m-m, --magick    \033[0m Descargar release de \033[1mImageMagick\033[0m
+  \033[1;32m-o, --obsidian  \033[0m Descargar release de \033[1mObsidian\033[0m
+  \033[1;31m-h, --help      \033[0m Mostrar este panel de ayuda
+
+\033[1;33mRepositorio:\033[0m
+  \033[4;34mhttps://github.com/FlickGMD\033[0m
+
+\033[1;36m─────────────────────────────────────────────────\033[0m
+"
+  return "${STATUS}"
+}
+
+[[ "${1}" ]] || helpPanel
+
+while [[ "${1}" ]]; do 
+  case "${1}" in 
+    -k|--kitty) 
+      kitty_release 
+      shift 1
+      ;;
+    -n|--nvim)
+      nvim_release
+      shift 1
+      ;;
+    -b|--bat) 
+      bat_release
+      shift 1
+      ;; 
+    -l|--lsd)
+      lsd_release
+      shift 1
+      ;;
+    -m|--magick)
+      magick_release
+      shift 1
+      ;;
+    -o|--obsidian)
+      obsidian_release
+      shift 1 
+      ;; 
+    -h|--help)
+      helpPanel
+      shift 1
+      ;;
+    *) 
+      echo -e "\n\033[1;33m[!] Argumento invalido: $1\033"
+      helpPanel 1
+      shift 1
+      ;;
+
+  esac 
+done 
+
+

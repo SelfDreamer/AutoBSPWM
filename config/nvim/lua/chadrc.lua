@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-	theme = "yoru", -- theme = 'onedark', el tema original de nvim
+	theme = "onedark", -- theme = 'onedark', el tema original de nvim
   transparency = false, -- o true si quieres activar la transparencia
 	hl_override = {
 	Comment = { 

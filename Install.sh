@@ -3,6 +3,8 @@ readonly ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev)
 readonly distro=$(lsb_release -d | grep -oP "Parrot|Kali")
 readonly usuario="${USER}"
 readonly LOGS="${HOME}/autobspwm.log"
+readonly PARROT_SOURCES="/etc/apt/sources.list.d/parrot.list"
+export DEBIAN_FRONTEND=noninteractive
 
 spinner_log() {
   tput civis 
@@ -85,7 +87,8 @@ update_system(){
   (
   sudo dpkg --configure -a &>/dev/null
   sudo apt --fix-broken install -y &>/dev/null
-  if [[ $distro == 'Parrot' ]]; then
+  if [[ $distro == 'Parrot' ]]; then 
+    sudo sed -i 's|^deb https://deb.parrot.sh/parrot lory-backports|#deb https://deb.parrot.sh/parrot lory-backports|' "${PARROT_SOURCES}"
     sudo apt update &>/dev/null 
     sudo parrot-upgrade -y &>/dev/null
     if [[ $? -ne 0  ]]; then
@@ -597,8 +600,41 @@ install_eww(){
   
   if [[ ${distro} == 'Parrot' ]]; then 
     echo -e "${bright_cyan}[!]${bright_white} Esta instalación puede tomar un tiempo, asi que se paciente...${end}"
-    sudo apt install -y docker.io &>/dev/null
-    install_eww_for_docker
+    sudo apt install libatk1.0-0=2.46.0-5 gir1.2-atk-1.0=2.46.0-5 libatk-bridge2.0-0=2.46.0-5 -y
+    sudo apt install libwebp7=1.2.4-0.2+deb12u1 libwebpmux3=1.2.4-0.2+deb12u1 libwebpdemux2=1.2.4-0.2+deb12u1 -y
+    sudo apt install libwayland-client0=1.21.0-1 libwayland-server0=1.21.0-1 libwayland-cursor0=1.21.0-1 libwayland-egl1=1.21.0-1 -y
+    sudo apt install gir1.2-atspi-2.0=2.46.0-5 libatspi2.0-0=2.46.0-5 --allow-downgrades -y 
+
+    sudo apt install -y \
+        git build-essential pkg-config \
+        libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
+        libdbusmenu-glib-dev libdbusmenu-gtk3-dev \
+        libgtk-layer-shell-dev \
+        libx11-dev libxft-dev libxrandr-dev libxtst-dev 
+
+    # Si hay un directorio eww lo borramos entero
+    [[ -d "eww" ]] && rm -rf "eww"
+
+    git clone https://github.com/elkowar/eww.git 
+    cd eww
+    
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
+    source ${HOME}/.cargo/env 
+    cargo clean 
+    cargo build --release 
+
+    if [[ $? -eq 0 ]]; then
+        sudo cp target/release/eww /usr/bin/
+        mkdir -p ~/.config/eww
+        cd ..
+        [[ -d "eww" ]] && rm -rf eww
+        # Traemos la configuración de eww
+        cp -r ./config/eww/ ~/.config/
+      else
+
+      sudo apt install -y docker.io &>/dev/null
+      install_eww_for_docker
+    fi 
   fi
 
 }

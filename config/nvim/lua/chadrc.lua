@@ -10,14 +10,14 @@ M.base46 = {
   transparency = false, -- o true si quieres activar la transparencia
 	hl_override = {
 	Comment = { 
-      italic = true 
+      italic = true,   
     },
 	["@comment"] = { 
       italic = true, -- Aqui defininos si queremos ver los comentarios en cursiva 
 --      underline = true, -- Esto define si queremos ver subrayado en los comentariops
 --      bold = true, -- Esto define si queremos ver comentarios en negrita
-    },
-	},
+    }, 
+  }, -- Hola 
 }
 
 -- M.nvdash = { load_on_startup = true }

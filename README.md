@@ -6,7 +6,8 @@ cd AutoBSPWM
 ./Install.sh
 ```
 - Este script esta diseñado, para que estes en la ruta que estes, se ejecute correctamente.
-- Este script es funcional tanto en Kali Linux como en Parrot OS
+- Este script es funcional tanto en Kali Linux como en Parrot OS 
+- Aún hay cambios experimentales en el script, pero no duraran mucho.
 
 ---
 

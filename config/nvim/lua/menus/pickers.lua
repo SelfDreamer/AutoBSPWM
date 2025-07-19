@@ -20,7 +20,7 @@ return {
     name = "  Color Picker", 
     hl = 'ExBlue',
     cmd = function()
-      open_color_picker()
+      open_color_picker() -- A normal commenct 
     end,
   },
 

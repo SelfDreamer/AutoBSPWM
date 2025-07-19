@@ -490,6 +490,8 @@ install_nvim(){
   ./upgrader --nvim &>/dev/null
   ./InstallUserServersNvim.sh &>/dev/null 
   sudo ./InstallUserServersNvim.sh &>/dev/null 
+  /opt/nvim/bin/nvim --headless "+Lazy! sync" +qall &>/dev/null
+  sudo /opt/nvim/bin/nvim --headless "+Lazy! sync" +qall &>/dev/null
   ) & 
 
   PID="$!"

@@ -60,8 +60,6 @@ vim.cmd [[
   highlight DiagnosticFloatingHint guifg=#bd93f9 guibg=#282a36
 ]]
 
-
-
 vim.diagnostic.config({
   virtual_text = { prefix = "" },
   signs = {
@@ -86,5 +84,3 @@ for type, icon in pairs({
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
-
-

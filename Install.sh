@@ -490,6 +490,7 @@ install_nvim(){
   sudo cp -r ./config/nvim/ /root/.config/
   sudo apt install jq npm nodejs -y &>/dev/null
   sudo apt install shellcheck -y &>/dev/null 
+  sudo apt install luarocks lua5.1 -y &>/dev/null 
   ./upgrader --nvim &>/dev/null
   ./InstallUserServersNvim.sh &>/dev/null 
   sudo ./InstallUserServersNvim.sh &>/dev/null 

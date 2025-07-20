@@ -13,6 +13,30 @@ return {
     end,
   },
 
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline", 
+      "L3MON4D3/LuaSnip"
+    },
+  },
+
+  {
+    "folke/snacks.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      picker = {
+        enabled = true,
+        ui_select = true, 
+      },
+    }
+  },
+
+
   { "nvzone/volt", 
     lazy = true 
   },
@@ -31,7 +55,7 @@ return {
 --      border = true,
     }
   }, 
--- Hi this is a test because i wanna show your keyboards with a legal keylogger :)
+
   {
     "nvzone/floaterm",
     dependencies = "nvzone/volt",
@@ -67,30 +91,42 @@ return {
 
 
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'echasnovski/mini.nvim',
-    },
-
-    ft = { 
-      "markdown" 
-    },
-    opts = {
-    },
+  "MeanderingProgrammer/render-markdown.nvim",
+  ft = { "markdown" },
+  lazy = true,          
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-tree/nvim-web-devicons",
+  },
+  config = function()
+    require("render-markdown").setup({
+    })
+    vim.cmd([[
+      augroup NoConcealMarkdown
+        autocmd!
+        autocmd FileType markdown setlocal conceallevel=0 concealcursor=
+      augroup END
+    ]])  end,
   },
 
   {
-    "folke/snacks.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {
-      picker = {
-        enabled = true,
-        ui_select = true, -- opcional, para reemplazar vim.ui.select
+    "hrsh7th/cmp-cmdline",
+    event = "CmdlineEnter", 
+    dependencies = {
+      "hrsh7th/nvim-cmp",
     },
-  }
-}
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "cmdline" },
+        },
+      })
+    end,
+  },
+
+
 
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",

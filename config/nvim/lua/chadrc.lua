@@ -19,7 +19,6 @@ M.base46 = {
     }, 
   }, -- Hola 
 }
-
 -- M.nvdash = { load_on_startup = true }
  M.ui = {
         statusline = {
@@ -39,5 +38,12 @@ vim.defer_fn(function()
   require("minty").setup()
 end, 100)
 
+local notify = vim.notify
+vim.notify = function(msg, ...)
+  if msg:match("Config Change Detected") then
+    return
+  end
+  notify(msg, ...)
+end
 
 return M

@@ -706,7 +706,6 @@ install_obsidian(){
   chmod +x Obsidian.AppImage 
   mv Obsidian.AppImage obsidian 
   sudo mv obsidian /usr/bin/
-  sudp cp ./Icons/obsidian.desktop /usr/share/applications/
   sudo cp ./Icons/obsidian.desktop /usr/share/applications/
   ) & 
 

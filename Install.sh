@@ -144,39 +144,8 @@ install_bspwm(){
     sudo apt install "${program}" -y &>"${LOGS}"
   done 
 
-  sudo apt install -y build-essential checkinstall \
-    libx11-dev libxext-dev zlib1g-dev libpng-dev \
-    libjpeg-dev libfreetype6-dev libxml2-dev \
-    libtiff-dev libwebp-dev libopenexr-dev \
-    libheif-dev libraw-dev liblcms2-dev \
-    ghostscript curl &>/dev/null
 
-  cd /tmp || exit 1 
-  rm -rf ImageMagick-* &>/dev/null
- 
-  sudo apt install -y build-essential checkinstall \
-  libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev \
-  libfreetype6-dev libxml2-dev libtiff-dev libwebp-dev \
-  libfontconfig1-dev libopenexr-dev libltdl-dev git -y &>/dev/null 
-
-  wget https://imagemagick.org/archive/ImageMagick.tar.gz &>/dev/null
-  tar xvzf ImageMagick.tar.gz &>/dev/null
-  cd ImageMagick-* || return 1
-
-  ./configure --with-modules --enable-shared \
-  --with-fontconfig=yes \
-  --with-freetype=yes \
-  --with-jpeg=yes \
-  --with-png=yes \
-  --with-tiff=yes \
-  --with-webp=yes &>/dev/null 
-
-  make -j"$(nproc)"  &>/dev/null 
-
-  sudo make install &>/dev/null
-  sudo ldconfig &>/dev/null
-
-  ./upgrader --magick &>/dev/null
+#  ./upgrader --magick &>/dev/null
 
 #  wget https://mirror.accum.se/mirror/imagemagick.org/ftp/releases/ImageMagick-7.1.2-0.tar.xz &>/dev/null 
 #  tar xf ImageMagick-7.1.2-0.tar.xz &>/dev/null
@@ -610,6 +579,52 @@ install_eww(){
 
 }
 
+function install_magick(){
+  cd "${ruta}" || return 
+  (
+  sudo apt install -y build-essential checkinstall \
+  libx11-dev libxext-dev zlib1g-dev libpng-dev \
+  libjpeg-dev libfreetype6-dev libxml2-dev \
+  libtiff-dev libwebp-dev libopenexr-dev \
+  libheif-dev libraw-dev liblcms2-dev \
+  ghostscript curl &>/dev/null
+
+  cd /tmp || exit 1 
+  rm -rf ImageMagick-* &>/dev/null
+ 
+  sudo apt install -y build-essential checkinstall \
+  libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev \
+  libfreetype6-dev libxml2-dev libtiff-dev libwebp-dev \
+  libfontconfig1-dev libopenexr-dev libltdl-dev git -y &>/dev/null 
+
+  wget https://imagemagick.org/archive/ImageMagick.tar.gz &>/dev/null
+  tar xvzf ImageMagick.tar.gz &>/dev/null
+  cd ImageMagick-* || return 1
+
+  ./configure --with-modules --enable-shared \
+  --with-fontconfig=yes \
+  --with-freetype=yes \
+  --with-jpeg=yes \
+  --with-png=yes \
+  --with-tiff=yes \
+  --with-webp=yes &>/dev/null 
+
+  make -j"$(nproc)"  &>/dev/null 
+
+  sudo make install &>/dev/null
+  sudo ldconfig &>/dev/null
+  ) & 
+
+  PID=$!
+
+  spinner_log "${bright_white}Instalando imagemagick${end}" "0.2" "${PID}"
+
+  wait "${PID}"
+
+  show_timestamp "${SECONDS}" "${bright_white}Imagemagick se instalo de forma correcta"
+
+}
+
 install_tmux(){
   SECONDS=0
   # Instalamos oh-my-tmux para ambos usuarios
@@ -756,6 +771,7 @@ main(){
   install_obsidian
   install_tmux 
   install_eww
+  install_magick 
   install_polybar
   sudo cp ./Colors /usr/bin/
   sudo cp ./upgrader /usr/bin/

@@ -36,28 +36,6 @@ return {
     }
   },
 
-  {
-    "3rd/image.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("image").setup({
-        -- Opcional: configuración personalizada
-        backend = "kitty", -- "ueberzug", "kitty", "tycat", "sixel", "wezterm"
-        integrations = {
-          markdown = {
-            enabled = true,
-            clear_in_insert_mode = false,
-            download_remote_images = true,
-            only_render_image_at_cursor = false,
-            filetypes = { "markdown", "vimwiki", "quarto" },
-          },
-        },
-      })
-    end,
-    ft = { "markdown", "vimwiki", "quarto" }, -- solo para estos archivos
-  },
-
-
   { "nvzone/volt", 
     lazy = true 
   },

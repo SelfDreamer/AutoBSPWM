@@ -88,7 +88,13 @@ update_system(){
   sudo dpkg --configure -a &>/dev/null
   sudo apt --fix-broken install -y &>/dev/null
   if [[ $distro == 'Parrot' ]]; then 
-    sudo sed -i 's|^deb https://deb.parrot.sh/parrot lory-backports|#deb https://deb.parrot.sh/parrot lory-backports|' "${PARROT_SOURCES}"
+
+    # Detectar si existen repositorios referentes a backports, si es asi comentarlos para que no molesten mas.
+
+    if grep -v -E '^\s*$|^\s*#' "${PARROT_SOURCES}" | grep -iq "backports"; then
+      sudo sed -i 's|^deb https://deb.parrot.sh/parrot lory-backports|#deb https://deb.parrot.sh/parrot lory-backports|' "${PARROT_SOURCES}"
+    fi 
+
     sudo apt update &>/dev/null 
     sudo parrot-upgrade -y &>/dev/null
     if [[ $? -ne 0  ]]; then
@@ -557,72 +563,31 @@ install_eww_for_docker(){
 
 install_eww(){
   SECONDS=0
-  cd $ruta
-  if [[ $distro == 'Kali' ]]; then 
-    (
-      # Instalamos eww y sus dependencias
-      sudo apt install -y \
-          git build-essential pkg-config \
-          libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
-          libdbusmenu-glib-dev libdbusmenu-gtk3-dev \
-          libgtk-layer-shell-dev \
-          libx11-dev libxft-dev libxrandr-dev libxtst-dev &>/dev/null
-
-      # Si hay un directorio eww lo borramos entero
-      [[ -d "eww" ]] && rm -rf "eww"
-
-      git clone https://github.com/elkowar/eww.git &>/dev/null
-      cd eww
-      
-      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &>/dev/null
-      source ${HOME}/.cargo/env &>/dev/null
-      cargo clean &>/dev/null
-      cargo build --release &>/dev/null
-
-      if [[ $? -eq 0 ]]; then
-          sudo cp target/release/eww /usr/bin/
-          mkdir -p ~/.config/eww
-          cd ..
-          [[ -d "eww" ]] && rm -rf eww
-          # Traemos la configuración de eww
-          cp -r ./config/eww/ ~/.config/
-      fi
-    ) &
-  
-    PID=$! 
-
-    spinner_log "${bright_white}Instalando eww${end}" "0.2" "${PID}"
-  
-    wait "${PID}"
-
-    show_timestamp "${SECONDS}" "${bright_white}Eww se instalo de forma correcta"
-  fi 
-
-  
-  if [[ ${distro} == 'Parrot' ]]; then 
-    echo -e "${bright_cyan}[!]${bright_white} Esta instalación puede tomar un tiempo, asi que se paciente...${end}"
-    sudo apt install libatk1.0-0=2.46.0-5 gir1.2-atk-1.0=2.46.0-5 libatk-bridge2.0-0=2.46.0-5 -y
-    sudo apt install libwebp7=1.2.4-0.2+deb12u1 libwebpmux3=1.2.4-0.2+deb12u1 libwebpdemux2=1.2.4-0.2+deb12u1 -y
-    sudo apt install libwayland-client0=1.21.0-1 libwayland-server0=1.21.0-1 libwayland-cursor0=1.21.0-1 libwayland-egl1=1.21.0-1 -y
-    sudo apt install gir1.2-atspi-2.0=2.46.0-5 libatspi2.0-0=2.46.0-5 --allow-downgrades -y 
-
+  cd "${ruta}" || return 1 
+  (
+    if [[ "${distro}" == "Parrot" ]]; then 
+      for i in {1..3}; do
+          sudo apt install "libgtk-3-dev" -y 2>&1 | grep -Po '(\S+) \(= [^)]+\)' | sed -E 's/([^ ]+) \(= ([^)]+)\)/\1=\2/' | xargs -r sudo apt install --allow-downgrades -y &>/dev/null
+      done
+    fi 
+    # Instalamos eww y sus dependencias
     sudo apt install -y \
         git build-essential pkg-config \
         libgtk-3-dev libpango1.0-dev libglib2.0-dev libcairo2-dev \
         libdbusmenu-glib-dev libdbusmenu-gtk3-dev \
         libgtk-layer-shell-dev \
-        libx11-dev libxft-dev libxrandr-dev libxtst-dev 
+        libx11-dev libxft-dev libxrandr-dev libxtst-dev &>/dev/null
 
     # Si hay un directorio eww lo borramos entero
     [[ -d "eww" ]] && rm -rf "eww"
 
-    git clone https://github.com/elkowar/eww.git 
+    git clone https://github.com/elkowar/eww.git &>/dev/null
     cd eww
     
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
-    source ${HOME}/.cargo/env 
-    cargo clean 
-    cargo build --release 
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &>/dev/null
+    source ${HOME}/.cargo/env &>/dev/null
+    cargo clean &>/dev/null
+    cargo build --release &>/dev/null
 
     if [[ $? -eq 0 ]]; then
         sudo cp target/release/eww /usr/bin/
@@ -631,12 +596,17 @@ install_eww(){
         [[ -d "eww" ]] && rm -rf eww
         # Traemos la configuración de eww
         cp -r ./config/eww/ ~/.config/
-      else
+    fi
+  ) &
 
-      sudo apt install -y docker.io &>/dev/null
-      install_eww_for_docker
-    fi 
-  fi
+  PID=$! 
+
+  spinner_log "${bright_white}Instalando eww${end}" "0.2" "${PID}"
+
+  wait "${PID}"
+
+  show_timestamp "${SECONDS}" "${bright_white}Eww se instalo de forma correcta"
+
 
 }
 

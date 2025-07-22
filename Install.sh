@@ -180,7 +180,7 @@ install_bspwm(){
 
   PID=$!
 
-  spinner_log "${bright_white}Instalando${bright_magenta} bspwm ${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando${bright_magenta}bspwm ${bright_white}, esto podria tomar un tiempo${end}" "0.2" "${PID}"
   
   wait "${PID}"
 
@@ -642,7 +642,7 @@ install_tmux(){
 
   PID=$! 
 
-  spinner_log "${bright_white}Instalando tmux${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando ${bright_magneta}tmux${end}" "0.2" "${PID}"
   
   wait "${PID}"
 
@@ -696,7 +696,7 @@ install_obsidian(){
 
   PID=$! 
 
-  spinner_log "${bright_white}Instalando obsidian${end}" "0.2" "${PID}"
+  spinner_log "${bright_white}Instalando ${bright_magneta}obsidian${end}" "0.2" "${PID}"
   
   wait "${PID}"
 

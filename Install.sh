@@ -20,7 +20,7 @@ spinner_log() {
   while true; do 
     local value="${values[i]}"
     local point="${points[i]}"
-    echo -ne "\r\033[K${bright_green}[${value}]${end} $msg${point}"
+    echo -ne "\r\033[K${bright_green}[${value}]${end} ${msg}${point}"
     sleep "${delay}"
     ((i=(i+1)%len))
     kill -0 $pid 2>/dev/null || break

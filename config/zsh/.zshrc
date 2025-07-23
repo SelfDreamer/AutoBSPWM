@@ -132,7 +132,7 @@ function whichSystem () {
 
     ip_adress="$1"
     IFACE="$(ip addr show | awk '/inet .* brd/ {print $NF; exit}')"
-    _ADRESS="$(ip addr show "eth0" | awk '/inet / {print $2; exit}' | cut -d/ -f1)"
+    _ADRESS="$(ip addr show "${IFACE}" | awk '/inet / {print $2; exit}' | cut -d/ -f1)"}
 
     if [[ -z "$ip_adress" ]]; then
         echo -e "\n${bright_magenta}[+]${bright_white} Usage:${bright_yellow} whichSystem${bright_white} ${_ADRESS:-127.0.0.1}${end}\n\n"
@@ -149,7 +149,7 @@ function whichSystem () {
         system="Not found"
     fi
 
-    echo -e "\n${bright_yellow}[+]${bright_white} $ip_adress${bright_white} (${bright_magenta}$ttl${bright_white} ->${bright_yellow} $system${bright_white})${end}\n"
+    echo -e "\n${bright_yellow}[+]${bright_white} $ip_adress${bright_white} (${bright_magenta}${ttl:-None}${bright_white} ->${bright_yellow} $system${bright_white})${end}\n"
 }
 
 

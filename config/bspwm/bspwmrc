@@ -23,6 +23,7 @@ start_daemons(){
   killall sxhkd 
   killall polybar
   pidof -q picom || picom &
+  pidof -q eww || eww daemon &
   pidof -q sxhkd > /dev/null || sxhkd &
   pidof -q dunst || dunst &
   killall dunst; dunst &
@@ -76,7 +77,7 @@ set_workspaces(){
   # 2) Asegurar que sea un entero positivo
   if ! [[ "$1" =~ ^[1-9][0-9]*$ ]]; then
     bspc monitor -d  I II III IV VI VII
-    echo "Error: '$1' no es un número válido." >&2
+    echo "Error: '${workspaces}' no es un número válido." >&2
     return 1 
   fi
 
@@ -108,32 +109,6 @@ bspc config focused_border_color "${focused_color}"
 bspc config normal_border_color "${normal_color}"
 bspc config border_width 2
 bspc config focus_follows_pointer true
-
-# ░█▀▀░█░█░█░█░░░█▀▄░█▀█░█▀▀░█▄█░█▀█░█▀█
-# ░█▀▀░█▄█░█▄█░░░█░█░█▀█░█▀▀░█░█░█░█░█░█
-# ░▀▀▀░▀░▀░▀░▀░░░▀▀░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀
-
-run_eww(){
-  if which eww; then 
-    { eww daemon & } 2>"${ERROR_LOG}"
-    return 0 
-  fi
-  distro="$(/usr/bin/lsb_release -a  | grep -oP "Parrot|Kali" | sort -u)"
-
-case "${distro}" in 
-  Kali)
-    pidof -q eww || /usr/bin/eww daemon &
-    ;;
-  Parrot)
-    if [[ -x /usr/bin/init_docker.sh && -x /usr/bin/init_eww.sh ]]; then
-      sudo /usr/bin/init_docker.sh
-      sudo /usr/bin/init_eww.sh
-    fi
-    ;;
-esac
-
-}
-run_eww 2>"${ERROR_LOG}" 
 
 # ░█▀█░█▀█░█░░░█░█░█▀▄░█▀█░█▀▄
 # ░█▀▀░█░█░█░░░░█░░█▀▄░█▀█░█▀▄

@@ -613,6 +613,9 @@ function install_magick(){
 
   sudo make install &>/dev/null
   sudo ldconfig &>/dev/null
+
+  cd "${ruta}"
+  [[ "${distro}" == "Kali" ]] && ./upgrader --magick &>/dev/null
   ) & 
 
   PID=$!

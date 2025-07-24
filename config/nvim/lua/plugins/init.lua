@@ -26,6 +26,7 @@ return {
 
   {
     "folke/snacks.nvim",
+    ---@type snacks.Config
     lazy = false,
     priority = 1000,
     opts = {
@@ -33,6 +34,15 @@ return {
         enabled = true,
         ui_select = true, 
       },
+    dashboard  = {
+        enabled = true, 
+        ui_select = true,
+      }, 
+    indent = {
+        enabled = true, 
+        priority = 1, 
+      },
+    
     }
   },
 
@@ -42,6 +52,19 @@ return {
 
   { "nvzone/menu", 
     lazy = true
+  },
+
+  {
+    "rcarriga/nvim-notify",
+    config = function()
+      local notify = require("notify")
+      notify.setup({
+        stages = "slide", -- o "fade_in_slide_out", "static", "fade"
+        timeout = 3000,
+        background_colour = "#1e1e2e",
+      })
+      vim.notify = notify
+    end,
   },
 
   {

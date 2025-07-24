@@ -22,7 +22,7 @@ M.base46 = {
 -- M.nvdash = { load_on_startup = true }
  M.ui = {
         statusline = {
-          theme = 'default', -- default, vscode, minimal, vscode_colored -> Esto cambia la linea de abajo
+          theme = 'minimal', -- default, vscode, minimal, vscode_colored -> Esto cambia la linea de abajo
         },
 
        tabufline = { 
@@ -36,7 +36,9 @@ M.base46 = {
 
 vim.defer_fn(function()
   require("minty").setup()
-end, 100)
+end, 100) 
+
+
 
 local notify = vim.notify
 vim.notify = function(msg, ...)

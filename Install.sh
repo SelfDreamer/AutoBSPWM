@@ -179,6 +179,7 @@ install_bspwm(){
   if ! sudo apt install fastfetch -y &>/dev/null; then 
     install_fetch &>/dev/null
   fi 
+  cp -r ./config/fastfetch/ ~/.config/ &>/dev/null
   ) & 
 
   PID=$!

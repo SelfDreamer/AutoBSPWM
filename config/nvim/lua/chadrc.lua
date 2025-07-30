@@ -22,7 +22,7 @@ M.base46 = {
 -- M.nvdash = { load_on_startup = true }
  M.ui = {
         statusline = {
-          theme = 'minimal', -- default, vscode, minimal, vscode_colored -> Esto cambia la linea de abajo
+          theme = 'default', -- default, vscode, minimal, vscode_colored -> Esto cambia la linea de abajo
         },
 
        tabufline = { 

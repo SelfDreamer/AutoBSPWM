@@ -59,6 +59,9 @@ alias catnp='bat --style=plain --paging=never'
 alias grep='grep --color=auto'
 alias clt='cleartarget'
 alias str='settarget'
+alias fastfetch='fastfetch --kitty-direct ~/.config/fastfetch/logo-small.png'
+alias neofetch='fastfetch --kitty-direct ~/.config/fastfetch/logo-small.png'
+alias fetch='fastfetch --kitty-direct ~/.config/fastfetch/logo-small.png'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -152,6 +155,21 @@ function whichSystem () {
     echo -e "\n${bright_yellow}[+]${bright_white} $ip_adress${bright_white} (${bright_magenta}${ttl:-None}${bright_white} ->${bright_yellow} $system${bright_white})${end}\n"
 }
 
+function pyenv(){
+  readonly virtual=".venv"
+  packages_flags="${@}"
+
+  if [[ ! -d "${virtual}" ]]; then
+    python3 -m venv .venv  
+    source "${virtual}"/bin/activate 
+
+    if [[ -n "${packages_flags}" ]]; then 
+      pip3 install "${packages_flags}"
+    fi
+  else 
+    source "${virtual}"/bin/activate
+  fi 
+}
 
 # fzf improvement
 function fzf-lovely(){
@@ -196,7 +214,6 @@ bindkey "\e[H" beginning-of-line
 bindkey "\e[F" end-of-line
 bindkey "\e[3~" delete-char
 setxkbmap latam
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 export EDITOR='nvim'
 # Esto lo que hace es que nunca creara directorios __pycache__ al hacer scripts de python que sabemos que es molesto.
 # Si realmente quieres esos directorios, comenta esa linea y ya 

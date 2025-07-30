@@ -17,16 +17,15 @@ spinner_log() {
   (( ${#points[@]} < len )) && len="${#points[@]}" 
 
   local i=0
-  while true; do 
+  while kill -0 "${pid}" &>/dev/null; do 
     local value="${values[i]}"
     local point="${points[i]}"
-    echo -ne "\r\033[K${bright_green}[${value}]${end} ${msg}${point}"
+    echo -ne "\r\033[K${bright_cyan}[${value}]${end} ${msg}${bright_white}${point}${end}"
     sleep "${delay}"
     ((i=(i+1)%len))
-    kill -0 $pid 2>/dev/null || break
   done
 
-  printf "\b \n"
+  echo -ne "\r\033[K"
 }
 
 welcome(){
@@ -74,11 +73,13 @@ show_timestamp() {
   local msg=$2
 
   if (( secs < 60 )); then
-    echo -e "${bright_green}[+]${bright_white} ${msg} en ${bright_magenta}${secs}${bright_white} segundos.${end}"; echo 
+    printf "\r\033[K${bright_green}[✔]${bright_white} ${msg} en ${bright_magenta}${secs}${bright_white} segundos.${end}\n"
   else
-    local mins=$(awk -v s="$secs" 'BEGIN { printf "%.2f\n", s / 60 }')
-    echo -e "${bright_green}[+]${end}${bright_white} ${msg}${bright_white} en aproximadamente${end}${bright_magenta} ${mins}${bright_white} minutos.${end}"; echo 
+    local mins=$(awk -v s="$secs" 'BEGIN { printf "%.2f", s / 60 }')
+    printf "\r\033[K${bright_green}[✔]${bright_white} ${msg} en aproximadamente ${bright_magenta}${mins}${bright_white} minutos.${end}\n"
   fi
+
+  printf "\b \n"
 }
 
 update_system(){
@@ -92,14 +93,14 @@ update_system(){
     # Detectar si existen repositorios referentes a backports, si es asi comentarlos para que no molesten mas.
 
     if grep -v -E '^\s*$|^\s*#' "${PARROT_SOURCES}" | grep -iq "backports"; then
-      sudo sed -i 's|^deb https://deb.parrot.sh/parrot lory-backports|#deb https://deb.parrot.sh/parrot lory-backports|' "${PARROT_SOURCES}"
+      sudo sed -i 's|^deb https://deb.parrot.sh/parrot lory-backports|#deb https://deb.parrot.sh/parrot lory-backports|' "${PARROT_SOURCES}" &>/dev/null
     fi 
 
     sudo apt update &>/dev/null 
     sudo parrot-upgrade -y &>/dev/null
     if [[ $? -ne 0  ]]; then
       wget https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb &>/dev/null
-      sudo dpkg -i parrot-archive-keyring_2024.12_all.deb || sudo dpkg -i *.deb &>/dev/null # .deb 
+      sudo dpkg -i parrot-archive-keyring_2024.12_all.deb &>/dev/null 
     fi
   elif [[ $distro == 'Kali' ]]; then
     if ! sudo apt update &>/dev/null; then
@@ -120,15 +121,17 @@ update_system(){
 
 function install_fetch(){
   [[ -d "fastfetch" ]] && rm -rf fastfetch
-  cd "${ruta}" || return 1 
+  cd "${ruta}" || exit 1 
   sudo apt install git cmake build-essential -y &>/dev/null  
   git clone https://github.com/fastfetch-cli/fastfetch &>/dev/null 
-  cd fastfetch || return 1
+  cd fastfetch || exit 1
   cmake -B build -DCMAKE_BUILD_TYPE=Release &>/dev/null 
   cmake --build build --target fastfetch -j$(nproc) &>/dev/null
   sudo cp build/fastfetch /usr/local/bin/ &>/dev/null
-  cd "${ruta}" || return 1 
+  cd "${ruta}" || exit 1 
   rm -rf fastfetch &>/dev/null
+
+  cp -r ./config/fastfetch/ ~/.config/ &>/dev/null
 
 }
 

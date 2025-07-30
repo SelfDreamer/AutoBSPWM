@@ -168,6 +168,7 @@ function pyenv(){
     fi
   else 
     source "${virtual}"/bin/activate
+    pip3 install "${packages_flags}"
   fi 
 }
 

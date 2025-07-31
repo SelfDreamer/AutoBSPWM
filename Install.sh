@@ -570,6 +570,21 @@ install_eww(){
         # Traemos la configuración de eww
         cp -r ./config/eww/ ~/.config/
     fi
+
+    DIR="/tmp/RIPGREP"
+    # Instalamos ripgrep
+    if ! sudo apt install ripgrep -y &>/dev/null; then 
+      rm -rf "${DIR}" &>/dev/null
+      mkdir -p "${DIR}" &>/dev/null
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &>/dev/null
+      source "$HOME/.cargo/env" &>/dev/null
+      git clone https://github.com/BurntSushi/ripgrep.git &>/dev/null
+      cd ripgrep &>/dev/null
+      cargo build --release &>/dev/null
+      sudo cp target/release/rg /usr/local/bin/ &>/dev/null
+    fi
+
+    rm -rf "${DIR}" &>/dev/null
   ) &
 
   PID=$! 

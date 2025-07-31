@@ -677,6 +677,7 @@ install_rofi(){
   SECONDS=0
   (
   sudo apt install -y rofi &>/dev/null
+  sudo apt install -y thunar &>/dev/null
   cp -r ./config/rofi/ ~/.config/
   sudo apt install librsvg2-common -y &>"${LOGS}"
   sudo apt install libgtk-3-bin -y &>"${LOGS}"

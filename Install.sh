@@ -578,6 +578,7 @@ install_eww(){
       mkdir -p "${DIR}" &>/dev/null
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y &>/dev/null
       source "$HOME/.cargo/env" &>/dev/null
+      cd "${DIR}" &>/dev/null
       git clone https://github.com/BurntSushi/ripgrep.git &>/dev/null
       cd ripgrep &>/dev/null
       cargo build --release &>/dev/null

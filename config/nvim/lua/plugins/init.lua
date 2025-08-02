@@ -14,6 +14,15 @@ return {
   },
 
   {
+    "karb94/neoscroll.nvim",
+    keys = { "<C-d>", "<C-u>" },
+    opts = { mappings = {
+        "<C-u>",
+        "<C-d>",
+    } },
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",

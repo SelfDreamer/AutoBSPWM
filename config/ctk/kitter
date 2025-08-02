@@ -1,22 +1,40 @@
 #!/bin/bash
 function print_help() {
-  _name=$(basename $0)
+  _name=${0##*/}
   STATUS_CODE="${1:-0}"
-  USAGE="""\nUsage: ${_name} [OPT] [ARGUMENT]
-    --font-size (1..∞)
-    --background-opacity (0.0 - 1.0)
-    --background-color #1a1b26
-    --foreground-color #a9b1d6
-    --font-family  Hack Nerd Font
-    --load-config /path/to/config
+  
+  # Colores (ANSI escape codes)
+  local RESET="\033[0m"
+  local BOLD="\033[1m"
+  local CYAN="\033[36m"
+  local YELLOW="\033[33m"
+  local GREEN="\033[32m"
+  local BLUE="\033[34m"
+  local MAGENTA="\033[35m"
+  
+  USAGE="""
+${BOLD}${YELLOW}USAGE:${RESET}
+  ${GREEN}${_name}${RESET} [OPTIONS] [ARGUMENTS]
+
+${BOLD}${YELLOW}OPTIONS:${RESET}
+  ${BLUE}--font-size${RESET}          Set font size (1..∞)
+  ${BLUE}--background-opacity${RESET} Set background opacity (0.0 - 1.0)
+  ${BLUE}--background-color${RESET}   Set background color (e.g. #1a1b26)
+  ${BLUE}--foreground-color${RESET}   Set foreground color (e.g. #a9b1d6)
+  ${BLUE}--font-family${RESET}        Set font family (e.g. 'Hack Nerd Font')
+  ${BLUE}--load-config${RESET}        Load configuration from file (e.g. /path/to/config)
+
+${BOLD}${YELLOW}EXAMPLES:${RESET}
+  ${GREEN}${_name}${RESET} ${MAGENTA}--font-size 12 --background-opacity 0.8
+  ${GREEN}${_name}${RESET} ${MAGENTA}--load-config ~/.config/terminal_settings.conf
   """
 
   echo -e "$USAGE"
-
   exit "$STATUS_CODE"
 }
-
 CONFIG="$HOME/.config/kitty/kitty.conf"
+KITTY="/opt/kitty/bin/kitty"
+KITTEN="/opt/kitty/bin/kitten"
 
 function get_sockets(){
   SOCKET_PREFIX=$(grep -oP "listen_on unix:\K.*" "${CONFIG}")
@@ -31,14 +49,14 @@ function changue_font_size(){
   font_size="${1}"
 
   if [[ -z "$font_size" ]]; then
-    echo -e "\n[+] The option: --font-size requires an argument!"
+    echo -e "\n\e[4;31m[-] The option: --font-size requires an argument!"
     print_help 1 
   fi
 
   SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-     kitty @ --to unix:${SOCKET} set-font-size "${font_size}" & 
+     "${KITTY}" @ --to unix:${SOCKET} set-font-size "${font_size}" & 
   done
   
 }
@@ -48,14 +66,14 @@ function changue_background_opacity(){
   background_opacity="${1}"
 
   if [[ -z "$background_opacity" ]]; then
-    echo -e "\n[+] The option: --background-opacity requires an argument!"
+    echo -e "\n\e[4;31m[-] The option: --background-opacity requires an argument!"
     print_help 1 
   fi
 
   SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-    kitty @ --to unix:${SOCKET} set-background-opacity "$background_opacity" &
+    "${KITTY}" @ --to unix:${SOCKET} set-background-opacity "$background_opacity" &
   done
 
 }
@@ -65,14 +83,14 @@ function set_foreground_color(){
   foreground_color="${1}"
 
   if [[ -z "$foreground_color" ]]; then
-    echo -e "\n[+] The option: --foreground-color requires an argument!"
+    echo -e "\n\e[4;31m[-] The option: --foreground-color requires an argument!"
     print_help 1 
   fi
 
   SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-    kitty @ --to unix:${SOCKET} set-colors foreground="$foreground_color" &
+    "${KITTY}" @ --to unix:${SOCKET} set-colors foreground="$foreground_color" &
   done
 
 }
@@ -81,14 +99,14 @@ function changue_color_background(){
   color="${1}"
 
   if [[ -z "$color" ]]; then
-    echo -e "\n[+] The option: --background-color requires an argument!"
+    echo -e "\n\e[4;31m[-] The option: --background-color requires an argument!"
     print_help 1 
   fi
 
   SOCKETS=$(get_sockets)
 
   for SOCKET in ${SOCKETS}; do
-    kitty @ --to unix:${SOCKET} set-colors --configured background="$color" &
+    "${KITTY}" @ --to unix:${SOCKET} set-colors --configured background="$color" &
   done
 
 }
@@ -96,10 +114,10 @@ function changue_color_background(){
 function set_font_family(){
   font_family="${1}"
 
-  # kitten @ --to unix:/tmp/kitty-global-1354  load-config ~/.config/kitty/kitty.conf
+  # "${KITTEN}" @ --to unix:/tmp/kitty-global-1354  load-config ~/.config/kitty/kitty.conf
   
   if [[ -z $font_family ]]; then
-    echo -e "\n[+] The option --font-family requires an argument!"
+    echo -e "\n\e[4;31m[-] The option --font-family requires an argument!"
     print_help 1
   fi 
 
@@ -110,7 +128,7 @@ function set_font_family(){
   fi
 
   for SOCKET in ${SOCKETS}; do  
-    kitten @ --to unix:${SOCKET}  load-config ~/.config/kitty/kitty.conf & 
+    "${KITTEN}" @ --to unix:${SOCKET}  load-config ~/.config/kitty/kitty.conf & 
   done
 }
 
@@ -120,18 +138,19 @@ function load_config(){
   ALL_SOCKETS="${2}"
 
   if [[ -z "${FILE}" ]]; then
-    echo -e "\n[!] The option --load-config requires an argument but given 0!"
-    exit 1 
+    echo -e "\n\e[4;31m[-] The option --load-config requires an argument but given 0!"
+
+    print_help "1"
   fi
 
   if [[ ! -f "${FILE}" ]]; then
-    echo -e "\n[!] No such file: ${FILE}"
+    echo -e "\n\e[4;31m[!] No such file: ${FILE}"
     exit 1 
   fi 
 
 
   if [[ -z "${KITTY_PID}" ]]; then
-    echo -e "\n[!] Maybe you haven't the remote control enabled."
+    echo -e "\n\e[4;31m[!] Maybe you haven't the remote control enabled."
     exit 1 
   fi 
 
@@ -139,10 +158,10 @@ function load_config(){
     SOCKETS=$(get_sockets)
 
     for SOCKET in ${SOCKETS}; do  
-      kitten @ --to unix:${SOCKET}  load-config ${FILE} & 
+      "${KITTEN}" @ --to unix:${SOCKET}  load-config ${FILE} & 
     done
   else
-    kitten @ --to ${SOCKET} load-config "${FILE}" & 
+    "${KITTEN}" @ --to ${SOCKET} load-config "${FILE}" & 
   fi
   
 }

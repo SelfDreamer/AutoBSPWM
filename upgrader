@@ -93,7 +93,7 @@ $(tput setaf 7)${self} [opción]
   \033[1;32m-o, --obsidian  \033[0m Descargar release de \033[1mObsidian\033[0m
   \033[1;31m-h, --help      \033[0m Mostrar este panel de ayuda
 
-\033[1;33mRepositorio:\033[0m
+\033[1;33mGithub:\033[0m
   \033[4;34mhttps://github.com/FlickGMD\033[0m
 
 \033[1;36m─────────────────────────────────────────────────\033[0m

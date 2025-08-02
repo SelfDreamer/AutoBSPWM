@@ -157,9 +157,8 @@ function whichSystem () {
 
 pyenv () {
 	readonly virtual=".venv" 
-	packages_flags="${@}" 
 	[[ -d "${virtual}" ]] && source "${virtual}"/bin/activate || python3 -m venv "${virtual}" && source "${virtual}"/bin/activate
-	[[ -n "${packages_flags}" ]] && pip3 install "${packages_flags}"
+	[[ ${#} -gt 0 && -n ${@} ]] && pip3 install ${@}
 	return 0
 }
 

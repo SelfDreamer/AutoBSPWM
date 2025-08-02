@@ -919,9 +919,10 @@ class BSPWM():
     
     @staticmethod
     def Get_Current_Font(): 
-        cmd = "kitty +runpy 'from kitty.cli import *; print(create_default_opts().font_family)'"
-    
-        return os.popen(cmd=cmd).read().strip()
+        cmd = "bash -c 'grep ^font_family ~/.config/kitty/kitty.conf | cut -d\" \" -f2-9'"
+        p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True)
+
+        return p.stdout.strip() if p.stdout.strip() else 'Unknown :|'
 
     @staticmethod  
     def Apply_font(entry: ctk.CTkEntry, label: ctk.CTkLabel, notify=True):

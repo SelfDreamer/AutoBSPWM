@@ -155,21 +155,12 @@ function whichSystem () {
     echo -e "\n${bright_yellow}[+]${bright_white} $ip_adress${bright_white} (${bright_magenta}${ttl:-None}${bright_white} ->${bright_yellow} $system${bright_white})${end}\n"
 }
 
-function pyenv(){
-  readonly virtual=".venv"
-  packages_flags="${@}"
-
-  if [[ ! -d "${virtual}" ]]; then
-    python3 -m venv .venv  
-    source "${virtual}"/bin/activate 
-
-    if [[ -n "${packages_flags}" ]]; then 
-      pip3 install "${packages_flags}"
-    fi
-  else 
-    source "${virtual}"/bin/activate
-    pip3 install "${packages_flags}"
-  fi 
+pyenv () {
+	readonly virtual=".venv" 
+	packages_flags="${@}" 
+	[[ -d "${virtual}" ]] && source "${virtual}"/bin/activate || python3 -m venv "${virtual}" && source "${virtual}"/bin/activate
+	[[ -n "${packages_flags}" ]] && pip3 install "${packages_flags}"
+	return 0
 }
 
 # fzf improvement

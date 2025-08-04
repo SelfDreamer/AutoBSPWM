@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-packages=$(grep /tmp/data.txt -oP '\d+(?= packages | paquetes)' 2>/dev/null)
+readonly PATH_ARCHIVE="$HOME/.config/bin/updates.txt"
+packages=$(grep "${PATH_ARCHIVE}" -oP '\d+(?= \S+)' 2>/dev/null)
 
 echo "${packages:-0}"

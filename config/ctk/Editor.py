@@ -1,21 +1,43 @@
 #!/usr/bin/env python
+__import__('os').system("rm -rf __pycache__ 2>/dev/null")
 from random import choice
-from typing import Any
+from typing import Any, Tuple, Callable
 import customtkinter as ctk 
 from CTkMessagebox import CTkMessagebox
 import subprocess, re, os, sys, cv2 
 from PIL import Image
-from CTkColorPicker import AskColor
 import CTkFileDialog  
 from CTkFileDialog.Constants import PWD, HOME
 from tkfontchooser import askfont        
+from CTkToolTip import CTkToolTip
+from ColorPicker import CTkAdvancedColorPicker
+import tkinter as tk
+
+class PickerApp(ctk.CTkToplevel):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.selected_color = None
+        self.picker = CTkAdvancedColorPicker(master=self)
+        self.picker.pack(padx=10, pady=10, expand=True, fill=ctk.BOTH)
+
+        ctk.CTkButton(master=self, text="Select Color!", command=self.get).pack(padx=10, pady=10, expand=ctk.TRUE, fill=ctk.BOTH)
+    
+    def get(self):
+        
+        c = self.picker.get()
+
+        if c: 
+
+            self.selected_color = c
+
+            self.destroy()
+
 
 def is_hex(color_entry) -> bool:
 
-    if not re.fullmatch(r"#([A-Fa-f0-9]{6})", color_entry):
-        return False
-
-    return True
+    return bool(re.fullmatch(r"#([A-Fa-f0-9]{6})", color_entry))
 
 def is_valid_image(image_path) -> bool:
     try:
@@ -25,33 +47,10 @@ def is_valid_image(image_path) -> bool:
     except:
         return False
 
-class Picker(AskColor):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.exit_button = ctk.CTkButton(
-            master=self.frame,
-            text="✕",
-            width=14,
-            height=14,
-            corner_radius=7,
-            fg_color="#FF5F57",
-            hover_color="#D9433F",
-            font=("Arial", 10),
-            command=lambda: self._on_closing()
-        )
-        self.exit_button.place(x=5, y=5)
 
 class BSPWM():
     
-    distro = os.popen(cmd='lsb_release -d | grep -oP "Parrot|Kali"').read().strip()
-
-    if distro == 'Kali':
-
-        backends = ['glx', 'xrender', 'egl', 'dummy']
-    else: 
-
-        backends = ['glx', 'xrender']
+    backends = ('glx', 'xrender', 'egl', 'dummy')
 
     def __init__(self, root: Any) -> None:
         self.root = root 
@@ -170,20 +169,11 @@ class BSPWM():
 
             return 
         
-        distro = os.popen(cmd='lsb_release -d | grep -oP "Parrot|Kali"').read().strip()
-
-        if distro == 'Kali':
-
-            valid_backends = ('glx', 'xrender', 'egl', 'dummy')
-
-        else:
-
-            valid_backends = ('glx', 'xrender')
 
         if ruta.startswith('~'):
             ruta = os.path.expanduser(ruta)
 
-        if backend not in valid_backends:
+        if backend not in BSPWM.backends:
             if notify: CTkMessagebox(title='Error', message='Backend no válido. Usa "glx" o "xrender".', icon='cancel', master=master)
             return
 
@@ -261,7 +251,9 @@ class BSPWM():
             (BSPWM.RADIUS_SLIDDER.set(10))
             BSPWM.LABEL_RADIUS.configure(text="Picom Corner Radius 10")
             BSPWM.OPT_BACKEND.set(value='glx')
-            process = subprocess.run("bspc wm -r", shell=True, stdout=True).stdout 
+
+            subprocess.run(CMD, shell=True, stdout=True).stdout
+
                 
             BACKEND = BSPWM.get_backend()
             if BACKEND != 'glx':
@@ -345,6 +337,9 @@ class BSPWM():
 
                 BSPWM.FONT_FAMILY_LABEL.configure(text=f"Font Family (Hack Nerd Font)")
                 BSPWM.FONT_FAMILY_ENTRY.configure(placeholder_text='Hack Nerd Font...')
+            
+            process = subprocess.run("bspc wm -r", shell=True, stdout=True).stdout 
+
 
         return 
 
@@ -758,6 +753,7 @@ class BSPWM():
     def PutBackgroundWidget(master: ctk.CTk, frame: ctk.CTkFrame) -> None:
         background_opacity = BSPWM.Get_Size_Background()
         background_opacity_label = ctk.CTkLabel(master=frame, fg_color='transparent', text=f'Kitty Background Opacity {background_opacity}', font=('Arial', 15))
+        CTkToolTip(widget=background_opacity_label, message="En Kitty, background_opacity controla la transparencia del fondo de la terminal, de 0.0 (transparente) a 1.0 (opaco).", delay=0.2)
         BSPWM.OPACITY_LABEL = background_opacity_label
         background_opacity_label.pack(side='left', fill='y')
         
@@ -991,6 +987,7 @@ class Editor():
         kitty_font_size_frame.pack(pady=10, fill='x', padx=10)
         
         label_font_size = ctk.CTkLabel(master=kitty_font_size_frame, fg_color='transparent', text=f'Kitty Font Size', font=('Arial', 15))
+        CTkToolTip(widget=label_font_size, message='En Kitty, font_size define el tamaño de la fuente utilizada en la terminal, en puntos (pt).')
         label_font_size.pack(side='left', fill='y')
         
         self.entry_font_size = ctk.CTkEntry(master=kitty_font_size_frame, placeholder_text=f'Font Size ({BSPWM.Get_FontSize()})')
@@ -1011,15 +1008,17 @@ class Editor():
         kitty_background_color_frame.pack(pady=10, fill='x', padx=10)
 
         kitty_color_label = ctk.CTkLabel(master=kitty_background_color_frame, fg_color='transparent', text='Kitty background Color', font=('Arial', 15))
+        CTkToolTip(widget=kitty_color_label, message='En Kitty, background define el color de fondo de la terminal, usando valores hexadecimales o nombres.')
         kitty_color_label.pack(side='left', fill='y')
 
         color_label_kitty = ctk.CTkFrame(master=kitty_background_color_frame, fg_color='gray', corner_radius=6, width=17, height=17)
         color_label_kitty.pack(side='left', padx=(10, 10))
 
         def kitty_frame_label(event):
-            color = Picker()
+            color = PickerApp()
+            color.wait_window()
 
-            color = color.get()
+            color = color.selected_color
 
             if color: 
 
@@ -1055,6 +1054,7 @@ class Editor():
         foreground_frame_kitty.pack(pady=10, fill='x', padx=10)
 
         foreground_label = ctk.CTkLabel(master=foreground_frame_kitty, fg_color='transparent', font=('Arial', 15), text='Kitty Foreground')
+        CTkToolTip(widget=foreground_label, message="En Kitty, foreground define el color del texto principal mostrado en la terminal, usando un valor hexadecimal.")
         foreground_label.pack(side='left', fill='y')
         
         # Frame al estilo NvChad, es el ultimo para la configuración de la kitty, para que lo tengas en cuenta.
@@ -1083,9 +1083,11 @@ class Editor():
         foreground_kitty_apply = ctk.CTkButton(master=foreground_frame_kitty, text='Apply', command=lambda: BSPWM.Apply_foreground(foreground=self.entry_foreground_kitty.get(), entry_widget=self.entry_foreground_kitty, master=root))
         foreground_kitty_apply.pack(side='right', padx=10)
         def kitty_foreground_frame(event):
-            color = Picker()
+            color = PickerApp()
 
-            color = color.get()
+            color.wait_window()
+
+            color = color.selected_color
             
             if color: 
                 self.entry_foreground_kitty.delete(0, 'end') 
@@ -1099,6 +1101,7 @@ class Editor():
         font_family_frame_kitty.pack(fill=ctk.X, padx=10, pady=10)
 
         self.font_family_label = ctk.CTkLabel(master=font_family_frame_kitty, fg_color='transparent', font=('Arial', 15), text=f'Font Family ({BSPWM.Get_Current_Font()})')
+        CTkToolTip(widget=self.font_family_label, message='En Kitty, font_family especifica la fuente tipográfica utilizada en la terminal, como "FiraCode Nerd Font".')
         self.font_family_label.pack(side=ctk.LEFT, fill=ctk.Y)
 
         self.entry_family = ctk.CTkEntry(master=font_family_frame_kitty, placeholder_text=BSPWM.Get_Current_Font() + '...')
@@ -1130,6 +1133,7 @@ class Editor():
             
         # Label 
         label_backend = ctk.CTkLabel(master=widget_backend_frame, fg_color='transparent', text='Picom Backend', font=('Arial', 15))
+        CTkToolTip(widget=label_backend, message='El backend de picom define cómo se renderizan sombras, transparencias y efectos gráficos con aceleración.', delay=0.2)
         label_backend.pack(side='left', fill='y')
 
         entry_backend = ctk.CTkOptionMenu(master=widget_backend_frame, values=BSPWM.backends)
@@ -1148,6 +1152,7 @@ class Editor():
         frame_vsync.pack(fill='x', pady=10, padx=10)
 
         widget_picom_vsync = ctk.CTkLabel(master=frame_vsync, fg_color='transparent', text='Vsync (True / False)', font=('Arial', 15))
+        CTkToolTip(widget=widget_picom_vsync, message='El VSync en Picom sincroniza la velocidad de actualización de la pantalla para evitar tearing visual.', delay=0.2)
         widget_picom_vsync.pack(side='left', fill='y')
 
         # BUTTON SWITCH 
@@ -1159,6 +1164,7 @@ class Editor():
 
         value = BSPWM.get_corner() 
         self.widget_corner_radius = ctk.CTkLabel(master=frame_corner_radius, fg_color='transparent', text=f'Picom Corner Radius {value}', font=('Arial', 15))
+        CTkToolTip(widget=self.widget_corner_radius, message='El corner-radius en Picom redondea las esquinas de las ventanas para un efecto visual suave.', delay=0.2)
         BSPWM.LABEL_RADIUS = self.widget_corner_radius
         self.widget_corner_radius.pack(side='left', fill='y')
 
@@ -1180,6 +1186,7 @@ class Editor():
 
         # Label Picom Animations 
         picom_animation_label = ctk.CTkLabel(master=frame_animations_picom, fg_color='transparent', text='Picom Animations', font=('Arial', 15))
+        CTkToolTip(widget=picom_animation_label, message='Las animaciones en Picom suavizan transiciones como abrir, cerrar, mover o cambiar opacidad de ventanas.', delay=0.2)
         picom_animation_label.pack(side='left', fill='y')
 
         # Button Switch Picom Animations
@@ -1191,6 +1198,7 @@ class Editor():
         
         # Label to show text for Fading
         picom_fadding_label = ctk.CTkLabel(master=frame_picom_fadding, fg_color='transparent', text='Picom Fadding', font=('Arial', 15))
+        CTkToolTip(widget=picom_fadding_label, message='El fading en Picom aplica transiciones de opacidad al aparecer, desaparecer o cambiar foco de ventanas.', delay=0.2)
         picom_fadding_label.pack(side='left', fill='y')
 
         # Button switch picom fadding 
@@ -1367,6 +1375,7 @@ class Editor():
         self.tittle_sect.pack(side='top', fill='x', padx=10, pady=10)
         
         self.title_label = ctk.CTkLabel(master=self.tittle_sect, text="bspwm settings", font=("Arial", 18))
+        CTkToolTip(widget=self.title_label, message="Aquí empezaras a configurar BSPWM desde un editor con GUI.\nSientete libre de ello!", delay=0.2)
         self.title_label.pack(pady=10, anchor=ctk.CENTER)
 
         # Create Frame for the widgets 
@@ -1379,6 +1388,12 @@ class Editor():
 
         entry_fbcw = ctk.CTkEntry(master=widget_fbcw, placeholder_text="#C2F6FC")
         entry_fbcw.pack(side='right', fill='x')
+        entry_fbcw.bind('<FocusIn>', lambda event: self.on_focus(
+            event=event,
+            function=lambda: BSPWM.focused_border_color(root, entry_fbcw.get(), entry_fbcw),
+            args=()  # ya no se usa
+        ))
+
         def update_color_fbcw(event=None):
             color = entry_fbcw.get()
             if color.startswith('#') and len(color) == 7:
@@ -1394,6 +1409,7 @@ class Editor():
         entry_fbcw.bind("<KeyRelease>", update_color_fbcw)
 
         label = ctk.CTkLabel(master=widget_fbcw, text="Focused Border Color", font=('Arial', 15))
+        CTkToolTip(widget=label, message="Color del bordeado de aquella ventana focuseada", delay=0.2)
         label.pack(side='left', fill='y')
         
         # Cuadrado al estilo NvChad, es el primero de todos, para que lo tengas en cuenta jeje 
@@ -1402,9 +1418,10 @@ class Editor():
 
         def color_label_fbcw_event(event):
             
-            color = Picker()
+            picker = PickerApp()
+            picker.wait_window()
 
-            color = color.get()
+            color = picker.selected_color
 
             if color: 
 
@@ -1425,9 +1442,16 @@ class Editor():
         widget_nbc.pack(side='top', fill='x', pady=10, padx=10)  # Empacar verticalmente con espacio entre ellos
         
         entry_nbc = ctk.CTkEntry(master=widget_nbc, placeholder_text="#000000")
+        entry_nbc.bind('<FocusIn>', lambda event: self.on_focus(
+            event=event,
+            function=lambda: BSPWM.normal_border_color(root=root, border_color=entry_nbc.get(), entry_widget=entry_nbc),
+            args=()  # ya no se usa
+        ))
+
         entry_nbc.pack(side='right', fill='x')
 
         label = ctk.CTkLabel(master=widget_nbc, text="Bpswm Normal Border Color", font=('Arial', 15))
+        CTkToolTip(widget=label, message="Color del bordeado de aquella ventana NO focuseada")
         label.pack(side='left', fill='y')
 
         button = ctk.CTkButton(master=widget_nbc, text="apply", command=lambda: BSPWM.normal_border_color(root=root, border_color=entry_nbc.get(), entry_widget=entry_nbc)) 
@@ -1438,9 +1462,11 @@ class Editor():
         color_label_nbc.pack(side='left', padx=(10, 10))
 
         def color_label_nbc_event(event):
-            color = Picker()
+            color = PickerApp()
+
+            color.wait_window()
             
-            color = color.get()
+            color = color.selected_color
             
             if color: 
                 entry_nbc.delete(0, 'end')
@@ -1471,10 +1497,65 @@ class Editor():
         entry_nbc.bind("<KeyRelease>", update_color_nbc)
 
         label = ctk.CTkLabel(master=widget_cb, text="Bpswm Border (0 - 9)", font=('Arial', 15))
+        CTkToolTip(widget=label, message='Define que ten bordeado quieres tus ventanas en bspwm', delay=0.2)
         label.pack(side='left', fill='y')
+        entry_cb.bind('<FocusIn>', lambda event: self.on_focus(
+            event=event,
+            function=lambda: BSPWM.config_border(root=root, border=entry_cb.get(), entry_widget=entry_cb),
+            args=()  # ya no se usa
+        ))
+
 
         button = ctk.CTkButton(master=widget_cb, text="apply", command=lambda: BSPWM.config_border(root=root, border=entry_cb.get(), entry_widget=entry_cb)) 
         button.pack(side='right', padx=10)
+
+        # Window gap section :)
+        widget_gap = ctk.CTkFrame(master=self.container_widgets_bspwm, fg_color='transparent')
+        widget_gap.pack(side='top', fill='x', pady=10, padx=10) 
+
+        label_gap = ctk.CTkLabel(master=widget_gap, font=('Arial', 15), text="Bspwm Gap (0 - 10)")
+        CTkToolTip(widget=label_gap, message='Espacio en píxeles entre las ventanas, útil para estética o separación visual en bspwm.')
+        label_gap.pack(side=ctk.LEFT, fill=ctk.Y)
+
+        def GetGap() -> int | None: 
+
+            p = subprocess.run('bspc config window_gap', shell=True, capture_output=True)
+
+            return int(p.stdout.decode().strip())
+
+        def set_gap(entry: ctk.CTkEntry):
+            
+            gap = entry.get()
+
+            try: 
+
+                gap = int(gap)
+
+            except ValueError:  
+                entry.delete(0, ctk.END)
+                CTkMessagebox(message='Error fatal, solo se admiten numeros', icon='cancel', title='Error')
+
+            if entry_gap and isinstance(gap, int):
+                
+                p = subprocess.run(f'bspc config window_gap {gap}', shell=True, capture_output=True)
+
+        entry_gap = ctk.CTkEntry(master=widget_gap, placeholder_text=f"{GetGap()}")
+        entry_gap.pack(side=ctk.RIGHT, fill=ctk.X)
+        entry_gap.bind('<FocusIn>', lambda event: self.on_focus(event=event, function=set_gap, args=(entry_gap, )) )
+
+        button_gap = ctk.CTkButton(master=widget_gap, text="Apply", command=lambda e=entry_gap: set_gap(entry_gap))
+        button_gap.pack(side=ctk.RIGHT, fill=ctk.Y, padx=10)
+
+    def on_focus(self, event: tk.Event, function: Callable, args: Tuple[Any]):
+        widget = event.widget
+        
+        widget.bind("<Return>", lambda e=event: self.on_enter_pressed(event=e, function=function, args=args))
+
+    def on_enter_pressed(self, event: tk.Event, function: Callable, args: Tuple[Any]):
+      
+        widget = event.widget
+
+        function(*args, )
 
     @staticmethod
     def destroy_app(root: Any) -> None:

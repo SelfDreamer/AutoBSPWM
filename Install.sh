@@ -738,8 +738,8 @@ install_editor(){
   sudo apt install python3-tk -y &>/dev/null
   python3 -m venv .venv &>/dev/null 
   source .venv/bin/activate &>/dev/null 
-  pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog tkfontchooser &>/dev/null
-  cd $ruta || return 1 
+  pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog tkfontchooser tkcolorpicker &>/dev/null
+  cd "${ruta}"
 
   sudo cp ./config/ctk/AnimatedWall /usr/bin/ 
   sudo cp ./config/ctk/kitter /usr/bin/ 

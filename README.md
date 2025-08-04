@@ -1,6 +1,6 @@
 # **Instalación**
 
-```bash
+```bash 
 git clone https://github.com/FlickGMD/AutoBSPWM.git
 cd AutoBSPWM
 ./Install.sh

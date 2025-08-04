@@ -3,7 +3,7 @@ readonly ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev)
 cd "${ruta}" || return 1 
 
 source ./Colors
-readonly PATH_ARCHIVE="/tmp/data.txt"
+readonly PATH_ARCHIVE="$HOME/.config/bin/updates.txt"
 export SUDO_PROMPT="$(tput setaf 3)[${USER}]$(tput setaf 15) Enter your password for root: $(tput sgr0)"
 
 function ctrl_c(){
@@ -39,7 +39,7 @@ updater() {
     bright_green_awk=$(echo -e "${bright_green}")
     end_awk=$(echo -e "${end}")
 
-    apt list --upgradable 2>/dev/null | grep -vi 'Listing...' | \
+    apt list --upgradable 2>/dev/null | grep -vP '^\S+\.\.\.$' | \
     awk -F'[ /\\[\\]]' -v white="$bright_white_awk" -v green="$bright_green_awk" -v end="$end_awk" \
     '{print white $1 end, green $8 " >> " $3 end}' | tee "${PATH_ARCHIVE}" 2>/dev/null
 

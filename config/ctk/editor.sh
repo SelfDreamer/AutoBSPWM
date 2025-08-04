@@ -19,14 +19,14 @@ function check_package() {
 }
 
 faltan_paquetes=0
-for paquete in customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog tkfontchooser; do
+for paquete in customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog tkfontchooser CTkToolTip; do
     if ! check_package "$paquete"; then
         faltan_paquetes=1
         break
     fi
 done
 if [[ $faltan_paquetes -eq 1 ]]; then
-    pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog tkfontchooser 
+    pip install customtkinter CTkMessageBox pillow opencv-python CTkColorPicker CTkFileDialog tkfontchooser CTkToolTip 
 fi
 # Ejecutar el script principal
 ./Editor.py || /bin/python3 Editor.py

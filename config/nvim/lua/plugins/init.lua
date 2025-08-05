@@ -72,7 +72,7 @@ return {
         timeout = 3000,
         background_colour = "#1e1e2e",
       })
-      vim.notify = notify
+      vim.notify = require("notify")
     end,
   },
 

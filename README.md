@@ -1,180 +1,238 @@
-# **Instalación**
 
-```bash 
+<h1 style="text-align: center;">Entorno de administrador de ventanas BSPWM completo</h1>
+
+<div style="text-align: center;">
+  <img src="https://github.com/user-attachments/assets/c6855519-d308-4d2f-a117-a2dc4d84f09b" alt="Imagen" style="border-radius: 10px; width: 1000px;">>
+</div>
+
+---
+
+<h3> 👋 Bienvenido</h3>
+
+Bienvenido a mi **AutoBSPWM**, me apodo Flick y soy de Perú. 
+
+Estos archivos de configuración fueron hechos para proporcionar un entorno `BSPWM` ligero, eficiente y funcional. Esta diseñado principalmente para Pentesters pero puede usarse para el día a día. Este entorno es una inspiración hacia los dotfiles del señor gh0stzk, más espeficiamente al tema de Emilia. 
+
+---
+## 🚀 Características 
+
+**Rendimiento**
+
+BSPWM se destaca principalmente por ser minimalista y tener un rendimiento optimizado. Si bien es cierto que existe actualmente `Wayland` que consigo esta `Hyprland` que es mucho mas popular y tiene consigo muchas mas posibilidades que BSPWM, estos archivos de configuración consumiran mucho menos de `800MB` al iniciar. Como se dijo anteriormente, un entorno con `Hyprland` tiene mucha mas escala a nivel de estetica, pero es que esos entornos comenzarian consumiendo `1GB` o mas al arrancar.
+
+**Fondo de pantalla con nick personalizado**
+
+El instalador, casi al final te pedira que introduzcas tu nick para meterlo al fondo de pantalla. Si no le pasas tu nick usara la variable `$USER` para meterlo en el fondo de pantalla. De todas formas, tu mismo puedes ejecutar el script y cambiarle el nick cuantas veces quieras.
+
+**Multiplataforma**
+
+Siempre he visto en comunidades a gente preguntar acerca de un **AutoBSPWM** para `Kali` o `Parrot`. Ahora eso se acabo, porque este instalador hara que la configuración planteada funcione perfectamente. Tanto en Kali Linux como en Parrot OS. Y claro, puedes ejecutar el instalador desde la ruta que sea porque el mismo script se encargara de moverte a donde este el ejecutable.
+
+Asimismo, me he topado con uno de los grandes problemas a la hora de realizar este proyecto, que es el tema de los repositorios de `Backports` en Parrot OS. Estos repositorios pueden hacer que tu sistema Parrot sea muy inestable debido. Esto se debe a que `Debian` en sus repositorios trae binarios/dependencias antiguas pero muy bien probadas y seguras. Por ejemplo imagina que estas instalando `nmap` y esta requiere `libpcap v2` pero `wireshark` requiere especificamente `libpcap v1`, ahí esta el problema, incompatibilidad. Estos es solo un ejemplo pero es algo que puede pasarle a cualquiera. Anteriormente para instalar `eww`, el instalador usaba `Docker` por detras para poder mostrar los widgets en bspwm, lo cual es innecesario para un simple widget y ya. Ahora el instalador quita los repositorios de backports, actualiza tu sistema y cuando llega la hora de instalar `eww` el instalador se encarga de downgradear los paquetes que vea necesario para la instalación.
+
+**Rice Editor**
+
+Esta aplicación esta diseñada para simplificar drasticamente la personalización del entorno. Permite configurar la terminal `Kitty` en tiempo real sin reiniciar esta misma. Asimismo, me he dado la tarea de crear una libreria en `Python` llamada `CTkFileDialog` la cual esta hecha para poder cambiar tu fondo de pantalla sin necesidad de usar el dialogo de archivos que tkinter trae. Y claro, la libreria tiene 2 estilos, uno siendo el `Mini` y otro el `Original` pero eso no va al caso. Para mas información, visitar el [repositorio](https://github.com/FlickGMD/CTkFileDialog).
+
+**Menu contextual**
+
+Puedes hacer el clásico click derecho sobre la ventana y veras el clásico menu contextual para poder explorarlo por tu cuenta.
+
+**Bloqueador de pantalla**
+
+Este bloqueador de pantalla no es mio, es del señor gh0stzk. Pero para explicar en que consiste, tomara una captura de pantalla, la difuminara y la mostrara como pantalla de bloqueo hasta que escribas la contraseña.
+
+**Aplicaciones de Rofi**
+
+Aplicaciones de Rofi para optimizar tiempos:
+
+- Selector de fondos de pantalla (Propietario: gh0stzk)
+- Menu de apagado
+- Selector de Menu de apagado
+- Selector de aplicaciones
+
+**Configuración de Tmux**
+
+Esta configuración de Tmux no es mas que `Oh-My-Tmux` la cual sirve bastante para simplificar tu flujo de trabajo, dandote una mejor experiencia.
+
+**Configuración de Neovim**
+
+Configuración de Neovim usando NvChad, algo "compleja" pero potente:
+
+- [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim) — Formateador moderno
+- [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) — Configuración LSP para Neovim
+- [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp) — Autocompletado principal
+- [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp) — Fuente LSP para `nvim-cmp`
+- [hrsh7th/cmp-buffer](https://github.com/hrsh7th/cmp-buffer) — Fuente buffer para `nvim-cmp`
+- [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path) — Fuente de rutas para `nvim-cmp`
+- [hrsh7th/cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline) — Fuente de autocompletado para la línea de comandos
+- [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip) — Snippets engine moderno
+
+### 🎨 UI / Interfaz
+
+- [folke/snacks.nvim](https://github.com/folke/snacks.nvim) — UI mejorada (pickers, dashboard, indent guides)
+- [rcarriga/nvim-notify](https://github.com/rcarriga/nvim-notify) — Notificaciones emergentes en Neovim
+- [karb94/neoscroll.nvim](https://github.com/karb94/neoscroll.nvim) — Scroll suave para Neovim
+
+### ⚙️ Plugins de la comunidad `nvzone`
+
+- [nvzone/volt](https://github.com/nvzone/volt) — Base para otros plugins de `nvzone`
+- [nvzone/menu](https://github.com/nvzone/menu) — Menú personalizado
+- [nvzone/minty](https://github.com/nvzone/minty) — Comandos `Shades` y `Huefy` para temas
+- [nvzone/floaterm](https://github.com/nvzone/floaterm) — Terminal flotante
+- [nvzone/showkeys](https://github.com/nvzone/showkeys) — Muestra las teclas presionadas en pantalla
+- [nvzone/typr](https://github.com/nvzone/typr) — Plugin de escritura para mejorar velocidad/precisión
+- [nvzone/timerly](https://github.com/nvzone/timerly) — Temporizador y gestión de tiempo
+
+### 📝 Markdown
+
+- [MeanderingProgrammer/render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) — Renderizado visual de Markdown
+- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) — (Dependencia para el plugin de Markdown)
+- [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) — Iconos para archivos y UI
+
+**Configuración de ZSH**
+
+Esta configuración de zsh trata de ser minimalista y optima en cuanto a rendimiento respecta, no `Oh-My-Zsh` ni esas cosas. 
+
+Alguna de las caracteristicas que traera la `zsh`: 
+
+- `pyenv`: Función para instalar librerias de Python de forma automatizada en un entorno virtual.
+- Se excluyen los directorios `__pycache__` al ejecutar programas escritos en Python.
+- Resaltado de sintaxis 
+- Autocompletado con `Fzf`
+---
+
+<h2> 🎨 Lanzadores </h2>
+
+| Selector de Wallpapers |
+|--------|
+| ![Texto alternativo](https://github.com/user-attachments/assets/e98dca76-1fa2-4d39-bf31-9bbe5eec5ee8) | 
+
+| Selector de menu de apagado |
+|--------|
+| ![Texto](https://github.com/user-attachments/assets/2f155aa8-6c3a-43c5-bd82-87ffbca075fc) | 
+
+| Selector de aplicaciones |
+|--------|
+| ![Texto](https://github.com/user-attachments/assets/38cb4d28-74c6-441f-9021-da595211b67d) | 
+
+## Rice Editor
+
+https://github.com/user-attachments/assets/eb9d5044-49ad-46e7-98e2-ae28b41d2ccb
+
+
+
+## Eww widget
+
+| Calendario |
+|--------|
+| ![Texto](https://github.com/user-attachments/assets/2403efe5-81be-4e51-8d4d-b4383ec38b02) |
+
+## Bloqueador de pantalla 
+
+| ![Text](https://github.com/user-attachments/assets/297ae5e6-7327-4392-8535-2cad24d9a3af) |
+| :--------------------------------------------------------------------------------------------: |
+|                                           Bloqueador de pantalla                                           |
+
+
+## JGmenu
+
+| ![Text](https://github.com/user-attachments/assets/b110d84a-3ea4-4485-b92e-29522d966715) |
+| :--------------------------------------------------------------------------------------------: |
+|                                           JGmenu                                           |
+
+## Neovim Setup
+| ![NvimDots](https://github.com/user-attachments/assets/1f28719b-3d14-4dbb-9d7b-91869f7384be) |
+| :--------------------------------------------------------------------------------------------: |
+|                                           Neovim Setup                                           |
+
+> [!NOTE]
+> Si deseas ver todos los comandos posibles de Neovim (NvChad) puedes ejecutar en el cmd de nvim lo siguiente
+> ```lua
+> NvCheatsheet
+> ```
+> También se han añadido 3 atajos al Neovim. 
+> - `Click derecho` = Abrir menu contextual personalizado.
+> - `Ctrl + P` = Abrir el picker.
+> - `Ctrl + Alt + T` = Abrir la terminal flotante.
+
+---
+
+<h2> Atajos de teclado ⌨ </h2>
+
+| Combinación               | Acción                                                             |
+|--------------------------|--------------------------------------------------------------------|
+| Windows + Enter          | Abrir terminal                                            |
+| Windows + Shift + E      | Abrir Neovim                                          |
+| Windows + Shift + S      | Selector de tema de menu de apagado (Polybar)                                         |
+| Windows + Shift + O      | Abrir Obsidian                                                     |
+| Windows + Shift + X      | Bloquear pantalla                                                  |
+| Windows + D              | Abrir selector de aplicaciones                                             |
+| Windows + W              | Selector de wallpapers                                      |
+| Windows + Esc            | Recargar `sxhkd`                                                   |
+| Windows + Shift + F      | Abrir Firefox                                                      |
+| Windows + Shift + Q      | Salir de BSPWM                                                     |
+| Windows + Shift + R      | Reiniciar BSPWM                                                    |
+| Windows + Q              | Cerrar ventana                                                     |
+| Windows + Shift + Q      | Forzar cierre de ventana                                           |
+| Windows + M              | Alternar modo monocromo (layout)                                   |
+| Windows + Y              | Traer ventana marcada                                              |
+| Windows + G              | Enviar ventana al más grande                                       |
+| Windows + T              | Establecer modo Tiled                                              |
+| Windows + Shift + T      | Establecer modo Pseudo-Tiled                                       |
+| Windows + S              | Establecer modo Floating                                           |
+| Windows + F              | Establecer modo Pantalla completa                                  |
+| Windows + Ctrl + M       | Marcar ventana                                                     |
+| Windows + Ctrl + X       | Bloquear ventana                                                   |
+| Windows + Ctrl + Y       | Hacer ventana "sticky"                                             |
+| Windows + Ctrl + Z       | Hacer ventana privada                                              |
+| Windows + ← ↓ ↑ →        | Mover foco entre ventanas                                          |
+| Windows + Shift + ← ↓ ↑ →| Mover ventana                                                      |
+| Windows + Alt + ← ↓ ↑ →  | Redimensionar ventana                        |
+| Windows + Ctrl + Alt + ← ↓ ↑ → | Preselección para mover ventana                          |
+| Windows + Ctrl + Alt + Espacio | Cancelar preselección                                   |
+| Windows + Ctrl + Shift + Espacio | Cancelar todas las preselecciones del escritorio actual |
+| Windows + P              | Foco al padre                                                      |
+| Windows + B              | Foco al hermano                                                    |
+| Windows + ,              | Foco al primero                                                    |
+| Windows + .              | Foco al segundo                                                    |
+| Windows + C              | Foco siguiente ventana                                             |
+| Windows + Shift + C      | Foco ventana anterior                                              |
+| Windows + [              | Ir al escritorio anterior                                          |
+| Windows + ]              | Ir al escritorio siguiente                                         |
+| Windows + `              | Ir al último nodo activo                                           |
+| Windows + Tab            | Ir al último escritorio activo                                     |
+| Windows + O              | Foco a ventana más antigua                                         |
+| Windows + I              | Foco a ventana más reciente                                        |
+| Windows + (1–9, 0)       | Cambiar de escritorio                                              |
+| Windows + Shift + (1–9, 0)| Mover ventana al escritorio                                       |
+| Windows + Ctrl + (1–9)   | Crear ventana fantasma en escritorio                               |
+| Windows + A              | Tomar captura y copiarla al portapapeles              |
+| Click derecho (mouse)    | Mostrar menú contextual con jgmenu                                 |
+
+
+---
+
+## 👀 Instalación
+
+> [!NOTE]
+> Este script esta pensado para funcionar en Kali Linux y Parrot OS, posiblemente funcione en un debian limpio. Pero realmente no funcionaria en otra distribución, si deseas bajarte los dotfiles y usas otra distro tal vez deberias hacerlo de forma manual.
+
+> [!CAUTION]
+> Mis archivos de configuración estan pensados para monitores 1920x1080 usando 96 de DPI. Si usas una resolución mas baja o DPI mas bajo, deberas de ajustar los archivos de configuración de forma manual.
+
+```bash
+# Clonamos el repositorio
 git clone https://github.com/FlickGMD/AutoBSPWM.git
+
+# Navegamos al directorio
 cd AutoBSPWM
+
+# Ejecutamos el instalador 
 ./Install.sh
 ```
-- Este script esta diseñado, para que estes en la ruta que estes, se ejecute correctamente.
-- Este script es funcional tanto en Kali Linux como en Parrot OS 
-- Aún hay cambios experimentales en el script, pero no duraran mucho.
 
----
-
-##### Sugerencias por parte del Editor
-
-![image](https://github.com/user-attachments/assets/3f9dd2c3-db49-41d0-ab53-b5d5bc68df7e)
-
-#### Mensajes de advertencia 
-
-![image](https://github.com/user-attachments/assets/fbb5de54-9bf9-4230-8a9a-539f39436009)
-
-
----
-
-#### Neofetch 'casero' 
-
-[Creador original](https://github.com/gh0stzk/) del 'Neofetch' casero.
-
-![image](https://github.com/user-attachments/assets/54146710-9b44-4687-9716-ceb01954b980)
-
----
-
-#### Modulo para actualizar el sistema
-
-![image](https://github.com/user-attachments/assets/6abfaba9-3395-429c-b829-aaa77d58fa67)
-
-
----
-#### Eventos clicables en todos los modulos de la Polybar
-![image](https://github.com/user-attachments/assets/4a9ff273-790f-4bf1-9588-3ba7a76fbf56)
-
-
----
-#### Editor de BSPWM 
-<img width="800" height="450" alt="image" src="https://github.com/user-attachments/assets/bd4f60d1-9a1f-47ef-8bd0-1a257a280f84" />
-
-Este editor esta hecho en customtkinter usando librerias como [CTkColorPicker](https://github.com/Akascape/CTkColorPicker) y [CTkFileDialog](https://github.com/FlickGMD/CTkFileDialog/). Pero, por qué usar un editor? 
-El editor se hizo con el fin de hacer una personalización mas sencilla, algo mas amigable para el usuario nuevo de Linux. Puedes editar todas las configuraciones que quieras, y cuando quieras regresarlo a la normalidad ahi tendras una opción para ello, diviertete!
-
----
-
-**Menu de apagado**
-
-<img width="1859" height="334" alt="image" src="https://github.com/user-attachments/assets/21b15942-b0f2-4fbc-ba54-6e87178d425c" />
-
-Este menú cuenta con 4 opciones. 
-- Bloquear el sistema usando i3lock
-- Apagar el sistema usando systemctl
-- Salir de la sesión actual de bspwm
-- Reiniciar el sistema 
-
----
-### Dunst 
-
-<img width="316" height="102" alt="image" src="https://github.com/user-attachments/assets/d3cdbda7-0920-414f-931b-851919453ab7" />
-
-Un simple demonio para notificaciones del sistema
-
-**Calendario**
-
-Creador original del [calendario](https://github.com/gh0stzk/dotfiles)
-
-![image](https://github.com/user-attachments/assets/c2170dce-c22f-420a-b641-1ebb7fdf5e03)
-
-
----
-
-### Selector de fondos de pantalla 
-
-<img width="1902" height="373" alt="image" src="https://github.com/user-attachments/assets/4206172b-4ba2-4dde-ad22-3379b7691319" />
-
-Creador original del [selector](https://github.com/gh0stzk)
-
-Si quieres meterle mas fondos de pantalla para ser mostrados en el selector debes de irte a ~/Imágenes/wallpapers y ahi meter tu fondo de pantalla.
-
----
-### Sudo PROMPT
-
-<img width="1850" height="117" alt="image" src="https://github.com/user-attachments/assets/e534eabf-95cc-428c-b7c4-d07ab05631fa" />
-
----
-### Bloqueador de pantalla 
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0c566a88-4155-4ed2-b1b0-f569a078ae13" />
-
-Creador original del [bloqueador](https://github.com/gh0stzk)
-
----
-# Resultado *(Kali Linux)*
-![image](https://github.com/user-attachments/assets/81e5eeba-36c8-4f31-8022-4d0c569b5b8d)
-
-
-
-# Resultado *(Parrot OS)*
-![image](https://github.com/user-attachments/assets/523cfb9b-6118-4db5-8604-30d61e7cf3d0)
-
-
-
----
-# Scripts
-
-### WhichSystem
-
-<img width="1863" height="636" alt="image" src="https://github.com/user-attachments/assets/5d8dff7a-dd4c-4860-b18c-814b59962fec" />
-
-Un simple script de bash, que se metio a la **".zshrc"**.
-
-
-
-### [S4vimachines.sh](https://github.com/FlickGMD/s4vimachines.sh) **(Buscador de máquinas)**
-
-![image](https://github.com/user-attachments/assets/c43de338-d4bf-4bfd-9e56-fdb5976013f6)
-
-
----
-
-
-# Atajos de teclado
-
-| Atajo                        | Comando / Acción                                                        |
-|-----------------------------|---------------------------------------------------------------------------|
-| Win + Enter                 | `kitty` – Abre el emulador de terminal                                  |
-| Win + Shift + o             | `obsidian` – Abre la aplicación de notas Obsidian                       |
-| Win + Shift + x             | `i3lock-fancy` – Bloquea la pantalla                                    |
-| Win + d                     | `rofi -show drun` – Abre el lanzador de aplicaciones                    |
-| Win + Escape                | `pkill -USR1 -x sxhkd` – Recarga la configuración de atajos (sxhkd)     |
-| Win + Shift + f             | `firefox` – Abre el navegador Firefox                                   |
-| Win + Shift + q             | Cierra BSPWM                                                            |
-| Win + Shift + r             | Reinicia BSPWM                                                          |
-| Win + q                     | Cierra la ventana actual                                                |
-| Win + m                     | Alterna entre modo en mosaico y pantalla completa                       |
-| Win + y                     | Mueve una ventana marcada a otra posición                               |
-| Win + g                     | Intercambia con la ventana más grande                                   |
-| Win + t                     | Establece la ventana como en mosaico (`tiled`)                          |
-| Win + Shift + t             | Establece modo pseudo-tiled                                             |
-| Win + s                     | Cambia a modo flotante                                                  |
-| Win + f                     | Cambia a pantalla completa                                              |
-| Win + Ctrl + m              | Marca la ventana                                                        |
-| Win + Ctrl + x              | Bloquea la ventana (impide moverla o redimensionarla)                   |
-| Win + Ctrl + y              | Hace que la ventana sea visible en todos los escritorios (sticky)       |
-| Win + Ctrl + z              | Marca la ventana como privada                                           |
-| Win + ← / ↓ / ↑ / →         | Mueve el foco entre ventanas en esa dirección                          |
-| Win + Shift + ← ↓ ↑ →       | Intercambia la posición con otra ventana en esa dirección               |
-| Win + p                     | Mueve el foco al nodo padre                                             |
-| Win + b                     | Mueve el foco al "hermano" (ventana paralela)                           |
-| Win + ,                     | Mueve el foco al primer nodo                                            |
-| Win + .                     | Mueve el foco al segundo nodo                                           |
-| Win + c / Shift + c         | Mueve el foco al nodo siguiente / anterior del escritorio               |
-| Win + [ / ]                 | Cambia al siguiente / anterior nodo en el escritorio actual             |
-| Win + ` / Tab               | Foco al último nodo / escritorio usado                                 |
-| Win + o / i                 | Foco a la ventana más antigua / más reciente                           |
-| Win + {1-9,0}               | Cambia al escritorio correspondiente                                    |
-| Win + Shift + {1-9,0}       | Mueve la ventana al escritorio correspondiente                          |
-| Win + Ctrl + Alt + ← ↓ ↑ → | Preselecciona dirección para próxima división de ventana                |
-| Win + Ctrl + {1-9}          | Establece proporción del espacio para próxima ventana                   |
-| Win + Ctrl + Alt + Space    | Cancela la preselección del nodo actual                                 |
-| Win + Ctrl + Shift + Space  | Cancela la preselección del escritorio                                  |
-| Win + Shift + ← ↓ ↑ →       | Mueve una ventana flotante                                              |
-| Win + Alt + ← ↓ ↑ →         | Redimensiona la ventana (con script `bspwm_resize`)                     |
-| Win + a                     | Hace captura con `flameshot`, la guarda y copia al portapapeles         |
-
-
-**Un saludo a nuestro gran amigo S4vitar :)) y a ZLCube que fue de quien me inspire para este proyecto desde un principio. Cualquier problema que tengan no duden en contactarme a discord como pwnedbyme**
-
----
-
-### Problemas y errores comunes
+## 😵‍💫 Problemas y errores comunes
 
 Si por desgracia llegas a tener algún error, puedes visitar el gitbook de pylon. Ahí encontraras solución a varios de los problemas que pueden surgir en bspwm.
 

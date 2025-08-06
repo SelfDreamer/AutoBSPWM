@@ -11,7 +11,7 @@
 <div align = center>
 
 &ensp;[<kbd> <br> Instalación <br> </kbd>](#-Instalación)&ensp;
-&ensp;[<kbd> <br> Atajos <br> </kbd>](#atajos-de-teclado-)&ensp;
+&ensp;[<kbd> <br> Atajos <br> </kbd>](#-atajos-de-teclado--)&ensp;
 &ensp;[<kbd> <br> Caracteristicas <br> </kbd>](#--bienvenido)&ensp;
 <br><br><br></div>
 

@@ -2,7 +2,7 @@
 <h1 style="text-align: center;">Entorno de administrador de ventanas BSPWM completo</h1>
 
 <div style="text-align: center;">
-  <img src="https://github.com/user-attachments/assets/c6855519-d308-4d2f-a117-a2dc4d84f09b" alt="Imagen" style="border-radius: 10px; width: 1000px;">>
+  <img src="https://github.com/user-attachments/assets/c6855519-d308-4d2f-a117-a2dc4d84f09b" alt="Imagen" style="border-radius: 10px; width: 1000px;">
 </div>
 
 ---

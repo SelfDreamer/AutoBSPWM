@@ -26,6 +26,8 @@ Estos archivos de configuración fueron hechos para proporcionar un entorno `BSP
 ---
 ## 🚀 Características 
 
+<img src="https://github.com/user-attachments/assets/a899f11a-5bc4-4bd1-8980-7b9d2a3701c5" alt="Fatfetch" align="right" width="450">
+
 **Rendimiento**
 
 BSPWM se destaca principalmente por ser minimalista y tener un rendimiento optimizado. Si bien es cierto que existe actualmente `Wayland` que consigo esta `Hyprland` que es mucho mas popular y tiene consigo muchas mas posibilidades que BSPWM, estos archivos de configuración consumiran mucho menos de `800MB` al iniciar. Como se dijo anteriormente, un entorno con `Hyprland` tiene mucha mas escala a nivel de estetica, pero es que esos entornos comenzarian consumiendo `1GB` o mas al arrancar.

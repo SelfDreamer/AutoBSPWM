@@ -5,6 +5,16 @@
   <img src="https://github.com/user-attachments/assets/c6855519-d308-4d2f-a117-a2dc4d84f09b" alt="Imagen" style="border-radius: 10px; width: 1000px;">
 </div>
 
+<br>
+
+
+<div align = center>
+
+&ensp;[<kbd> <br> Instalación <br> </kbd>](#-Instalación)&ensp;
+&ensp;[<kbd> <br> Atajos <br> </kbd>](#atajos-de-teclado-)&ensp;
+&ensp;[<kbd> <br> Caracteristicas <br> </kbd>](#--bienvenido)&ensp;
+<br><br><br></div>
+
 ---
 
 <h3> 👋 Bienvenido</h3>

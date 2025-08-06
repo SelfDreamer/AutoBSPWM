@@ -54,6 +54,18 @@ Puedes hacer el clásico click derecho sobre la ventana y veras el clásico menu
 
 Este bloqueador de pantalla no es mio, es del señor gh0stzk. Pero para explicar en que consiste, tomara una captura de pantalla, la difuminara y la mostrara como pantalla de bloqueo hasta que escribas la contraseña.
 
+**Polybar**
+Esta polybar cuenta con 8 modulos y todos ellos reaccionan al click, a continuación cada modulo. 
+
+- `log`: Icono de Arch Linux el cual sera una recreación de fastfetch en una ventana flotante de Kitty.
+- `ethernet_status`: Modulo para mostrar la dirección IP, esta no depende de que le indiques tu interfaz porque internamente los scripts ya lo hacen. Al hacer click sobre este modulo se copiara a la clipboard la dirección IP notificando al usuario la acción hecha anteriormente.
+- `vpn_status`: Modulo para mostrar la dirección IP que le puede otorgar una VPN al usuario, puede ser la de `Hack The Box`, `Try Hack Me` u otra plataforma. Al hacer click, se le notificara al usuario que ha copiado la dirección IP correspondiente y se copiara a la clipboard.
+- `updates`: Modulo para obtener el numero de paquetes a actualizar, las versiones de paquetes junto a las nuevas que vienen. Al hacer click sobre este modulo se abrira una ventana flotante con Kitty que pedira tu contraseña para hacer esta acción.   
+- `date`: Modulo de Polybar para mostrar la hora y la fecha actual de tú máquina. Al hacer click sobre el icono del calendario se abrira un widget de `eww` el cual es del gh0stzk.
+- `target_to_hack`: Modulo de Polybar para fijar un target a la hora de realizar pruebas de penetración. Al hacer click sobre este se copiara a la clipboard la IP de el target y se notificara al usuario.
+- `primary`: Modulo de Polybar para mostrar el menu de apagado, este contara con 4 opciones. (`Bloquear`, `Apagar`, `Salir`, `Reiniciar`)
+- `prinipal_bar`: Sera el frame principal que contenera todas las otras barras dentro como widgets dentro de un frame.
+
 **Aplicaciones de Rofi**
 
 Aplicaciones de Rofi para optimizar tiempos:

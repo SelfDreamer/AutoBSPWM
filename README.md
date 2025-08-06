@@ -128,7 +128,8 @@ Alguna de las caracteristicas que traera la `zsh`:
 
 ## Rice Editor
 
-[RiceEditor](./Images/Videos/RiceEditor.mp4)
+https://github.com/user-attachments/assets/d1bdaa69-cabf-4d6b-96d9-fffe9f8e3928
+
 
 
 ## Eww widget

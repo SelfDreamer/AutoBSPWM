@@ -2,7 +2,7 @@
 <h1 style="text-align: center;">Entorno de administrador de ventanas BSPWM completo</h1>
 
 <div style="text-align: center;">
-  <img src="https://github.com/user-attachments/assets/c6855519-d308-4d2f-a117-a2dc4d84f09b" alt="Imagen" style="border-radius: 10px; width: 1000px;">
+  <img src="./Images/main.jpg" alt="Imagen" style="border-radius: 10px; width: 1000px;">
 </div>
 
 <br>
@@ -116,43 +116,42 @@ Alguna de las caracteristicas que traera la `zsh`:
 
 | Selector de Wallpapers |
 |--------|
-| ![Texto alternativo](https://github.com/user-attachments/assets/e98dca76-1fa2-4d39-bf31-9bbe5eec5ee8) | 
+| ![WallSelector](./Images/WallSelector.jpg) | 
 
 | Selector de menu de apagado |
 |--------|
-| ![Texto](https://github.com/user-attachments/assets/2f155aa8-6c3a-43c5-bd82-87ffbca075fc) | 
+| ![PowerMenu](./Images/PowerMenuSelector.jpg) | 
 
 | Selector de aplicaciones |
 |--------|
-| ![Texto](https://github.com/user-attachments/assets/38cb4d28-74c6-441f-9021-da595211b67d) | 
+| ![Rofi](./Images/AppSelector.jpg) | 
 
 ## Rice Editor
 
-https://github.com/user-attachments/assets/eb9d5044-49ad-46e7-98e2-ae28b41d2ccb
-
+[RiceEditor](./Images/Videos/RiceEditor.mp4)
 
 
 ## Eww widget
 
 | Calendario |
 |--------|
-| ![Texto](https://github.com/user-attachments/assets/2403efe5-81be-4e51-8d4d-b4383ec38b02) |
+| ![Eww](./Images/ewwCalendar.jpg) |
 
 ## Bloqueador de pantalla 
 
-| ![Text](https://github.com/user-attachments/assets/297ae5e6-7327-4392-8535-2cad24d9a3af) |
+| ![BLockScreen](./Images/Videos/BLockScreen.gif) |
 | :--------------------------------------------------------------------------------------------: |
 |                                           Bloqueador de pantalla                                           |
 
 
 ## JGmenu
 
-| ![Text](https://github.com/user-attachments/assets/b110d84a-3ea4-4485-b92e-29522d966715) |
+| ![JgMenu](./Images/JGMenu.jpg) |
 | :--------------------------------------------------------------------------------------------: |
 |                                           JGmenu                                           |
 
 ## Neovim Setup
-| ![NvimDots](https://github.com/user-attachments/assets/1f28719b-3d14-4dbb-9d7b-91869f7384be) |
+| ![NvimDots](./Images/Videos/nvimSetup.gif) |
 | :--------------------------------------------------------------------------------------------: |
 |                                           Neovim Setup                                           |
 

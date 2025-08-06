@@ -55,6 +55,7 @@ Puedes hacer el clásico click derecho sobre la ventana y veras el clásico menu
 Este bloqueador de pantalla no es mio, es del señor gh0stzk. Pero para explicar en que consiste, tomara una captura de pantalla, la difuminara y la mostrara como pantalla de bloqueo hasta que escribas la contraseña.
 
 **Polybar**
+
 Esta polybar cuenta con 8 modulos y todos ellos reaccionan al click, a continuación cada modulo. 
 
 - `log`: Icono de Arch Linux el cual sera una recreación de fastfetch en una ventana flotante de Kitty.

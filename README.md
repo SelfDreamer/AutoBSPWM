@@ -44,7 +44,7 @@ Asimismo, me he topado con uno de los grandes problemas a la hora de realizar es
 
 **Rice Editor**
 
-Esta aplicación esta diseñada para simplificar drasticamente la personalización del entorno. Permite configurar la terminal `Kitty` en tiempo real sin reiniciar esta misma. Asimismo, me he dado la tarea de crear una libreria en `Python` llamada `CTkFileDialog` la cual esta hecha para poder cambiar tu fondo de pantalla sin necesidad de usar el dialogo de archivos que tkinter trae. Y claro, la libreria tiene 2 estilos, uno siendo el `Mini` y otro el `Original` pero eso no va al caso. Para mas información, visitar el [repositorio](https://github.com/FlickGMD/CTkFileDialog).
+Esta aplicación esta diseñada para simplificar drasticamente la personalización del entorno. Permite configurar la terminal `Kitty` en tiempo real sin reiniciar esta misma. Asimismo, me he dado la tarea de crear una libreria en `Python` llamada `CTkFileDialog` la cual esta hecha para poder cambiar tu fondo de pantalla sin necesidad de usar el dialogo de archivos que tkinter trae. Y claro, la libreria tiene 2 estilos, uno siendo el `Mini` y otro el `Original` pero eso no va al caso. Para mas información, visitar el [repositorio](https://github.com/SelfDreamer/CTkFileDialog).
 
 **Menu contextual**
 
@@ -248,7 +248,7 @@ https://github.com/user-attachments/assets/d1bdaa69-cabf-4d6b-96d9-fffe9f8e3928
 
 ```bash
 # Clonamos el repositorio
-git clone https://github.com/FlickGMD/AutoBSPWM.git
+git clone https://github.com/SelfDreamer/AutoBSPWM.git
 
 # Navegamos al directorio
 cd AutoBSPWM

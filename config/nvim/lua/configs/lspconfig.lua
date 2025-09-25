@@ -1,17 +1,6 @@
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
-local lspconfig = require "lspconfig"
-
--- list of all servers configured.
-lspconfig.servers = {
-  "bashls",
-  "lua_ls",
-  "basedpyright",
-  "clangd",
-  "rust_analyzer",
-  "intelephense",
-}
 
 -- list of servers configured with default config.
 local default_servers = {
@@ -23,16 +12,15 @@ local default_servers = {
 
 -- lsps with default config
 for _, lsp in ipairs(default_servers) do
-  lspconfig[lsp].setup {
+  vim.lsp.config(lsp, {
     on_attach = on_attach,
     on_init = on_init,
     capabilities = capabilities,
-  }
+  })
 end
 
-
 -- PHP
-lspconfig.intelephense.setup {
+vim.lsp.config("intelephense", { -- Php language server 
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
@@ -44,25 +32,23 @@ lspconfig.intelephense.setup {
       },
     },
   },
-}
+})
 
-lspconfig.bashls.setup {
+vim.lsp.config("bashls", { -- Bash language server 
   cmd_env = { LANG = "es_ES.UTF-8" },
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
-}
+})
 
-lspconfig.lua_ls.setup {
+vim.lsp.config("lua_ls", { -- lua language server 
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
-
   settings = {
     Lua = {
       diagnostics = {
-        enable = false, 
-
+        enable = false,
       },
       workspace = {
         library = {
@@ -77,22 +63,20 @@ lspconfig.lua_ls.setup {
       },
     },
   },
-}
+})
 
-lspconfig.basedpyright.setup {
+vim.lsp.config("basedpyright", { -- Python language server 
   on_attach = on_attach,
-  capabilities = capabilities,
   on_init = on_init,
+  capabilities = capabilities,
   settings = {
     basedpyright = {
-
       typeCheckingMode = "standard",
     },
   },
-}
+})
 
-lspconfig.clangd.setup {
-
+vim.lsp.config("clangd", { -- "C" language server 
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
@@ -100,9 +84,9 @@ lspconfig.clangd.setup {
     "clangd",
     "--offset-encoding=utf-16",
   },
-}
+})
 
-lspconfig.rust_analyzer.setup {
+vim.lsp.config("rust_analyzer", { -- rust language server 
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
@@ -113,4 +97,19 @@ lspconfig.rust_analyzer.setup {
       },
     },
   },
-}
+})
+
+for _, lsp in ipairs({
+  "html",
+  "cssls",
+  "vtsls",
+  "marksman",
+  "intelephense",
+  "bashls",
+  "lua_ls",
+  "basedpyright",
+  "clangd",
+  "rust_analyzer",
+}) do
+  vim.lsp.enable(lsp)
+end

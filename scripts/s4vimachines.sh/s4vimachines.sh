@@ -1,12 +1,16 @@
 #!/bin/bash
 
-ruta=$(realpath $0 | rev | cut -d'/' -f2- | rev)
-cd $ruta
+ruta=$(realpath ${0} | rev | cut -d'/' -f2- | rev)
+cd "${ruta}" || exit 1 
+SELF=${0##*/}
 # Colors
 source Colors.sh
 source ./variables/global_variables.sh
 
-function def_handler(){
+[[ ! -d "${DIRECTORY}" ]] && mkdir -p "${DIRECTORY}"
+
+function def_handler(){ 
+  exec 3>&-
   echo -e "\n${bright_red}[!] Saliendo del programa...${end}\n\n"
   [[ -f $results  ]] && rm $results
   [[ -f $TMP_ARCHIVE ]] && rm $TMP_ARCHIVE
@@ -28,7 +32,7 @@ function banner(){
      %%%%%%%%               %%%%%%%%
      %%   %%%%%%%      .%%%%%%%  %%%
      %%       #%%%%%%%%%%%#      %%%    ${bright_white}s4vimachines - (infosec) Terminal Client${bright_green}
-     %%           %%%%#          %%%    ${bright_blue}\t\t        by Flick${bright_red} <3${end}${bright_green}
+     %%           %%%%#          %%%    ${bright_blue}\t\t        by dreamer${bright_red} <3${end}${bright_green}
      %%            %%%           %%%     
      %%            %%%           %%%
      %%%%%         %%%          %%%%
@@ -45,65 +49,75 @@ function getInfo(){
   echo -ne "${bright_white}Total machines: ${end}"; tput setaf 6; cat $PATH_ARCHIVE | tail -n 6 | grep -oP "\d{1,3}" | xargs | sed 's| |+|g' | bc; echo
 
   declare -i color=1 
-  cat $PATH_ARCHIVE | tail -n 6 | grep -Pi "totalMachines.*" -A 3 | sed 's/htb/HackTheBox (htb)/' | sed 's/vuln/VulnHub (vuln)/' | sed 's/swigger/PortSwigger (swigger)/' | tail -n3  | sed 's/^ *//g' | while read line; do 
+  tail -n 6 "${PATH_ARCHIVE}" | grep -Pi "totalMachines.*" -A 3 | sed 's/htb/HackTheBox (htb)/' | sed 's/vuln/VulnHub (vuln)/' | sed 's/swigger/PortSwigger (swigger)/' | tail -n3  | sed 's/^ *//g' | while read line; do 
     ((color+=1)); tput setaf $color; echo "$line" 
   done
 
+  printf "%bHTB-Challenge: Comming soon%b\n" "${bright_magenta}" "${end}"
   echo
 }
 
 
 function helpPanel(){
-  local total_machines=$(cat $PATH_ARCHIVE  | grep -i Total -A 4 | grep -oP "\d{1,3}" | xargs | sed 's/ /+/g' | bc)
-    if [[ ! $exclude_banner == true ]]; then
-        banner
-        getInfo
+  $exclude_banner && exec 3>/dev/null || exec 3>&1 
+  local total_machines=$(grep -i Total -A 4 "${PATH_ARCHIVE}" | grep -oP "\d{1,3}" | xargs | sed 's/ /+/g' | bc)
+    
+  banner >&3 
+  getInfo >&3
 
-        for i in $(seq 1 80); do echo -ne "${bright_red}-"; done; echo -ne "${end}"
-        echo
-    fi
-    echo -e "\n${bright_white}Modo de uso: [$(realpath $0)] [PARAMETROS] [ARGUMENTOS]${end}"
-  echo -e "\t${bright_white}-h(help): Mostrar el manual de ayuda.${end}"
+  for _ in $(seq 1 80); do
+    echo -ne "${bright_red}-" >&3 
+  done; 
 
-  echo -e "\n${bright_white}Actualizaciones y dependencias${end}"
-  echo -e "\t${bright_white}-u(update): Actualizar dependencias${end}"
+  echo -ne "${end}" 
 
-  echo -e "\n${bright_white}Listar máquinas y/o propiedades.${end}"
-  echo -e "\t${bright_white}-m(machine): Mostrar las propiedades de una máquina.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -m 'Multimaster'${end}\n"
-  echo -e "\t${bright_white}-i(ip_addr): Mostrar máquinas por la dirección IP.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -i '10.10.10.179'${end}\n"
-  echo -e "\t${bright_white}-d(difficulty): Mostrar máquinas por una dificultad dada.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -d 'Insane'${end}\n"
-  echo -e "\t${bright_white}-o(osSystem): Mostrar máquinas por un sistema operativo dado.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -o 'Windows'${end}\n"
-  echo -e "\t${bright_white}-w(writeup): Mostrar el enlace a la resolución de una máquina${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -w 'Multimaster'${end}\n"
-  echo -e "\t${bright_white}-s(skill): Listar máquinas por skill${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -s 'SQLI'${end}\n"
-  echo -e "\t${bright_white}-p(platform): Listar todas las máquinas de una plataforma${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -p 'HackTheBox'${end}\n"
-  echo -e "\t${bright_white}-c(certificate): Listar todas las máquinas que dispongan de uno o mas certificados${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -c 'OSCP OSWE OSEP'${end}\n"
-  echo -e "\t${bright_white}-A(Advanced Search): Realizar una busqueda avanzada.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -A 'Unicode Sqli Insane windows oscp oswe'${end}\n"
-  echo -e "\t${bright_white}-a(all): Listar todas las máquinas existentes.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -a${end}\n"
+  echo -e "\n" >&3
 
-  echo -e "${bright_white}Extras${end}"
-  echo -e "\t${bright_white}-r(random): Modo de elección aleatorio. El script elegira una máquina al azar por ti.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -r${end}\n"
-  echo -e "\t${bright_white}-v(verbose): Activar el modo verbose${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -u -v${end}\n"
-  echo -e "\t${bright_white}-y(yes): Confirmar cada acción que dependa de una confirmación de usuario (sirve también para iterar por cada máquina)${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -u -y${end} ${bright_white}| s4vimachines.sh ${bright_yellow}-A 'CSRF'${bright_white} -y${end}\n"
-  echo -e "\t${bright_white}-t(translate): Traducir el output a un idioma especifico.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -m 'Tentacle'${bright_yellow} -t${bright_white} 'es'${end}\n"
-  echo -e "\t${bright_white}-b(browser): Abrir el writeup de una máquina, en un navegador especifico.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -w 'Tentacle'${bright_yellow} -b${bright_white} '' (Navegador por default: ${bright_yellow}firefox${bright_white})\n"
-  echo -e "\t${bright_white}-x(exclude banner): No mostrar el banner en el panel de ayida.${end}"
-  echo -e "\t${bright_cyan}[Ejemplo]${bright_white} $0${bright_yellow} -x${end}\n"
+  HELP="""\n${bright_white}Modo de uso: [${SELF}] [PARAMETROS] [ARGUMENTOS]${end}
+  \t${bright_yellow}-h${bright_magenta}(help)${bright_white}: Mostrar el manual de ayuda.${end}
 
+  \n${bright_white}Actualizaciones y dependencias:${end}
+  \t${bright_yellow}-u${bright_magenta}(update):${bright_white} Actualizar dependencias${end}
+
+  \n${bright_white}Listar máquinas y/o propiedades:${end}
+  \t${bright_yellow}-m${bright_magenta}(machine):${bright_white} Mostrar las propiedades de una máquina.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -m 'Multimaster'${end}\n
+  \t${bright_yellow}-i${bright_magenta}(ip_addr):${bright_white} Mostrar máquinas por la dirección IP.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -i '10.10.10.179'${end}\n
+  \t${bright_yellow}-d${bright_magenta}(difficulty):${bright_white} Mostrar máquinas por una dificultad dada.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -d 'Insane'${end}\n
+  \t${bright_yellow}-o${bright_magenta}(osSystem):${bright_white} Mostrar máquinas por un sistema operativo dado.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -o 'Windows'${end}\n
+  \t${bright_yellow}-w${bright_magenta}(writeup):${bright_white} Mostrar el enlace a la resolución de una máquina${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -w 'Multimaster'${end}\n
+  \t${bright_yellow}-s${bright_magenta}(skill):${bright_white} Listar máquinas por skill${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -s 'SQLI'${end}\n
+  \t${bright_yellow}-p${bright_magenta}(platform):${bright_white} Listar todas las máquinas de una plataforma${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -p 'HackTheBox'${end}\n
+  \t${bright_yellow}-c${bright_magenta}(certificate):${bright_white} Listar todas las máquinas que dispongan de uno o mas certificados${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -c 'OSCP OSWE OSEP'${end}\n
+  \t${bright_yellow}-A${bright_magenta}(Advanced Search):${bright_white} Realizar una busqueda avanzada.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -A 'Unicode Sqli Insane windows oscp oswe'${end}\n
+  \t${bright_yellow}-a${bright_magenta}(all):${bright_white} Listar todas las máquinas existentes.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -a${end}\n
+
+  ${bright_white}Extras:${end}
+  \t${bright_yellow}-r${bright_magenta}(random):${bright_white} Modo de elección aleatorio. El script elegira una máquina al azar por ti.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -r${end}\n
+  \t${bright_yellow}-v${bright_magenta}(verbose):${bright_white} Activar el modo verbose${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -u -v${end}\n
+  \t${bright_yellow}-y${bright_magenta}(yes):${bright_white} Confirmar cada acción que dependa de una confirmación de usuario (sirve también para iterar por cada máquina)${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -u -y${end} ${bright_white}| s4vimachines.sh ${bright_yellow}-A 'CSRF'${bright_white} -y${end}\n
+  \t${bright_yellow}-t${bright_magenta}(translate):${bright_white} Traducir el output a un idioma especifico.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -m 'Tentacle'${bright_yellow} -t${bright_white} 'es'${end}\n
+  \t${bright_yellow}-b${bright_magenta}(browser):${bright_white} Abrir el writeup de una máquina, en un navegador especifico.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -w 'Tentacle'${bright_yellow} -b${bright_white} '' (Navegador por default: ${bright_yellow}firefox${bright_white})\n
+  \t${bright_yellow}-x${bright_magenta}(exclude banner):${bright_white} No mostrar el banner en el panel de ayida.${end}
+  \t${bright_cyan}[Ejemplo]${bright_white} ${SELF}${bright_yellow} -x${end}\n"""
+
+  printf "%b\n" "${HELP}"
+  
+  exec 3>&-
 
 }
 
@@ -112,13 +126,13 @@ function searchMachine(){
 
   machineName="$1"
 
-  if ! cat $PATH_ARCHIVE | grep -i "name: $machineName$" &>/dev/null; then
+  if ! grep -i "name: ${machineName}$" "${PATH_ARCHIVE}" &>/dev/null; then
     echo -e "${bright_red}\n[!] Error fatal: Máquina no encontrada ${end}${bg_bright_red}\"$machineName\"\n${end}"
     exit 1
   fi
  
   if [[ $show_output_translate == false ]]; then
-  output=$(cat $PATH_ARCHIVE| grep -i "name: $machineName$" -A 6 -B 1  | sed 's/^ *//g')
+  output=$(grep -i "name: ${machineName}$" "${PATH_ARCHIVE}" -A 6 -B 1  | sed 's/^ *//g')
 
     echo "$output" | while IFS= read -r line; do
       first_column=$(echo $line | awk '{print $1}')
@@ -277,69 +291,126 @@ function showLink(){
   path_writeup="Writeups/$writeup"
 }
 
-function updatefiles(){
- 
-  if [[ ! -f $PATH_ARCHIVE ]]; then
-      if [[ "$confirm_act" == false ]]; then
-        echo -en "\n${bright_cyan}[+]${bright_white} El archivo necesario ${bright_black}($PATH_ARCHIVE)${bright_white} no existe ¿Deseas descargarlo? (Y/n)${end} " && read -r yes_no
-        if [[ ! $yes_no =~ ^[Yy] && ! $yes_no =~ ^[Ss] ]]; then
-          echo -e "\n${bright_red}[!] Operación cancelada...${end}"
-          exit 1
-        fi
-      fi 
-      local size_file=$(curl -sI $url | awk '/content-length/ {printf "%.2f MB\n", $2/1024/1024}')
-      echo -e "\n${bright_white}Descargando archivo necesario de: ${bright_blue}$url\n${bright_white}Destino: ${bright_cyan}$PATH_ARCHIVE${bright_white}\nPeso estimado: ${bright_yellow}$size_file${end}"
-      curl -s -X GET $url | js-beautify > $PATH_ARCHIVE
-      /bin/cat $PATH_ARCHIVE | sed 's|\\n| |g' | tr -d "'" | tr -d '"' | tr -d ',' | sponge $PATH_ARCHIVE
-      /bin/cat $PATH_ARCHIVE | tr -d '{}[]'  | sed 's/^ *//' | sponge $PATH_ARCHIVE
-      echo -e "\n${bright_green}[+]${end}${bright_white} Archivo descargado correctamente.\n${end}"
-      exit 0
-  else
-    echo -e "\n${bright_cyan}[+]${bright_white} Estamos en busca de actualizaciones...${end}\n"
+function log(){
+  message="${1:-Este mensaje es de prueba}"
 
-      if [[ "$confirm_act" == false ]]; then
-        echo -en "${bright_green}[+]${bright_white} El archivo indicado ${bright_black}($PATH_ARCHIVE)${bright_white} ya existe ¿Estas seguro que deseas revisar si hay actualizaciones? (Y/n)${end} " && read -r yes_no
-        if [[ ! $yes_no =~ ^[Yy] && ! $yes_no =~ ^[Ss] ]]; then
-          echo -e "\n${bright_red}[!] Operación cancelada...${end}"
-          exit 1
-        fi
-      fi 
-    curl -s -X GET $url | js-beautify > $TMP_ARCHIVE
-    /bin/cat $TMP_ARCHIVE | sed 's|\\n| |g' | tr -d "'" | tr -d '"' | tr -d ',' | sponge $TMP_ARCHIVE
-    /bin/cat $TMP_ARCHIVE | tr -d '{}[]'  | sed 's/^ *//' | sponge $TMP_ARCHIVE
+  if ! "${verbose_mode}"; then 
+    return 
+  fi 
 
-    MD5_ORG=$(md5sum $PATH_ARCHIVE | awk '{print $1}') 
-    MD5_TEMP=$(md5sum $TMP_ARCHIVE | awk '{print $1}')
-
-    if [[ "$MD5_ORG" == "$MD5_TEMP" ]]; then
-      if [[ "$verbose_mode" == true ]]; then
-        echo -e "${bright_white}Valor MD5 del archivo original:${bright_blue} $MD5_ORG"
-        echo -e "${bright_white}Valor MD5 del archivo temporal a comparar:${bright_blue} $MD5_TEMP"
-      fi
-        echo -e "\n${bright_cyan}[+] ${bright_white}No hay actualizaciones disponibles de momento.${end}"
-        rm $TMP_ARCHIVE
-    else
-      if [[ "$verbose_mode" == true ]]; then
-        echo -e "${bright_white}Valor MD5 del archivo original:${bright_blue} $MD5_ORG"
-        echo -e "${bright_white}Valor MD5 del archivo temporal a comparar:${bright_blue} $MD5_TEMP"
-      fi
-
-      if [[ "$confirm_act" == false ]]; then
-        echo
-        echo -ne "${bright_cyan}[+]${bright_white} Se detecto una nueva actualización ¿Deseas continuar? (Y/n)${end} " && read -r yes_no
-          if [[ ! "$yes_no" =~ ^[SsYy]$ ]] && [[ ! -z "$yes_no" ]]; then          
-          echo -e "\n${bright_red}[!] Operación cancelada.${end}"
-          exit 1
-        fi
-      fi
-      echo -e "\n${bright_cyan}[+]${bright_white} Las actualizaciones se encontraron y se finalizaron.${end}"
-      rm $PATH_ARCHIVE && mv $TMP_ARCHIVE $PATH_ARCHIVE
-    fi
-
-  fi
+  echo -e "${message}"
 
 }
 
+function s4vidownload(){
+
+  dest="${1:-$PATH_ARCHIVE}" 
+
+  printf "\n"
+  
+  # Download the required file 
+  # Parameter -O indicates the Path (-o=output) 
+  # For example 
+  # wget https://downloadable.com/recurse.zip -O/path/to/file.zip 
+  # ---
+  #
+  # Parameter -nv (--no-verbose) then, wget just show the "necesary"
+  # Sorry if my english is so bad D:
+  
+  log "${bright_magenta}[+]${end}${bright_white} Extrayendo el archivo necesario de ${bright_blue}${url}${end}"
+
+  wget "${url}" -O"${dest}" -nv 
+  
+  log "${bright_magenta}[+]${end}${bright_white} Modificando el archivo con expresiones regulares...${end}"
+  
+  
+  # No coments here :)
+   
+  js-beautify "${dest}" | tr -d "'\",[]{}" \
+     | sed -E 's|\\n| |g; s/^ *//' | sponge "${dest}" 2>&1 
+
+}
+
+function s4viupdate(){
+  
+  printf "\n%b[+]%b %bEstamos en busca de actualizaciones...%b\n" "${bright_magenta}" "${end}" "${bright_white}" "${end}" 
+  
+  s4vidownload "${TMP_ARCHIVE}"
+
+  log "\n${bright_magenta}[+]${end} ${bright_white}Archivo ${bright_blue}${TMP_ARCHIVE##*/}${end}${bright_white} descargado y modificado con exito, se buscaran diferencias con ${bright_cyan}${PATH_ARCHIVE##*/}${end}\n"
+
+  if cmp "${PATH_ARCHIVE}" "${TMP_ARCHIVE}" --quiet; then 
+
+    log "\n${bright_magenta}[+]${end} ${bright_white}No se detectaron actualizaciones, estas al día!${end}"
+
+    rm "${TMP_ARCHIVE}"
+
+    return 0
+ 
+  fi 
+  
+  # There are updates! 
+
+  printf "%b[+]%b Actualizaciones encontradas y realizadas!%b\n" "${bright_magenta}" "${bright_white}" "${end}"
+  rm "${PATH_ARCHIVE}" && mv "${TMP_ARCHIVE}" "${PATH_ARCHIVE}"
+  
+}
+
+function updatefiles(){ 
+
+  tput civis
+
+  # File doesnt exists, then we will create an file with the necesary recourses!
+  local response
+
+  local update=false 
+  local download=false 
+
+  if [[ ! -f "${PATH_ARCHIVE}" ]]; then 
+    prompt="read -n 1 -p $'${bright_white}El archivo ${bright_blue}${PATH_ARCHIVE##*/}${bright_white} no fue encontrado ¿Deseas bajarte el archivo? (Y/n)${end} ' response"
+    download=true
+  elif [[ -f "${PATH_ARCHIVE}" ]]; then
+    prompt="read -n 1 -p $'${bright_white}El archivo ${bright_blue}${PATH_ARCHIVE##*/}${bright_white} existe ¿Deseas actualizarlo si lo requiere? (Y/n)${end} ' response"
+    update=true
+  fi
+
+
+  # Put an option (-y) if the user entered the -y parameter 
+  "${confirm_act}" && prompt="$prompt <<< 'y' "
+  
+  eval "${prompt}"
+
+  response=${response,,}
+  tput cnorm
+
+  [[ -z "${response}" ]] && printf "\n%b[!] Es necesario introducir una entrada de usuario valida!%b\n\n" "${bright_red}" "${end}" && return 1  
+
+  [[ "${response}" =~ ^[s] ]] && response="y"
+  
+  declare -A options=(
+    ["y"]="true"
+    ["n"]="echo -e \"\n${bright_red}[!] Operación cancelada por $USER\n${end}\"; exit 1"
+    )
+
+
+  [[ ! "${response}" =~ ^[yn] ]] && printf "\n%b[!] Opción desconocida!%b\n\n" "${bright_red}" "${end}" && return 1  
+
+
+  cmd="${options["${response}"]}"
+
+  bash -c "${cmd}" || return 1 
+
+  printf "\n"
+
+  if ${download}; then 
+    echo -e "\n${bright_magenta}[+]${end} ${bright_white}Se procedera a descargar los recursos necesarios para hacer uso de esta herramienta.${end}"
+    s4vidownload
+  elif ${update}; then 
+    echo -e "\n${bright_magenta}[+]${end} ${bright_white}Se procedera a actualizar los recursos necesarios para mantenerte al día.${end}"
+    s4viupdate 
+  fi
+
+}
 
 : '
 Esta función funciona de la siguiente forma.
@@ -488,8 +559,7 @@ function get_allMachines(){
 
 function advanced_search(){
  : '
- Esta función ya se termino amigo por fin. 
- Si quieres hecharle un ojo a la función revisala en ./addFuncs/advanced_search.sh o haz un find . -iname "advanced*.sh" y metele un cat para ver la función
+ Hi
  '
   objects="$1"
 
@@ -541,8 +611,14 @@ function searchOsDiff(){
 
 }
 
+searchChallengue(){
+  challengue="${1}"
 
-while getopts ':w:o:b:d:i:m:c:huvyxrp:t:s:aA:' arg; do
+  return 0 
+
+}
+
+while getopts ':w:o:b:d:i:m:c:huvyxrp:t:s:aA:C:' arg; do
   case $arg in
     x) exclude_banner=true;;
     v) verbose_mode=true;;
@@ -561,6 +637,7 @@ while getopts ':w:o:b:d:i:m:c:huvyxrp:t:s:aA:' arg; do
     a) ((parameter_counter+=10));;
     A) objects="$OPTARG"; ((parameter_counter+=11));;
     r) ((parameter_counter+=12));;
+    C) challengue="${OPTARG}"; ((parameter_counter+=13));;
     h) help=true;;
     \?) echo -e "\n${bright_red}[!]${bright_white} Parametro invalido: ${bright_yellow}-$OPTARG${end}\n"; exit 1;;
   esac
@@ -569,13 +646,14 @@ done
 
 if [[ ! -f "$PATH_ARCHIVE" && ! "$parameter_counter" -eq 2 ]]; then
   echo -e "\n${bright_red}[!]${bright_white} Necesitas actualizar las dependencias antes de usar este script!${end}"
-  echo -e "\n${bright_white}Solución: $0${bright_yellow} -u${end}"
+  echo -e "\n${bright_white}Solución: ${SELF}${bright_yellow} -u${end}"
   exit 1
 elif [[ $parameter_counter -eq 2 ]]; then
   updatefiles
   exit 0
 fi
 
+shopt -s nocasematch
 
 if [[ $parameter_counter -eq 1 ]]; then
   searchMachine "$machineName"
@@ -602,6 +680,8 @@ elif [[ "$parameter_counter" -eq 11 ]]; then
   advanced_search "$objects"
 elif [[ "$parameter_counter" -eq 12 ]]; then
   random_machine
+elif [[ "$parameter_counter" -eq 13 ]]; then 
+  searchChallengue "${challengue}"
 else
   helpPanel
 fi

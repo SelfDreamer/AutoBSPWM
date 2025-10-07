@@ -19,7 +19,7 @@
 
 <h3> 👋 Bienvenido</h3>
 
-Bienvenido a mi **AutoBSPWM**, me apodo Flick y soy de Perú. 
+Bienvenido a mi **AutoBSPWM**, me apodo dreamer y soy de Perú. 
 
 Estos archivos de configuración fueron hechos para proporcionar un entorno `BSPWM` ligero, eficiente y funcional. Esta diseñado principalmente para Pentesters pero puede usarse para el día a día. Este entorno es una inspiración hacia los dotfiles del señor gh0stzk, más espeficiamente al tema de Emilia. 
 
@@ -125,6 +125,39 @@ Alguna de las caracteristicas que traera la `zsh`:
 - Se excluyen los directorios `__pycache__` al ejecutar programas escritos en Python.
 - Resaltado de sintaxis 
 - Autocompletado con `Fzf`
+
+**Emulador de terminal**
+
+Estos archivos de configuración usan de emulador de terminal a [kitty](https://github.com/kovidgoyal/kitty) y la peculiaridad de estos, es que no se limitan a que requieras irte a los archivos de configuración, quitar/agregar algo que quieres y reiniciar... NO! Este repositorio cuenta con un script llamado **kitter** el cual al terminar la instalación movera ese script a **/usr/bin/** para que puedas llamarlo desde cualquier parte del sistema. Este script internamente se encarga de cambiar la estetica de tu emulador de terminal de forma dinámica sin tener que reiniciar la terminal, y lo mejor de todo esto es que los cambios se aplicaran para que cuando reinicies la máquina esos cambios ya esten presentes. De momento, el script solo puede cambiar estas 5 cosas: 
+
+- `font-size`: Tamaño de fuente.
+- `background-opacity`: Opacidad del fondo. 
+- `background-color`: Color del fondo. 
+- `foreground-color`: Color del texto que se muestra en la terminal. 
+- `font-family`: Familia de fuente. 
+- `tab-style`: Estilo de los tabs. 
+
+> [!NOTE]
+> Adicionalmente se agrego el parametro `--load-config` para cargar algún archivo de configuración que desees en la misma sesión sin recargar o hacer alguna movida extraña.
+> Pdt: Obviamente este script cuenta con un panel de ayuda por si esto no quedo claro, asi que diviertete! 
+
+Y por ultimo y no menos importante, un script llamado `upgrader` el cual se encargara de actualizar a la ultima versión el binario que le indiques... Y entre esos, esta la kitty. 
+Lamentablemente este script no soporta todos los binarios, pero si los siguientes:
+
+- [Kitty](https://github.com/kovidgoyal/kitty)
+- [Neovim](https://github.com/neovim/neovim)
+- [Batcat](https://github.com/sharkdp/bat)
+- [Lsd](https://github.com/lsd-rs/lsd)
+- [ImageMagick](https://github.com/ImageMagick/ImageMagick)
+- [Obsidian](https://github.com/obsidianmd/obsidian-releases)
+
+**Buscador de máquinas**
+
+Como bien se dijo, estos archivos de configuración estan destinados para la gente que realize `pentest`... Y claro, para ello he decido añadir un script el cual buscara las máquinas que [S4vitar](https://www.youtube.com/s4vitar) va resolviendo y publicando en su canal [secundario](https://www.youtube.com/@S4viSinFiltro). Este buscador es literalmente el buscador moderno que actualmente S4vitar y su comunidad usan, el cual es [infosecmachines](https://infosecmachines.io/), cuando me refiero a que literalmente es el buscador, no me refiero a la estetica si no a que ofrece la misma flexibilidad que este buscador en la web, pero desde la terminal para mas comodidad... Si deseas mas información, revisa el [repositorio](https://github.com/SelfDreamer/S4vimachines.sh) 
+
+> [!NOTE]
+> Para mejor comodidad, este script estara en una ruta de tu `PATH` para que puedas ejecutarlo desde cualquier parte del sistema. La rutaen la que se ubicara sera `/opt/s4vimachines.sh/`
+
 ---
 
 <h2> 🎨 Lanzadores </h2>
@@ -256,6 +289,7 @@ cd AutoBSPWM
 # Ejecutamos el instalador 
 ./Install.sh
 ```
+
 
 ## 😵‍💫 Problemas y errores comunes
 

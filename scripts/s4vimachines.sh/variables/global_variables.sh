@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Variables globales
 export url='https://infosecmachines.io/api/machines'
-PATH_ARCHIVE='/tmp/bundle.js'
-TMP_ARCHIVE='/tmp/bundle.js.tmp'
+PATH_ARCHIVE="$HOME/.local/share/s4vimachines/bundle.js"
+TMP_ARCHIVE="$PATH_ARCHIVE.tmp"
+DIRECTORY="$HOME/.local/share/s4vimachines/"
 declare -i parameter_counter=0
 verbose_mode=false
 confirm_act=false

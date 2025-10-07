@@ -23,6 +23,7 @@ ${BOLD}${YELLOW}OPTIONS:${RESET}
   ${BLUE}--foreground-color${RESET}   Set foreground color (e.g. #a9b1d6)
   ${BLUE}--font-family${RESET}        Set font family (e.g. 'Hack Nerd Font')
   ${BLUE}--load-config${RESET}        Load configuration from file (e.g. /path/to/config)
+  ${BLUE}--tab-style${RESET}          Set tab style (angled, slanted, round)
 
 ${BOLD}${YELLOW}EXAMPLES:${RESET}
   ${GREEN}${_name}${RESET} ${MAGENTA}--font-size 12 --background-opacity 0.8
@@ -166,6 +167,34 @@ function load_config(){
   
 }
 
+set_tab_style(){
+  tab_style="${1:?This function requires an argument!}"
+  tab_style="${tab_style,,}"
+
+  styles_accepted=("angled" "slanted" "round")
+
+  if [[ ! " ${styles_accepted[*]} " =~ " $tab_style " ]]; then
+    echo -e "\n\e[4;31m[-] Fatal error, style \"$tab_style\" is not accepted in this momment!"
+
+    print_help "1"
+  fi
+
+  out="$(grep -oP '^(?!#)tab_powerline_style (\S+)' "${CONFIG}")"
+  out="${out:?Fatal error, out is not defined or is null}"  
+
+  style_config="$(cut -d ' ' -f2 <<< "$out")"
+
+  if [[ "${style_config}" == "${tab_style}" ]]; then
+    echo -e "\n[+] Tab Style it's equal! Returns..."
+    return 0
+  fi 
+
+  sed -i "s|tab_powerline_style $style_config|tab_powerline_style $tab_style|" "${CONFIG}"
+
+  load_config "${CONFIG}" --all-sockets
+
+}
+
 if [[ ! "$#" -gt 0 ]]; then
   print_help
 fi
@@ -179,6 +208,7 @@ while [[ "$#" -gt 0 ]]; do
         --font-family) set_font_family "$2"; shift ;;
         --all-sockets) ALL_SOCKETS=true; ;;  
         --load-config) load_config "$2" "${3}"; shift ;;
+        --tab-style) set_tab_style "$2"; shift ;;
         --help) print_help; ;; 
         *) echo "Unknown parameter: $1"; print_help 1 ;;
     esac

@@ -27,6 +27,9 @@ Esta busqueda flexible no se limita a un solo parametro, los parametros `-c` *(c
 
 #### ⚠️ Antes de instalar dependencias y demas importante que actualizes el sistema
 
+> [!IMPORTANT]
+> Este buscador de máquinas es unicamente compatible con sistemas **UNIX**, proximamente se hara una libreria en Python para interactuar con la API de `infosecmachines`, la cual si estara disponible en Linux, Windows y MacOS. 
+
 ---
 
 <details>
@@ -68,10 +71,12 @@ Esta busqueda flexible no se limita a un solo parametro, los parametros `-c` *(c
   sudo npm install -g js-beautify 
   ```
 
+
+```
+
 ---
 
 </details>
-
 
 ### 🔍 Uso
 
@@ -81,62 +86,24 @@ s4vimachines.sh [PARAMETROS] [ARGUMENTOS]
 
 ### Opciones disponibles:
 
-```
--h(help): Mostrar el manual de ayuda.
 
-Actualizaciones y dependencias
--u(update): Actualizar dependencias
-
--m(machine): Mostrar las propiedades de una máquina.
-[Ejemplo] s4vimachines.sh -m 'Multimaster'
-
--i(ip_addr): Mostrar máquinas por la dirección IP.
-[Ejemplo] s4vimachines.sh -i '10.10.10.179'
-
--d(difficulty): Mostrar máquinas por una dificultad dada.
-[Ejemplo] s4vimachines.sh -d 'Insane'
-
--o(osSystem): Mostrar máquinas por un sistema operativo dado.
-[Ejemplo] s4vimachines.sh -o 'Windows'
-
--w(writeup): Mostrar el enlace a la resolución de una máquina
-[Ejemplo] s4vimachines.sh -w 'Multimaster'
-
--s(skill): Listar máquinas por skill
-[Ejemplo] s4vimachines.sh -s 'SQLI'
-
--p(platform): Listar todas las máquinas de una plataforma
-[Ejemplo] s4vimachines.sh -p 'HackTheBox'
-
--c(certificate): Listar todas las máquinas que dispongan de uno o mas certificados
-[Ejemplo] s4vimachines.sh -c 'OSCP OSWE OSEP'
-
--A(Advanced Search): Realizar una busqueda avanzada.
-[Ejemplo] s4vimachines.sh -A 'Unicode Sqli Insane windows oscp oswe'
-
--a(all): Listar todas las máquinas existentes.
-[Ejemplo] s4vimachines.sh -a 
-```
-
-
-
-### Extras
-```
--r(random): Modo de elección aleatorio. El script elegira una máquina al azar por ti.
-[Ejemplo] s4vimachines.sh -r
-
--v(verbose): Activar el modo verbose
-[Ejemplo] s4vimachines.sh -u -v
-
--y(yes): Confirmar cada acción que dependa de una confirmación de usuario (sirve también para iterar por cada máquina)
-[Ejemplo] s4vimachines.sh -u -y | s4vimachines.sh -A 'CSRF' -y
-
--t(translate): Traducir el output a un idioma especifico.
-[Ejemplo] s4vimachines.sh -m 'Tentacle' -t 'es'
-
--b(browser): Abrir el writeup de una máquina, en un navegador especifico.
-[Ejemplo] s4vimachines.sh -w 'Tentacle' -b '' (Navegador por default: firefox)
-
--x(exclude banner): No mostrar el banner en el panel de ayida.
-[Ejemplo] s4vimachines.sh -x 
-```
+| Parámetro | Descripción                                                          | Ejemplo                                                      |
+| --------: | -------------------------------------------------------------------- | ------------------------------------------------------------ |
+|      `-h` | Mostrar el manual de ayuda.                                          | `s4vimachines.sh -h`                                         |
+|      `-u` | Actualizar dependencias / obtener actualizaciones.                   | `s4vimachines.sh -u`                                         |
+|      `-m` | Mostrar las propiedades de una máquina (por nombre).                 | `s4vimachines.sh -m 'Multimaster'`                           |
+|      `-i` | Mostrar máquinas por dirección IP.                                   | `s4vimachines.sh -i '10.10.10.179'`                          |
+|      `-d` | Filtrar por dificultad (difficulty).                                 | `s4vimachines.sh -d 'Insane'`                                |
+|      `-o` | Filtrar por sistema operativo (os).                                  | `s4vimachines.sh -o 'Windows'`                               |
+|      `-w` | Mostrar el enlace al writeup de una máquina.                         | `s4vimachines.sh -w 'Multimaster'`                           |
+|      `-s` | Listar máquinas por skill (habilidad / técnica).                     | `s4vimachines.sh -s 'SQLI'`                                  |
+|      `-p` | Listar máquinas de una plataforma dada (p.ej. HackTheBox).           | `s4vimachines.sh -p 'HackTheBox'`                            |
+|      `-c` | Listar máquinas que tengan uno o más certificados.                   | `s4vimachines.sh -c 'OSCP OSWE OSEP'`                        |
+|      `-A` | Búsqueda avanzada (varios términos combinados).                      | `s4vimachines.sh -A 'Unicode Sqli Insane windows oscp oswe'` |
+|      `-a` | Listar todas las máquinas existentes (all).                          | `s4vimachines.sh -a`                                         |
+|      `-r` | Modo aleatorio: el script elegirá una máquina al azar.               | `s4vimachines.sh -r`                                         |
+|      `-v` | Activar modo verbose (más salida informativa).                       | `s4vimachines.sh -u -v`                                      |
+|      `-y` | Confirmar automáticamente acciones que requieren confirmación (yes). | `s4vimachines.sh -u -y`<br>`s4vimachines.sh -A 'CSRF' -y`    |
+|      `-t` | Traducir el output a un idioma específico (p. ej. `es`).             | `s4vimachines.sh -m 'Tentacle' -t 'es'`                      |
+|      `-b` | Abrir el writeup en un navegador específico (por defecto `firefox`). | `s4vimachines.sh -w 'Tentacle' -b 'chrome'`                  |
+|      `-x` | No mostrar el banner en el panel de ayuda (exclude banner).          | `s4vimachines.sh -x`                                         |

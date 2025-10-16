@@ -19,7 +19,8 @@ return {
     opts = { mappings = {
         "<C-u>",
         "<C-d>",
-    } },
+      } 
+    },
   },
 
   {
@@ -43,6 +44,7 @@ return {
         enabled = true,
         ui_select = true, 
       },
+
     dashboard  = {
         enabled = true, 
         ui_select = true,
@@ -51,9 +53,14 @@ return {
         enabled = true, 
         priority = 1, 
       },
+    opts = {
+        input = { enabled = true },
+        notifier = { enabled = true },
+     },
     
     }
   },
+
 
   { "nvzone/volt", 
     lazy = true 
@@ -157,7 +164,26 @@ return {
     end,
   },
 
-
+  {
+    'SuperBo/fugit2.nvim',
+    build = false,
+    opts = {
+      width = 100,
+    },
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'nvim-lua/plenary.nvim',
+      {
+        'chrisgrieser/nvim-tinygit', -- opcional: para vista de PR de GitHub
+        dependencies = { 'stevearc/dressing.nvim' }
+      },
+    },
+    cmd = { 'Fugit2', 'Fugit2Diff', 'Fugit2Graph' },
+    keys = {
+      { '<leader>F', mode = 'n', '<cmd>Fugit2<cr>' }
+    },
+  },
 
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",

@@ -94,3 +94,31 @@ for type, icon in pairs({
 end
 
 vim.notify = require("notify")
+
+require("mason").setup({
+  ui = { border = "rounded" },
+})
+
+local orig_notify = vim.notify
+vim.notify = function(msg, ...)
+  if msg:match("vim.tbl_islist is deprecated") then
+    return
+  end
+  orig_notify(msg, ...)
+end
+
+vim.deprecated = nil
+vim.tb_islist = vim.tbl_islist(...)
+
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+
+require("snacks.input").enable()
+
+-- Configuración de lsp_lines
+lsp_lines = require("lsp_lines")
+lsp_lines.setup()
+lsp_lines.toggle()
+vim.cmd('lua require("lsp_lines").toggle()')

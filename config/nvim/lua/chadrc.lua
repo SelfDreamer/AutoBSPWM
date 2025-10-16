@@ -38,12 +38,20 @@ vim.defer_fn(function()
   require("minty").setup()
 end, 100) 
 
+lsp_lines = require("lsp_lines")
+lsp_lines.setup()
+lsp_lines.toggle()
 
-local notify = vim.notify
+vim.diagnostic.config({
+  virtual_text = false,
+})
+
+
 vim.notify = function(msg, ...)
-  if msg:match("Config Change Detected") then
+  if msg:match("Config Change Detected")then
     return
   end
+
   notify(msg, ...)
 end
 

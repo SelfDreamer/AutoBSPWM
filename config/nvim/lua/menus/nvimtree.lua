@@ -6,7 +6,9 @@ return {
   {
     name = "  New file",
     cmd = function()
+
       api.fs.create(node())
+
     end,
     rtxt = "a",
   },
@@ -14,9 +16,25 @@ return {
   {
     name = "  New folder",
     cmd = function()
-      require("nvim-tree.api").fs.create(nil, { dir = true })
+      local cwd = vim.fn.getcwd() .. "/"
+
+      vim.ui.input({
+        prompt = "Create folder ",
+        default = cwd,
+      }, function(input)
+        if not input or input == "" then
+          return
+        end
+
+        if not input:match("/$") then
+          input = input .. "/"
+        end
+
+        vim.fn.mkdir(input, "p")
+        vim.notify("Folder created in: " .. input, "info", { title = "nvim-tree" })
+      end)
     end,
-    rtxt = "a", -- Same key as for creating a new file or directory
+    rtxt = "a",
   },
 
   { name = "separator" },

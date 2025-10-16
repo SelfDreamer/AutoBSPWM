@@ -80,11 +80,15 @@ Aplicaciones de Rofi para optimizar tiempos:
 
 Esta configuración de Tmux no es mas que `Oh-My-Tmux` la cual sirve bastante para simplificar tu flujo de trabajo, dandote una mejor experiencia.
 
-**Configuración de Neovim**
+# Configuración de Neovim
 
-Configuración de Neovim usando NvChad, algo "compleja" pero potente:
+Configuración de Neovim usando NvChad, potente y altamente personalizable.
 
-- [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim) — Formateador moderno
+---
+
+## 🎯 Plugins principales
+
+- [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim) — Formateador moderno para Neovim
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) — Configuración LSP para Neovim
 - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp) — Autocompletado principal
 - [hrsh7th/cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp) — Fuente LSP para `nvim-cmp`
@@ -92,14 +96,20 @@ Configuración de Neovim usando NvChad, algo "compleja" pero potente:
 - [hrsh7th/cmp-path](https://github.com/hrsh7th/cmp-path) — Fuente de rutas para `nvim-cmp`
 - [hrsh7th/cmp-cmdline](https://github.com/hrsh7th/cmp-cmdline) — Fuente de autocompletado para la línea de comandos
 - [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip) — Snippets engine moderno
+- [karb94/neoscroll.nvim](https://github.com/karb94/neoscroll.nvim) — Scroll suave para Neovim (`Ctrl + U` = `Up` | `Ctrl + D` = `Down`)
+- [SuperBo/fugit2.nvim](https://github.com/SuperBo/fugit2.nvim) — Interfaz de Git dentro de Neovim
+- [ErichDonGubler/lsp_lines.nvim](https://github.com/maan2003/lsp_lines.nvim) - Mejora la visualización de mensajes LSP
 
-### 🎨 UI / Interfaz
+---
+
+## 🎨 UI / Interfaz
 
 - [folke/snacks.nvim](https://github.com/folke/snacks.nvim) — UI mejorada (pickers, dashboard, indent guides)
 - [rcarriga/nvim-notify](https://github.com/rcarriga/nvim-notify) — Notificaciones emergentes en Neovim
-- [karb94/neoscroll.nvim](https://github.com/karb94/neoscroll.nvim) — Scroll suave para Neovim
 
-### ⚙️ Plugins de la comunidad `nvzone`
+---
+
+## ⚙️ Plugins de la comunidad `nvzone`
 
 - [nvzone/volt](https://github.com/nvzone/volt) — Base para otros plugins de `nvzone`
 - [nvzone/menu](https://github.com/nvzone/menu) — Menú personalizado
@@ -109,12 +119,13 @@ Configuración de Neovim usando NvChad, algo "compleja" pero potente:
 - [nvzone/typr](https://github.com/nvzone/typr) — Plugin de escritura para mejorar velocidad/precisión
 - [nvzone/timerly](https://github.com/nvzone/timerly) — Temporizador y gestión de tiempo
 
-### 📝 Markdown
+---
+
+## 📝 Markdown
 
 - [MeanderingProgrammer/render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) — Renderizado visual de Markdown
-- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) — (Dependencia para el plugin de Markdown)
+- [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) — Dependencia para el plugin de Markdown
 - [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) — Iconos para archivos y UI
-
 **Configuración de ZSH**
 
 Esta configuración de zsh trata de ser minimalista y optima en cuanto a rendimiento respecta, no `Oh-My-Zsh` ni esas cosas. 

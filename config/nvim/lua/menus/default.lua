@@ -127,6 +127,16 @@ return {
     cmd = function()
       vim.cmd('TimerlyToggle')
     end
-  }
+  },
+
+  {
+    name = 'separator',
+  },
+
+  {
+    name = "  Git options",
+    hl = "ExRed",
+    items = 'GitOptions',
+  },
 
 }

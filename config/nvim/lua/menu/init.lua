@@ -43,7 +43,7 @@ M.open = function(items, opts)
     height = h,
     row = 1,
     col = 0,
-    border = "single",
+    border = "rounded",
     style = "minimal",
     zindex = 99 + #state.bufids,
   }
@@ -70,9 +70,9 @@ M.open = function(items, opts)
   }
 
   if config.border then
-    vim.wo[win].winhl = "Normal:Normal,FloatBorder:LineNr"
+      vim.wo[win].winhl = "Normal:Normal,FloatBorder:ExBlue"
   else
-    vim.wo[win].winhl = "Normal:ExBlack2Bg,FloatBorder:ExBlack2Border"
+      vim.wo[win].winhl = "Normal:ExBlack2Bg,FloatBorder:ExBlue"
   end
 
   volt.run(buf, { h = h, w = bufv.w })

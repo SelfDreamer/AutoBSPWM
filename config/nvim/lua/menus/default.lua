@@ -3,7 +3,7 @@ function open_picker(cmd)
 end
 
 function open_color_picker()
-  require("minty.huefy").open()
+  require("minty.shades").open({border=true})
 end
 
 

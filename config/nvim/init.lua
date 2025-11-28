@@ -1,3 +1,9 @@
+require "yanks"
+
+vim.opt.termguicolors = true
+vim.deprecated = nil
+vim.tb_islist = vim.tbl_islist(...)
+
 _G.dd = function(...)
   Snacks.debug.inspect(...)
 end
@@ -56,20 +62,23 @@ vim.cmd [[
   highlight DiagnosticSignHint guifg=#d398fd gui=bold
 
   " Colores para los mensajes en la línea virtual (sin estilos raros)
-  highlight DiagnosticVirtualTextError guifg=#e06c75 gui=NONE
-  highlight DiagnosticVirtualTextWarn guifg=#e7c787 gui=NONE
-  highlight DiagnosticVirtualTextInfo guifg=#8be9fd gui=NONE
-  highlight DiagnosticVirtualTextHint guifg=#d398fd gui=NONE
+  highlight DiagnosticVirtualTextError cterm=italic gui=italic guifg=#f38ba9 guibg=#32283b 
+  highlight DiagnosticVirtualTextWarn cterm=italic gui=italic guifg=#f9e2b0 guibg=#33313b 
+  highlight DiagnosticVirtualTextInfo cterm=italic gui=italic guifg=#89dcec guibg=#283041 
+  highlight DiagnosticVirtualTextHint cterm=italic gui=italic guifg=#d398fd guibg=#282a36 
+
 
   " Colores para el borde del cuadro emergente (popup)
   highlight DiagnosticFloatingError guifg=#e06c75 guibg=#282a36
   highlight DiagnosticFloatingWarn guifg=#e7c787 guibg=#282a36
-  highlight DiagnosticFloatingInfo guifg=#7be9fd guibg=#282a36
+  highlight DiagnosticFloatingInfo guifg=#7be9fd guibg=#160b3d
   highlight DiagnosticFloatingHint guifg=#bd93f9 guibg=#282a36
 ]]
 
 vim.diagnostic.config({
-  virtual_text = { prefix = "" },
+  virtual_text = true,
+  virtual_lines = { current_line = true },
+  update_in_insert = false,
   signs = {
     text = {
       [x.ERROR] = "󰅙",
@@ -93,32 +102,54 @@ for type, icon in pairs({
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
-vim.notify = require("notify")
-
 require("mason").setup({
   ui = { border = "rounded" },
-})
-
-local orig_notify = vim.notify
-vim.notify = function(msg, ...)
-  if msg:match("vim.tbl_islist is deprecated") then
-    return
-  end
-  orig_notify(msg, ...)
-end
-
-vim.deprecated = nil
-vim.tb_islist = vim.tbl_islist(...)
-
-vim.diagnostic.config({
-  virtual_text = false,
 })
 
 
 require("snacks.input").enable()
 
--- Configuración de lsp_lines
-lsp_lines = require("lsp_lines")
-lsp_lines.setup()
-lsp_lines.toggle()
-vim.cmd('lua require("lsp_lines").toggle()')
+
+local cmp = require("cmp")
+
+cmp.setup({
+    window = {
+        completion = cmp.config.window.bordered({
+            border = "rounded",
+            scrollbar = true,       
+            max_width = 60,
+            max_height = 12,
+        }),
+        documentation = cmp.config.window.bordered({
+            border = "rounded",
+            scrollbar = true,
+            max_height = 15,
+        }),
+    }, 
+    mapping = cmp.mapping.preset.insert({
+    ['<C-d>'] = cmp.mapping.scroll_docs(-2),
+    ['<C-f>'] = cmp.mapping.scroll_docs(2),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  }),
+
+  experimental = {
+    ghost_text = true,
+  },
+
+})
+
+local orig = vim.lsp.util.open_floating_preview
+
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = "rounded"  -- << aquí lo haces redondeado
+
+  opts.max_width = 200
+  opts.max_height = 200
+
+  return orig(contents, syntax, opts, ...)
+end
+
+
+

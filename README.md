@@ -166,15 +166,16 @@ Lamentablemente este script no soporta todos los binarios, pero si los siguiente
 
 Como bien se dijo, estos archivos de configuración estan destinados para la gente que realize `pentest`... Y claro, para ello he decido añadir un script el cual buscara las máquinas que [S4vitar](https://www.youtube.com/s4vitar) va resolviendo y publicando en su canal [secundario](https://www.youtube.com/@S4viSinFiltro). Este buscador es literalmente el buscador moderno que actualmente S4vitar y su comunidad usan, el cual es [infosecmachines](https://infosecmachines.io/), cuando me refiero a que literalmente es el buscador, no me refiero a la estetica si no a que ofrece la misma flexibilidad que este buscador en la web, pero desde la terminal para mas comodidad... Si deseas mas información, revisa el siguiente [enlace](https://github.com/SelfDreamer/S4vimachines.sh) el cual es el repositorio de el buscador de máquinas.
 
-> [!NOTE] Nota
+> [!NOTE] 
 > Para mejor comodidad, este script estara en una ruta de tu `PATH` para que puedas ejecutarlo desde cualquier parte del sistema. La rutaen la que se ubicara sera `/opt/s4vimachines.sh/`
 
-> [!CAUTION] Buscador obsoleto
+> [!CAUTION]
 > Por ahora este buscador estara obsoleto debido a que `infosecmachines` apunta ahora a `HackingVault.com`.
 > Podría sacar el buscador ahora mismo que escribo esto, pero lo malo es que tendrías que estar registrado para hacer uso de la API de `HackingVault.com`.
-> > [!tip] Pero OJO 
-> > Eso no quiere decir que deje esta herramienta porque constantemente me encuentro revisando que este repositorio este mantenido.
-> > Asi que, estare trabajando en alguna forma de hacer un buscador 100% gratuito y desde terminal... Y claro, esta vez estara mucho mejor que el buscador anterior, asi que tengan paciencia jeje.
+
+> [!TIP] Pero OJO 
+> Eso no quiere decir que deje esta herramienta porque constantemente me encuentro revisando que este repositorio este mantenido.
+> Asi que, estare trabajando en alguna forma de hacer un buscador 100% gratuito y desde terminal... Y claro, esta vez estara mucho mejor que el buscador anterior, asi que tengan paciencia jeje.
 
 ---
 

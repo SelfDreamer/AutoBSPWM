@@ -169,7 +169,7 @@ Como bien se dijo, estos archivos de configuración estan destinados para la gen
 > [!NOTE] Nota
 > Para mejor comodidad, este script estara en una ruta de tu `PATH` para que puedas ejecutarlo desde cualquier parte del sistema. La rutaen la que se ubicara sera `/opt/s4vimachines.sh/`
 
-> [!ERROR] Buscador obsoleto
+> [!CAUTION] Buscador obsoleto
 > Por ahora este buscador estara obsoleto debido a que `infosecmachines` apunta ahora a `HackingVault.com`.
 > Podría sacar el buscador ahora mismo que escribo esto, pero lo malo es que tendrías que estar registrado para hacer uso de la API de `HackingVault.com`.
 > > [!tip] Pero OJO 

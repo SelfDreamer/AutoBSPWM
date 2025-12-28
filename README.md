@@ -139,7 +139,7 @@ Alguna de las caracteristicas que traera la `zsh`:
 
 **Emulador de terminal**
 
-Estos archivos de configuración usan de emulador de terminal a [kitty](https://github.com/kovidgoyal/kitty) y la peculiaridad de estos, es que no se limitan a que requieras irte a los archivos de configuración, quitar/agregar algo que quieres y reiniciar... NO! Este repositorio cuenta con un script llamado **kitter** el cual al terminar la instalación movera ese script a **/usr/bin/** para que puedas llamarlo desde cualquier parte del sistema. Este script internamente se encarga de cambiar la estetica de tu emulador de terminal de forma dinámica sin tener que reiniciar la terminal, y lo mejor de todo esto es que los cambios se aplicaran para que cuando reinicies la máquina esos cambios ya esten presentes. De momento, el script solo puede cambiar estas 5 cosas: 
+Estos archivos de configuración usan de emulador de terminal a [kitty](https://github.com/kovidgoyal/kitty) y la peculiaridad de estos, es que no se limitan a que requieras irte a los archivos de configuración, quitar/agregar algo que quieres y reiniciar... NO! Este repositorio cuenta con un script llamado **kitter** el cual al terminar la instalación movera ese script a **/usr/bin/** para que puedas llamarlo desde cualquier parte del sistema. Este script internamente se encarga de cambiar la estetica de tu emulador de terminal de forma dinámica sin tener que reiniciar la terminal, y lo mejor de todo esto es que los cambios se aplicaran para que cuando reinicies la máquina esos cambios ya esten presentes, es decir, sera algo persistente e instantaneo. De momento, el script solo puede cambiar estas 5 cosas: 
 
 - `font-size`: Tamaño de fuente.
 - `background-opacity`: Opacidad del fondo. 
@@ -152,7 +152,7 @@ Estos archivos de configuración usan de emulador de terminal a [kitty](https://
 > Adicionalmente se agrego el parametro `--load-config` para cargar algún archivo de configuración que desees en la misma sesión sin recargar o hacer alguna movida extraña.
 > Pdt: Obviamente este script cuenta con un panel de ayuda por si esto no quedo claro, asi que diviertete! 
 
-Y por ultimo y no menos importante, un script llamado `upgrader` el cual se encargara de actualizar a la ultima versión el binario que le indiques... Y entre esos, esta la kitty. 
+Y por ultimo y no menos importante, un script llamado `upgrader` el cual se encargara de actualizar a la ultima versión el binario que le indiques. 
 Lamentablemente este script no soporta todos los binarios, pero si los siguientes:
 
 - [Kitty](https://github.com/kovidgoyal/kitty)
@@ -162,20 +162,9 @@ Lamentablemente este script no soporta todos los binarios, pero si los siguiente
 - [ImageMagick](https://github.com/ImageMagick/ImageMagick)
 - [Obsidian](https://github.com/obsidianmd/obsidian-releases)
 
-**Buscador de máquinas** *(Obsoleto por ahora)*
+**Buscador de máquinas** 
 
-Como bien se dijo, estos archivos de configuración estan destinados para la gente que realize `pentest`... Y claro, para ello he decido añadir un script el cual buscara las máquinas que [S4vitar](https://www.youtube.com/s4vitar) va resolviendo y publicando en su canal [secundario](https://www.youtube.com/@S4viSinFiltro). Este buscador es literalmente el buscador moderno que actualmente S4vitar y su comunidad usan, el cual es [infosecmachines](https://infosecmachines.io/), cuando me refiero a que literalmente es el buscador, no me refiero a la estetica si no a que ofrece la misma flexibilidad que este buscador en la web, pero desde la terminal para mas comodidad... Si deseas mas información, revisa el siguiente [enlace](https://github.com/SelfDreamer/S4vimachines.sh) el cual es el repositorio de el buscador de máquinas.
-
-> [!NOTE] 
-> Para mejor comodidad, este script estara en una ruta de tu `PATH` para que puedas ejecutarlo desde cualquier parte del sistema. La rutaen la que se ubicara sera `/opt/s4vimachines.sh/`
-
-> [!CAUTION]
-> Por ahora este buscador estara obsoleto debido a que `infosecmachines` apunta ahora a `HackingVault.com`.
-> Podría sacar el buscador ahora mismo que escribo esto, pero lo malo es que tendrías que estar registrado para hacer uso de la API de `HackingVault.com`.
-
-> [!TIP] Pero OJO 
-> Eso no quiere decir que deje esta herramienta porque constantemente me encuentro revisando que este repositorio este mantenido.
-> Asi que, estare trabajando en alguna forma de hacer un buscador 100% gratuito y desde terminal... Y claro, esta vez estara mucho mejor que el buscador anterior, asi que tengan paciencia jeje.
+Como se menciono anteriormente, estos archivos de configuración estan hechos para la gente que realiza `pentesting`. La idea con este buscador es fortalezer tu aprendizaje como **Red Teamer** brindando un buscador de máquinas hecho en **Bash**. Este script puede ser ejecutado desde cualquier parte del `PATH` y con este podemos realizar busquedas avanzadas como se hacia en `infosecmachines.io` en su momento. Si quieres obtener mas información, visita el [repositorio](https://github.com/SelfDreamer/s4vimachines.sh) de el buscador, que ya volvio a estar operativo. 
 
 ---
 

@@ -25,13 +25,12 @@ return {
   },
 
   {
-    name = "  Theme Picker",
+    name = "  Aerial",
     hl = 'ExYellow',
     cmd = function()
-      require("nvchad.themes").open { 
-        border = true
-      }
+      require("aerial").open()
     end,
   },
+
 
 }

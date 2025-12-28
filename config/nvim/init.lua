@@ -1,8 +1,6 @@
 require "yanks"
 
 vim.opt.termguicolors = true
-vim.deprecated = nil
-vim.tb_islist = vim.tbl_islist(...)
 
 _G.dd = function(...)
   Snacks.debug.inspect(...)
@@ -37,6 +35,12 @@ require("lazy").setup({
     branch = "v2.5",
     import = "nvchad.plugins",
   },
+
+  checker = {
+    enabled = true, -- check for plugin updates periodically
+    notify = true, -- notify on update
+  }, -- automatically check for plugin updates
+
   { import = "plugins" },
 }, lazy_config)
 
@@ -143,7 +147,7 @@ local orig = vim.lsp.util.open_floating_preview
 
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts = opts or {}
-  opts.border = "rounded"  -- << aquí lo haces redondeado
+  opts.border = "rounded"  
 
   opts.max_width = 200
   opts.max_height = 200
@@ -151,5 +155,5 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig(contents, syntax, opts, ...)
 end
 
-
-
+vim.deprecated = nil
+vim.tb_islist = vim.tbl_islist(...)

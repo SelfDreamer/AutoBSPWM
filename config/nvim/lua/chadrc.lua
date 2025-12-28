@@ -4,6 +4,19 @@
 
 ---@type ChadrcConfig
 local M = {}
+
+M.colorify = {
+  enabled = true,
+  ---@type "fg"|"bg"|"virtual"
+  mode = 'virtual',
+  virt_text = "󱓻 ",
+  highlight = {
+    hex = true,
+    lspvars = true,
+  },
+}
+
+
 M.base46 = {
     theme = "catppuccin", -- theme = 'onedark', el tema original de nvim
     ---@type boolean
@@ -24,6 +37,7 @@ M.base46 = {
       -- bold = true, -- Esto define si queremos ver comentarios en negrita
     }, 
   },  
+
 }
 -- M.nvdash = { load_on_startup = true }
 M.ui = {
@@ -40,6 +54,12 @@ M.ui = {
       lspkind_text = true,
       style = 'flat_dark',  -- Esto cambia la apariencia de las sugerencias de nvim 
     },
+
+    telescope = 
+    { 
+      style = "bordered",
+    },
+    
 }
 
 return M

@@ -5,13 +5,114 @@ return {
     config = function()
       local notify = require("notify")
       notify.setup({
+        ---@type "fade_in_slide_out" | "static" | "fade"  | "slide"
         stages = "slide", -- o "fade_in_slide_out", "static", "fade"
+        ---@type integer
         timeout = 3000,
+        ---@type string
         background_colour = "#1e1e2e",
       })
       vim.print = notify
       vim.notify = notify
     end,
+  },
+
+  {
+    "nvim-telescope/telescope.nvim",
+    lazy = true,
+
+    config = function ()
+      require("telescope").setup{
+        ---@type table 
+        defaults = {
+          ---@type "vertical"|"horizontal"
+          layout_strategy = 'vertical',
+          ---@type table 
+          layout_config = {
+            ---@type integer | float 
+            height = 50,
+          },
+        }
+      }
+    end
+
+  },
+
+  
+  -- Plugin para tener historial de la clipboard
+  --
+  -- Deshabilitado porque reduce el rendimiento.
+  -- Habilitalo bajo tu propio riesgo.
+  {
+    "AckslD/nvim-neoclip.lua",
+    lazy = false,
+    enabled = false, 
+      dependencies = {
+      {'kkharji/sqlite.lua', module = 'sqlite'},
+      -- you'll need at least one of these
+      -- {'nvim-telescope/telescope.nvim'},
+      -- {'ibhagwan/fzf-lua'},
+    },
+    config = function()
+      require('neoclip').setup({
+        ---@type boolean 
+        enable_persistent_history = true,
+        ---@type boolean 
+        continuous_sync = true,
+
+        ---@class OnSelectOptions
+        ---@field move_to_front boolean
+        ---@field close_telescope boolean
+        ---@type OnSelectOptions
+        on_select = {
+          move_to_front = false,
+        	close_telescope = true,
+        },
+
+      })
+    end,
+  },
+
+  { 
+    "stevearc/aerial.nvim",
+    ---@type boolean
+    lazy = true, 
+    ---@type table
+    opts = {
+
+    },
+    ---@type table 
+    dependencies = {
+       "nvim-treesitter/nvim-treesitter",
+       "nvim-tree/nvim-web-devicons"
+    },
+
+
+    ---@type function
+    config = function()
+
+      require("aerial").setup({
+        
+        ---@type table 
+        layout = {
+        ---@type "prefer_right" | "prefer_left" | "right" | "left" | "float" 
+        default_direction = "prefer_left",
+        ---@type integer 
+        width = 30,
+        }, 
+
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        ---@type function
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+          vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+        end,
+      })
+      -- You probably also want to set a keymap to toggle aerial
+      vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+
+    end 
   },
 
   { 
@@ -109,8 +210,6 @@ return {
     end
   },
 
-done
-
 
   {
     "stevearc/conform.nvim",
@@ -174,7 +273,6 @@ done
     },
 
     cmd = function ()
-      
 
       local cmp = require("cmp")
 
@@ -251,13 +349,16 @@ done
 
   {
     "folke/snacks.nvim",
-    ---@type snacks.Config
-    lazy = true,
     priority = 1000,
+    lazy = false,
     opts = {
-      
+      input = { enabled = true },
+      notifier = { enabled = true },
+      scroll = { enabled = true },
+      indent = { enabled = true },
+
       image = {
-        enabled = false, -- Por si quieres ver imagenes en archivos markdown y demás. 
+        enabled = false, 
       },
 
       picker = {
@@ -266,30 +367,36 @@ done
         filetypes = {"markdown", "html", "txt", "lua", "sh"},
         border = "rounded",
         prompt = " ",
-        show_delay = 5000,
-        limit_live = 10000,
       },
 
-    dashboard  = {
-        enabled = true, 
-        ui_select = true,
-      }, 
-    indent = {
-        enabled = true, 
-        priority = 1, 
+      dashboard = {
+        enabled = true,
+        preset = {
+          keys = {
+            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+            
+            { 
+              icon = " ", 
+              key = "t", 
+              desc = "Theme Selector", 
+              action = function() 
+                require("nvchad.themes").open(
+                    {
+                      border = true,
+                    }
+                  ) 
+              end 
+            },
+
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
       },
-    opts = {
-        input = { enabled = true },
-        notifier = { enabled = true },
-     },
-    scroll = {
-        enabled = true, 
-        opts = {},
-      },
-    
-    }
+    },
   },
-
 
   { "nvzone/volt", 
     lazy = true 
@@ -395,17 +502,18 @@ done
   },
 
 
-
-
   {
   "nvim-treesitter/nvim-treesitter",
   opts = {
-  ensure_installed = {
-    "vim", 
-    "lua", 
-    "sql",
-    "php",
+    ensure_installed = {
+      "vim", 
+      "lua", 
+      "sql",
+      "php",
+      "jq",
+      "bash",
+      "json",
+        },
       },
     },
-  },
 }

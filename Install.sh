@@ -5,6 +5,8 @@ readonly usuario="${USER}"
 readonly LOGS="${HOME}/autobspwm.log"
 readonly PARROT_SOURCES="/etc/apt/sources.list.d/parrot.list"
 export DEBIAN_FRONTEND=noninteractive
+source ./utils/ask_yes_no.sh
+source ./utils/messagebox.sh
 
 spinner_log() {
   tput civis 
@@ -30,9 +32,7 @@ spinner_log() {
 
 welcome(){
   clear
-  user="${1:-$USER}"
-  printf "${bright_magenta}"
-  printf """
+  printf """${bright_magenta}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⢀⣤⡴⢲⣀⡀⢀⣀⣀⣤⣤⣤⣄⣀⠠⣞⢿⣀⣟⣿⣀⠀⠀⠀⠀
 ⠀⠀⠀⠀⢀⠼⠧⡷⢼⠥⠿⡉⠉⠀⠀⠀⠀⠀⠉⢹⣉⡹⡭⡯⢤⡜⠀⠀⠀⠀
@@ -48,24 +48,29 @@ welcome(){
 ⠀⠀⠀⠀⠀⠀⠀⠀⢿⣬⠳⠤⡔⠊⢒⣻⣄⠀⠀⢀⣜⠂⠀⠀⣀⣶⠟⠁⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠓⠶⠶⠤⠤⣴⠾⠷⠶⠿⡷⠖⠛⠛⠉⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡏⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀  
-  """
-  printf "${end}"
+  ${end}"""
+  printf "\e[G"
   msg="""
+ ${bright_green}•${end} ${bright_white}Este script \e[1mNO\e[0m\e[97m tiene el potencial de modificar tu sistema a \e[3mbajo nivel\e[0m\e[97m ni de \e[1mromperlo\e[0m\e[97m.
+ ${bright_green}•${end} ${bright_white}Instalará un entorno \e[1;36mbspwm\e[0m\e[97m minimalista utilizando \033[48;5;236meww\e[0m\e[97m, \033[48;5;236mpolybar\e[0m\e[97m y \033[48;5;236msxhkd\e[0m\e[97m para los atajos.
+ ${bright_green}•${end} ${bright_white}Estés en la ruta que estés, el script se encargará de \e[3mmoverte a la ruta del ejecutable\e[0m\e[97m.
+ ${bright_green}•${end} ${bright_white}Cambiará tu shell a \e[1;36mzsh\e[0m\e[97m e instalará \e[1;36mkitty\e[0m\e[97m como terminal por defecto."""
+  messagebox -title " Leer " -message "${msg}" -no-preffix
   
-${bright_green}[+]${end} ${bright_white}Este script no tiene el potencial de modificar tu sistema a bajo nivel y ni de romperlo.${end}
-${bright_green}[+]${end} ${bright_white}Instalara un entorno bspwm minimalista utilizando eww, polybar y sxhkd para los atajos de teclado.${end}
-${bright_green}[+]${end} ${bright_white}Estes en la ruta que estes, el script encargara de moverte a la ruta donde este el ejecutable.${end}
-${bright_green}[+]${end} ${bright_white}Cambiara tu shell a una zsh e instalara kitty como terminal por defecto${end}
-  """
-
-  echo -e "${msg}"
-
-  echo -en "\n${bright_green}[$user]${end} ${bright_white}Deseas continuar?${end} ${bright_magenta}[${bright_white}Y${bright_magenta}/${bright_white}n${bright_magenta}]${end} " && read -r confirm 
-  
+  options="Si,No"
+  confirm=$( \
+    ask_yes_no \
+    -options "${options}" \
+    -message "¿Deseas continuar?" \
+    -selected-bg "\e[45m" \
+    -unselected-bg "\e[100m" \
+    -fg "\e[97m" \
+  )  
   if [[ ! "${confirm}" =~ ^[YySs] ]]; then 
     echo -e "\n${bright_red}[!] Operation canelled by ${usuario}${end}" >&2
     exit 1 
   fi 
+
 }
 
 show_timestamp() {
@@ -168,7 +173,9 @@ install_bspwm(){
   # Buscador de máquinas 
   sudo apt install coreutils util-linux npm nodejs bc moreutils translate-shell -y &>/dev/null
   sudo apt install node-js-beautify -y &>/dev/null 
-  sudo cp -r scripts/s4vimachines.sh/ /opt &>/dev/null
+
+  sudo git clone https://github.com/SelfDreamer/s4vimachines.sh /opt/s4vimachines.sh/ &>/dev/null
+
   sudo chown -R $usuario:$usuario /opt/s4vimachines.sh &>/dev/null
   sudo apt install wmname -y &>/dev/null
   cd "${ruta}" || return 1 

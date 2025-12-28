@@ -14,7 +14,13 @@ vim.keymap.set("n", "<C-A-t>", "<cmd>FloatermToggle<cr>", {
       }
 )
 
-vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
+vim.keymap.set({
+  "n",
+  "v",
+  "s",
+  "o",
+  "c"
+  }, "<RightMouse>", function()
   menu_utils.delete_old_menus()
 
   local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)

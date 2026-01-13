@@ -40,11 +40,16 @@ El instalador, casi al final te pedira que introduzcas tu nick para meterlo al f
 
 Siempre he visto en comunidades a gente preguntar acerca de un **AutoBSPWM** para `Kali` o `Parrot`. Ahora eso se acabo, porque este instalador hara que la configuración planteada funcione perfectamente. Tanto en Kali Linux como en Parrot OS. Y claro, puedes ejecutar el instalador desde la ruta que sea porque el mismo script se encargara de moverte a donde este el ejecutable.
 
+Este script esta hecho para que funciona en máquinas virtuales, así que si quieres instalarlo en un sistema operativo **nativo**, tendrás que hacerlo de forma manual. 
+En este caso, el script ahora fue actualizado y ahora es compatible tanto con **vmware** como con **virtualbox**, en el sentido de que no importa que virtualizador uses, podras usar la clipboard bidireccional como si nada. Es lo único por lo que yo me preocuparia, porque de resto no hay ningún problema.
+
 Asimismo, me he topado con uno de los grandes problemas a la hora de realizar este proyecto, que es el tema de los repositorios de `Backports` en Parrot OS. Estos repositorios pueden hacer que tu sistema Parrot sea muy inestable debido. Esto se debe a que `Debian` en sus repositorios trae binarios/dependencias antiguas pero muy bien probadas y seguras. Por ejemplo imagina que estas instalando `nmap` y esta requiere `libpcap v2` pero `wireshark` requiere especificamente `libpcap v1`, ahí esta el problema, incompatibilidad. Estos es solo un ejemplo pero es algo que puede pasarle a cualquiera. Anteriormente para instalar `eww`, el instalador usaba `Docker` por detras para poder mostrar los widgets en bspwm, lo cual es innecesario para un simple widget y ya. Ahora el instalador quita los repositorios de backports, actualiza tu sistema y cuando llega la hora de instalar `eww` el instalador se encarga de downgradear los paquetes que vea necesario para la instalación.
 
 **Rice Editor**
 
-Esta aplicación esta diseñada para simplificar drasticamente la personalización del entorno. Permite configurar la terminal `Kitty` en tiempo real sin reiniciar esta misma. Asimismo, me he dado la tarea de crear una libreria en `Python` llamada `CTkFileDialog` la cual esta hecha para poder cambiar tu fondo de pantalla sin necesidad de usar el dialogo de archivos que tkinter trae. Y claro, la libreria tiene 2 estilos, uno siendo el `Mini` y otro el `Original` pero eso no va al caso. Para mas información, visitar el [repositorio](https://github.com/SelfDreamer/CTkFileDialog).
+Esta aplicación esta diseñada para simplificar drasticamente la personalización del entorno. Permite configurar la terminal `Kitty` en tiempo real sin reiniciar esta misma. Asimismo, me he dado la tarea de crear una libreria en `Python` llamada `CTkFileDialog` la cual esta hecha para poder cambiar tu fondo de pantalla sin necesidad de usar el dialogo de archivos que tkinter trae. Y claro, la libreria tiene 2 estilos, uno siendo el `Mini` y otro el `Original` pero eso no va al caso. 
+
+> Para mas información, visitar el [repositorio](https://github.com/SelfDreamer/CTkFileDialog).
 
 **Menu contextual**
 
@@ -52,7 +57,7 @@ Puedes hacer el clásico click derecho sobre la ventana y veras el clásico menu
 
 **Bloqueador de pantalla**
 
-Este bloqueador de pantalla no es mio, es del señor gh0stzk. Pero para explicar en que consiste, tomara una captura de pantalla, la difuminara y la mostrara como pantalla de bloqueo hasta que escribas la contraseña.
+Este bloqueador de pantalla no es mio, es del señor [gh0stzk](https://github.com/gh0stzk/). Pero para explicar en que consiste, tomara una captura de pantalla, la difuminara y la mostrara como pantalla de bloqueo hasta que escribas la contraseña.
 
 **Polybar**
 

@@ -36,12 +36,45 @@ start_daemons(){
 # ░█░░░█░░░░█░░█▀▀░█▀▄░█░█░█▀█░█▀▄░█░█░░░█░█░█▀█░█▀▀░█░█░█░█░█░█
 # ░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀░░▀▀▀░▀░▀░▀░▀░▀▀░░░░▀▀░░▀░▀░▀▀▀░▀░▀░▀▀▀░▀░▀
 
-clipboard(){
-  vmware-user-suid-wrapper & 
-  vmware-user &
+clipboard() {
+    local virt_type=$(systemd-detect-virt 2>/dev/null || echo "none")
+
+    case "$virt_type" in
+        vmware)
+
+            if command -v vmware-user-suid-wrapper &> /dev/null; then
+                vmware-user-suid-wrapper &
+                vmware-user &
+            fi
+            ;;
+            
+        oracle)
+
+            if command -v VBoxClient-all &> /dev/null; then
+                VBoxClient-all &
+            elif command -v VBoxClient &> /dev/null; then
+                # Fallback manual si VBoxClient-all no existe
+                VBoxClient --clipboard &
+                VBoxClient --draganddrop &
+                VBoxClient --checkhostversion &
+                VBoxClient --seamless &
+            fi
+            ;;
+            
+        kvm|qemu)
+
+            if command -v spice-vdagent &> /dev/null; then
+                spice-vdagent &
+            fi
+            ;;
+            
+        *)
+            ;;
+    esac
 }
 
 { clipboard & } 2>"${ERROR_LOG}"
+
 # ░█░█░█▀█░█░░░█░░░█▀█░█▀█░█▀█░█▀▀░█▀▄
 # ░█▄█░█▀█░█░░░█░░░█▀▀░█▀█░█▀▀░█▀▀░█▀▄
 # ░▀░▀░▀░▀░▀▀▀░▀▀▀░▀░░░▀░▀░▀░░░▀▀▀░▀░▀

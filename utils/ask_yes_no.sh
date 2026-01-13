@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+# ask_yes_no - Script para elecciones de el usuario en scripts de bash 
+# ---
+# Parametros:
+# - -message: **Indica que mensaje veras, por defecto "Are you sure?"**
+# - -options: **Indica que opciones tendras, por defecto "Yes" y "No"**
+# - -selected-bg: **Indica que color tendra el 'boton' seleccionado**
+# - unselected-bg: **Indica que color tendra el 'boton' no seleccionado**
+# - -fg: **Indica el color que tendran los textos de los botones**
+
 ask_yes_no() {
     local message="Are you sure?"
     local options=("Yes" "No")

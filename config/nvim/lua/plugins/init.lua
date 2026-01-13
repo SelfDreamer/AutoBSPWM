@@ -122,7 +122,8 @@ return {
   
   {
     "luukvbaal/statuscol.nvim", 
-    lazy = false,
+    lazy = true,
+    event = "VimEnter",
     enabled = true,
     config = function()
       local builtin = require("statuscol.builtin")
@@ -174,7 +175,8 @@ return {
     "catppuccin/nvim", 
     name = "catppuccin",
     priority = 1000,
-    lazy = false,
+    lazy = true,
+    event = "VimEnter",
     config = function ()
 
       local ctp_feline = require('catppuccin.special.feline')
@@ -221,15 +223,12 @@ return {
   {
     "SelfDreamer/lsp_lines",
     enabled = true,
-    lazy = false,
+    lazy = true,
+    event = "BufReadPost",
     config = function ()
       local lsp_lines = require("lsp_lines")
       lsp_lines.setup()
       lsp_lines.toggle()
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { undercurl = true, sp = "#FF5F5F" })
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn",  { undercurl = true, sp = "#FFA500" })
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo",  { undercurl = true, sp = "#5FAFFF" })
-      vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint",  { undercurl = true, sp = "#5FFF87" })
 
         vim.schedule(function()
         vim.diagnostic.config({
@@ -264,6 +263,7 @@ return {
 
   {
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -330,7 +330,7 @@ return {
   {
   "MeanderingProgrammer/render-markdown.nvim",
   ft = { "markdown" },
-  lazy = false,          
+  lazy = false,
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
     "nvim-tree/nvim-web-devicons",

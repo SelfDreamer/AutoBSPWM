@@ -9,7 +9,7 @@ function ctrl_c(){
 
 trap ctrl_c INT
 
-echo -ne "\r${bright_cyan}[+]${bright_white} Introduce el nick que se vera reflejado en el fondo de pantalla: " && read -r -t 50 NICK 
+echo -ne "\r${bright_cyan}[+]${bright_white} Introduce el nick que se vera reflejado en el fondo de pantalla: " && read -r NICK 
 
 NICK="@${NICK:-$USER}"
 
@@ -25,6 +25,6 @@ convert "$INPUT_IMAGE" \
     -fill white \
     -gravity center \
     -annotate +0+140 "$NICK" \
-    "$OUTPUT_IMAGE"
+    "$OUTPUT_IMAGE" &>/dev/null
 
 echo -e "\n${bright_green}[✓]${bright_white} Imagen generada, nombre de usuario:${bright_magenta} $NICK${end}\n"

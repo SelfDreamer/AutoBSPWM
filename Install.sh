@@ -49,7 +49,6 @@ welcome(){
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠓⠶⠶⠤⠤⣴⠾⠷⠶⠿⡷⠖⠛⠛⠉⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡏⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀  
   ${end}"""
-  printf "\e[G"
   msg="""
  ${bright_green}•${end} ${bright_white}Este script \e[1mNO\e[0m\e[97m tiene el potencial de modificar tu sistema a \e[3mbajo nivel\e[0m\e[97m ni de \e[1mromperlo\e[0m\e[97m.
  ${bright_green}•${end} ${bright_white}Instalará un entorno \e[1;36mbspwm\e[0m\e[97m minimalista utilizando \033[48;5;236meww\e[0m\e[97m, \033[48;5;236mpolybar\e[0m\e[97m y \033[48;5;236msxhkd\e[0m\e[97m para los atajos.
@@ -67,7 +66,7 @@ welcome(){
     -fg "\e[97m" \
   )  
   if [[ ! "${confirm}" =~ ^[YySs] ]]; then 
-    echo -e "\n${bright_red}[!] Operation canelled by ${usuario}${end}" >&2
+    echo -e "\n${bright_red}▌ Operation canelled by ${usuario}${end}\n" >&2
     exit 1 
   fi 
 
@@ -401,8 +400,16 @@ install_picom(){
     cd ..
     rm -rf picom &>/dev/null
   fi
+  cd "${ruta}"
 
   cp -r ./config/picom/ ~/.config/ &>/dev/null
+    
+  # Hora de detectar el backend que mejor te ira en picom 
+  # Aún en desarrollo :p
+  source ./utils/get_backend.sh &>/dev/null 
+  
+  CURRENT_BACKEND=$(get_better_backend)
+  sed -i "s/backend = .*/backend = \"${CURRENT_BACKEND}\";/" ~/.config/picom/picom.conf &>/dev/null 
 
   ) &
 
@@ -444,6 +451,7 @@ install_fonts(){
   sudo cp -r fonts/* /usr/share/fonts/truetype/ &>/dev/null 
   sudo cp ./config/polybar/fonts/* /usr/share/fonts/truetype &>/dev/null 
   sudo apt install -y papirus-icon-theme &>/dev/null
+  sudo apt install fonts-noto-color-emoji -y &>/dev/null
   fc-cache -vf &>/dev/null 
   ) & 
 

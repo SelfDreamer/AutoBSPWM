@@ -6,8 +6,8 @@ get_better_backend() {
         return
     fi
 
-    if ! glxinfo | grep -q "direct rendering: Yes"; then
-        echo "xrender"
+    if glxinfo >&1 | grep -q "direct rendering: Yes"; then
+        echo "glx"
         return
     fi
 

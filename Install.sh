@@ -323,17 +323,6 @@ install_zsh(){
   sudo mv /root/root-zsh /root/.zshrc
   sudo cp -r ./config/zsh-sudo /usr/share/
 
-  cd "${ruta}"
-  target="/etc/default/keyboard"
-
-  if [[ -f "${target}" ]]; then 
-    lang=$(python3 scripts/keyboard.py)
-    lang="${lang:-es}"
-    cat "${target}" | sed -E "s/^XKBLAYOUT=[\"|']([A-Za-z]+)[\"|']$/XKBLAYOUT=\"${lang}\"/g" | sponge "${target}" 2>/dev/null 
-    cat ~/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge ~/.zshrc 2>/dev/null 
-    sudo cat /root/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge /root/.zshrc 2>/dev/null
-
-  fi 
 
   ) & 
 
@@ -417,12 +406,6 @@ install_picom(){
 
   cp -r ./config/picom/ ~/.config/ &>/dev/null
     
-  # Hora de detectar el backend que mejor te ira en picom 
-  # Aún en desarrollo :p
-  source ./utils/get_backend.sh &>/dev/null 
-  
-  CURRENT_BACKEND=$(get_better_backend)
-  sed -i "s/backend = .*/backend = \"${CURRENT_BACKEND}\";/" ~/.config/picom/picom.conf &>/dev/null 
 
   ) &
 
@@ -798,6 +781,42 @@ install_editor(){
 
 }
 
+
+function do_some_configs(){
+  (
+    cd "${ruta}"
+    target="/etc/default/keyboard"
+
+    if [[ -f "${target}" ]]; then 
+      lang=$(python3 scripts/keyboard.py)
+      lang="${lang:-es}"
+      sudo cat "${target}" | sed -E "s/^XKBLAYOUT=[\"|']([A-Za-z]+)[\"|']$/XKBLAYOUT=\"${lang}\"/g" | sponge "${target}" 2>/dev/null 
+      cat ~/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge ~/.zshrc 2>/dev/null 
+      sudo cat /root/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge /root/.zshrc 2>/dev/null
+
+    fi 
+
+    # Hora de detectar el backend que mejor te ira en picom 
+    # Aún en desarrollo :p
+    source ./utils/get_backend.sh &>/dev/null 
+    
+    CURRENT_BACKEND=$(get_better_backend)
+    sed -i "s/backend = .*/backend = \"${CURRENT_BACKEND}\";/" ~/.config/picom/picom.conf &>/dev/null 
+
+
+  ) &>/dev/null & 
+  
+  PID=$! 
+
+  spinner_log "${bright_white}Realizando algunas configuraciones extra${end}" "0.2" "${PID}"
+  
+  wait "${PID}"
+
+  show_timestamp "${SECONDS}" "${bright_white}Las configuraciones extra se realizaron con exito"
+
+
+}
+
 main(){
   cd "${ruta}" || exit 1
   source ./Colors
@@ -829,6 +848,7 @@ main(){
   sudo cp ./Colors /usr/bin/
   sudo cp ./upgrader /usr/bin/
   install_editor
+  do_some_configs
   install_rofi
 }
 

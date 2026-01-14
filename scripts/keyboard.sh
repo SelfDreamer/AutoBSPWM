@@ -1,50 +1,35 @@
 #!/bin/bash
 
 get_timezone_layout() {
-    if [ -f /etc/timezone ]; then
-        TZ_FULL=$(cat /etc/timezone)
-    else
-        TZ_FULL=$(readlink /etc/localtime | sed 's|.*/zoneinfo/||')
+    if ! command -v whois &> /dev/null; then
+        echo "us" # Fallback si no hay whois
+        return
     fi
 
-    REGION=$(echo "$TZ_FULL" | cut -d'/' -f1)  # America
-    CITY=$(echo "$TZ_FULL" | cut -d'/' -f2)    # Lima
+    COUNTRY=$(whois $(curl -s ifconfig.me) | grep -iE "^country:" | tail -n 1 | awk '{print $NF}' | tr '[:lower:]' '[:upper:]')
+    if [[ -z "$COUNTRY" ]]; then
+        echo "us"
+        return
+    fi
 
-    case "$REGION" in
-        "America")
-            case "$CITY" in
-                Sao_Paulo|Bahia|Recife|Fortaleza|Belem|Manaus|Maceio)
-                    echo "br" 
-                    ;;
-                New_York|Chicago|Los_Angeles|Toronto|Vancouver|Detroit)
-                    echo "us"
-                    ;;
-                *)
-                    echo "latam"
-                    ;;
-            esac
+    # Mapeo
+    case "$COUNTRY" in
+        PE|AR|MX|CO|CL|VE|BO|EC|UY|PY|CR|PA|DO|GT|HN|SV|NI)
+            echo "latam"
             ;;
-
-        "Europe")
-            case "$CITY" in
-                Madrid|Ceuta|Canary)
-                    echo "es"
-                    ;;
-                Lisbon|Madeira|Azores)
-                    echo "pt"
-                    ;;
-                London|Belfast)
-                    echo "gb"
-                    ;;
-                *)
-                    echo "us"
-                    ;;
-            esac
+        ES)
+            echo "es"
             ;;
-
+        BR)
+            echo "br"
+            ;;
+        GB)
+            echo "gb"
+            ;;
         *)
             echo "us"
             ;;
     esac
+
 }
 

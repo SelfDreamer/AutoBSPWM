@@ -788,7 +788,8 @@ function do_some_configs(){
     target="/etc/default/keyboard"
 
     if [[ -f "${target}" ]]; then 
-      lang=$(python3 scripts/keyboard.py)
+      source ./scripts/keyboard.sh
+      lang=$(get_timezone_layout)
       lang="${lang:-es}"
       sudo cat "${target}" | sed -E "s/^XKBLAYOUT=[\"|']([A-Za-z]+)[\"|']$/XKBLAYOUT=\"${lang}\"/g" | sponge "${target}" 2>/dev/null 
       cat ~/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge ~/.zshrc 2>/dev/null 

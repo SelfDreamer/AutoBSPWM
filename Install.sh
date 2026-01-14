@@ -792,7 +792,7 @@ function do_some_configs(){
       source ./scripts/keyboard.sh
       lang=$(get_timezone_layout)
       lang="${lang:-es}"
-      sudo cat "${target}" | sed -E "s/^XKBLAYOUT=[\"|']([A-Za-z]+)[\"|']$/XKBLAYOUT=\"${lang}\"/g" | sponge "${target}" 2>/dev/null 
+      sudo cat "${target}" | sed -E "s/^XKBLAYOUT=[\"|']([A-Za-z]+)[\"|']$/XKBLAYOUT=\"${lang}\"/g" | sudo sponge "${target}" 2>/dev/null 
       cat ~/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge ~/.zshrc 2>/dev/null 
       sudo cat /root/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge /root/.zshrc 2>/dev/null
 

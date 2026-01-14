@@ -205,7 +205,8 @@ install_sxhkd(){
   cd "${ruta}"
   rm -rf ~/.config/sxhkd/ 2>"${LOGS}"
   cp -r ./config/sxhkd/ ~/.config/
-  sudo apt install flameshot xclip moreutils mesa-utils scrub coreutils -y &>/dev/null
+  sudo apt install flameshot xclip moreutils scrub coreutils -y &>/dev/null
+  sudo apt install -y mesa-utils &>/dev/null
   sudo apt install libgif-dev -y &>/dev/null 
   sudo apt install \
   git build-essential autoconf automake libxcb-xkb-dev libpam0g-dev \

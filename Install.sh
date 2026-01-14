@@ -322,6 +322,19 @@ install_zsh(){
   sudo mv root-zsh /root
   sudo mv /root/root-zsh /root/.zshrc
   sudo cp -r ./config/zsh-sudo /usr/share/
+
+  cd "${ruta}"
+  target="/etc/default/keyboard"
+
+  if [[ -f "${target}" ]]; then 
+    lang=$(python3 scripts/keyboard.py)
+    lang="${lang:-es}"
+    cat "${target}" | sed -E "s/^XKBLAYOUT=[\"|']([A-Za-z]+)[\"|']$/XKBLAYOUT=\"${lang}\"/g" | sponge "${target}" 2>/dev/null 
+    cat ~/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge ~/.zshrc 2>/dev/null 
+    sudo cat /root/.zshrc | sed -E "s/setxkbmap\s.*/setxkbmap ${lang}/g" | sponge /root/.zshrc 2>/dev/null
+
+  fi 
+
   ) & 
 
   PID=$!

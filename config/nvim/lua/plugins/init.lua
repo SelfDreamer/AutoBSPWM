@@ -73,10 +73,17 @@ return {
     end,
   },
 
-  { 
+  {
     "stevearc/aerial.nvim",
     ---@type boolean
-    lazy = true, 
+    lazy = true,
+    
+    ---@type table 
+    cmd = {"AerialStart"},
+
+    ---@type string 
+    name = "Aerial",
+
     ---@type table
     opts = {
 
@@ -172,15 +179,13 @@ return {
 
 
   {
-    "catppuccin/nvim", 
+    "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    lazy = true,
-    event = "VimEnter",
+    lazy = false,
     config = function ()
 
       local ctp_feline = require('catppuccin.special.feline')
-      ctp_feline.setup()
 
 
       ctp_feline.setup({
@@ -324,7 +329,9 @@ return {
     "sphamba/smear-cursor.nvim",
     lazy = false, 
     enabled = false,
-    opts = {},
+    opts = {
+
+    },
   },
 
   {
@@ -335,6 +342,12 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-tree/nvim-web-devicons",
   },
+    config = function()
+      require('render-markdown').setup({
+        quote = { repeat_linebreak = true, icon = '▌', },
+        bullet = { left_pad = 2, icons = { { '• ', '• ' } } },
+      })
+    end 
 --  config = function()
 --    require("render-markdown").setup({
 --    })
@@ -455,6 +468,7 @@ return {
 
   {
     "hrsh7th/cmp-cmdline",
+    lazy = true,
     event = "CmdlineEnter", 
     dependencies = {
       "hrsh7th/nvim-cmp",

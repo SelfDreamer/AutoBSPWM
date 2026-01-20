@@ -1,3 +1,5 @@
+lazy_core_config = require("lazy.core.config")
+
 return {
 
   {
@@ -28,6 +30,12 @@ return {
     name = "  Aerial",
     hl = 'ExYellow',
     cmd = function()
+      local loaded = lazy_core_config.plugins["catppuccin"]
+      if not loaded and loaded._.loaded then
+        vim.cmd("silent! AerialStart")
+      end
+
+
       require("aerial").open()
     end,
   },

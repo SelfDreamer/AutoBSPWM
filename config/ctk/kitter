@@ -24,10 +24,12 @@ ${BOLD}${YELLOW}OPTIONS:${RESET}
   ${BLUE}--font-family${RESET}        Set font family (e.g. 'Hack Nerd Font')
   ${BLUE}--load-config${RESET}        Load configuration from file (e.g. /path/to/config)
   ${BLUE}--tab-style${RESET}          Set tab style (angled, slanted, round)
+  ${BLUE}--catppuccin-theme${RESET}   Set catppuccin theme (latte, frappe, macchiato, mocha)
+
 
 ${BOLD}${YELLOW}EXAMPLES:${RESET}
   ${GREEN}${_name}${RESET} ${MAGENTA}--font-size 12 --background-opacity 0.8
-  ${GREEN}${_name}${RESET} ${MAGENTA}--load-config ~/.config/terminal_settings.conf
+  ${GREEN}${_name}${RESET} ${MAGENTA}--load-config ${HOME}/.config/terminal_settings.conf
   """
 
   echo -e "$USAGE"
@@ -115,7 +117,7 @@ function changue_color_background(){
 function set_font_family(){
   font_family="${1}"
 
-  # "${KITTEN}" @ --to unix:/tmp/kitty-global-1354  load-config ~/.config/kitty/kitty.conf
+  # "${KITTEN}" @ --to unix:/tmp/kitty-global-1354  load-config ${HOME}.config/kitty/kitty.conf
   
   if [[ -z $font_family ]]; then
     echo -e "\n\e[4;31m[-] The option --font-family requires an argument!"
@@ -125,11 +127,11 @@ function set_font_family(){
   SOCKETS=$(get_sockets)
   
   if [[ "$SOCKETS" ]]; then 
-    sed -i "s/^font_family .*/font_family $font_family/" ~/.config/kitty/kitty.conf
+    sed -i "s/^font_family .*/font_family $font_family/" ${HOME}.config/kitty/kitty.conf
   fi
 
   for SOCKET in ${SOCKETS}; do  
-    "${KITTEN}" @ --to unix:${SOCKET}  load-config ~/.config/kitty/kitty.conf & 
+    "${KITTEN}" @ --to unix:${SOCKET}  load-config ${HOME}.config/kitty/kitty.conf & 
   done
 }
 
@@ -195,6 +197,51 @@ set_tab_style(){
 
 }
 
+function set_theme(){
+  local theme="${1}"
+  ALL_SOCKETS="${2}"
+
+  if [[ "${ALL_SOCKETS}" == "--all-sockets" ]]; then 
+    ALL_SOCKETS=true 
+  fi 
+
+  
+  if [[ -z "${theme}" ]]; then
+
+    echo -e "\n\e[4;31m[-] The option --catppuccin-theme requires an argument but given 0!"
+    print_help "1"
+
+  fi
+
+  declare -A themes=(
+    ["latte"]="${HOME}/.config/kitty/themes/latte.conf"
+    ["frappe"]="${HOME}/.config/kitty/themes/frappe.conf" 
+    ["macchiato"]="${HOME}/.config/kitty/themes/macchiato.conf"
+    ["mocha"]="${HOME}/.config/kitty/themes/mocha.conf"
+  )
+  
+  theme_target=$(echo "${themes["${theme}"]}")
+
+  if [[ -z "${theme_target}" ]]; then 
+    echo -e "\n\e[4;31m[-] Fatal error, the theme ${theme} was not found!"
+    exit 1 
+  fi 
+
+  [[ ! -f "${theme_target}" ]] && exit 1 
+  
+  if [[ "${ALL_SOCKETS}" == true ]]; then 
+  
+    while IFS= read -r socket; do
+      kitty @ --to "unix:$socket" set-colors --all "$theme_target" 2>/dev/null >&1 & 
+    done < <(get_sockets)
+    exit 1 
+  fi 
+
+  kitty @ set-colors --all "${theme_target}"
+  exit 1 
+
+}
+
 if [[ ! "$#" -gt 0 ]]; then
   print_help
 fi
@@ -209,6 +256,7 @@ while [[ "$#" -gt 0 ]]; do
         --all-sockets) ALL_SOCKETS=true; ;;  
         --load-config) load_config "$2" "${3}"; shift ;;
         --tab-style) set_tab_style "$2"; shift ;;
+        --catppuccin-theme) set_theme "${2}" "${3}"; shift;; 
         --help) print_help; ;; 
         *) echo "Unknown parameter: $1"; print_help 1 ;;
     esac

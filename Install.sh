@@ -217,8 +217,15 @@ install_sxhkd(){
   sudo apt install libglm-dev -y &>/dev/null 
   sudo apt install libglew-dev -y &>/dev/null 
 
-  # Intentamos instalar cmake porque se necesita XD
-  sudo apt install -y cmake libxrender-dev &>/dev/null
+  # Intentamos instalar cmake (demás) porque se necesita XD
+  sudo apt install -y cmake libxrender-dev libegl1-mesa-dev libpng-dev libjpeg-dev &>/dev/null
+  
+  sudo apt install -y \
+  libwebp-dev \
+  libxcomposite-dev \
+  libxfixes-dev \
+  libxrandr-dev \
+  libicu-dev &>/dev/null
 
   # Instalamos slop, necesario, deah 
   d_temp="$HOME/repos/"

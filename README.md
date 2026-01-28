@@ -322,16 +322,13 @@ cd AutoBSPWM
 
 ---
 
-## :book: Additional learning resources
+## :book: Recursos adicionales para el aprendizaje
 
 The following community and official resources may help users learn bspwm concepts beyond configuration files:
 
 - [BSPWM Documentación](https://github.com/baskerville/bspwm) : Documentación official por parte de baskerville/bspwm
 - [Arch Wiki: bspwm](https://wiki.archlinux.org/title/Bspwm) : La documentación de **Arch Linux** para **bspwm**  
 - [Doc741 (comunidad-mantenida bspwm documentación)](https://rdbhvr-001.github.io/doc741) : Una documentación detallada de **bspwm** 
-
-> [!WARNING] Advertencia
-> Este es un cambio experimental, de momento no se recomienda ejecutar el script hasta que este mensaje se haya borrado.
 
 ---
 

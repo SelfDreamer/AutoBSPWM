@@ -235,7 +235,9 @@ install_sxhkd(){
   git clone https://github.com/naelstrof/slop.git &>/dev/null 
   cd slop &>/dev/null 
   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/usr" ./ &>/dev/null 
-  make && sudo make install &>/dev/null 
+  if make &>/dev/null; then
+    sudo make install &>/dev/null 
+  fi 
   cd .. 
   rm -rf slop &>/dev/null 
 
@@ -243,7 +245,9 @@ install_sxhkd(){
   git clone https://github.com/naelstrof/maim.git &>/dev/null 
   cd maim &>/dev/null 
   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/usr" ./ &>/dev/null 
-  make && sudo make install &>/dev/null 
+  if make &>/dev/null; then
+    sudo make install &>/dev/null 
+  fi
   cd .. 
   rm -rf maim &>/dev/null  
   cd "${ruta}"

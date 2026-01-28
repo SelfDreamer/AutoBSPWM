@@ -19,6 +19,10 @@ super + Return
 super + shift + e 
   /opt/kitty/bin/kitty -e /opt/nvim/bin/nvim
 
+# Theme selector
+super + shift + t 
+  ~/.config/bspwm/themes/theme_selector.sh
+
 # Rofi theme selector 
 super + shift + s 
   ~/.config/polybar/scripts/ThemeSelector/selector.sh
@@ -161,3 +165,23 @@ super + a
 
 ~button3
   xqp 0 $(xdo id -N Bspwm -n root) && jgmenu --csv-file=~/.config/jgmenu/jgmenu.txt --config-file=~/.config/jgmenu/jgmenurc
+
+# ░█░█░▀█▀░█▀▄░█▀▀░░░█░█░▀█▀░█▀█░█▀▄░█▀█░█░█░█▀▀░░░█▀▄░█▀▀░█▀█░█░█░█▄█
+# ░█▀█░░█░░█░█░█▀▀░░░█▄█░░█░░█░█░█░█░█░█░█▄█░▀▀█░░░█▀▄░▀▀█░█▀▀░█▄█░█░█
+# ░▀░▀░▀▀▀░▀▀░░▀▀▀░░░▀░▀░▀▀▀░▀░▀░▀▀░░▀▀▀░▀░▀░▀▀▀░░░▀▀░░▀▀▀░▀░░░▀░▀░▀░▀
+
+# Hide window
+alt + h
+    ~/.config/bspwm/scripts/HiddenWindows/HideNode --hide
+
+# Show menu to restore hidden windows
+ctrl + alt + h
+    ~/.config/bspwm/scripts/HiddenWindows/HideNode --menu
+
+# ░█▀▀░█▀▀░█▀▄░█▀█░▀█▀░█▀▀░█░█░█▀█░█▀█░█▀▄
+# ░▀▀█░█░░░█▀▄░█▀█░░█░░█░░░█▀█░█▀▀░█▀█░█░█
+# ░▀▀▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀░▀░▀░░░▀░▀░▀▀░
+
+# ScratchPad
+super + alt + o
+  ~/.config/bspwm/scripts/Bspwm-ScratchPad 

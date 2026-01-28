@@ -303,6 +303,37 @@ cd AutoBSPWM
 ./Install.sh
 ```
 
+> [!TIP]
+> Algo a tener en cuenta, es que el instalador te pedira un nickname para colocarlo en tu fondo de pantalla. 
+> Anteriormente esto tenia un tiempo limite de 50 segundos, y en caso de pasar ese limite, el nickname era la variable "${USER}".
+> En este caso, no hay tiempo limite, asi que si por A|B te vas esperando a que concluya todo como si nada, lamento decirte que no sera asi.
+> Pero no todo es malo, ahora puedes indicarle de antemano el nickname que quieres que se muestre en tu fondo de pantalla personalizado.
+> Más o menos de la siguiente manera
+> ```bash
+> # Tu usuario de nickname
+> NICKNAME="${USER}" ./Install.sh
+>
+> # Que agarre la variable "${USER}" por ejemplo 
+> NICKNAME="" ./Install.sh 
+>
+> # O, meter un nick personalizado 
+> NICKNAME="dreamer" ./Install.sh
+> ```
+
+---
+
+## :book: Additional learning resources
+
+The following community and official resources may help users learn bspwm concepts beyond configuration files:
+
+- [BSPWM Documentación](https://github.com/baskerville/bspwm) : Documentación official por parte de baskerville/bspwm
+- [Arch Wiki: bspwm](https://wiki.archlinux.org/title/Bspwm) : La documentación de **Arch Linux** para **bspwm**  
+- [Doc741 (comunidad-mantenida bspwm documentación)](https://rdbhvr-001.github.io/doc741) : Una documentación detallada de **bspwm** 
+
+> [!WARNING] Advertencia
+> Este es un cambio experimental, de momento no se recomienda ejecutar el script hasta que este mensaje se haya borrado.
+
+---
 
 ## 😵‍💫 Problemas y errores comunes
 

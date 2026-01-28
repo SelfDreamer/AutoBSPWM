@@ -7,14 +7,16 @@ Usage: vpn_status [PARAM]
   --polybar 
 """
 TARGET="${HOME}/.config/bin/target"
-ip_address=$(/bin/cat ${TARGET} | awk '{print $1}')
-machine_name=$(/bin/cat ${TARGET} | awk '{print $2}')
- 
+ip_address=$(/bin/cat "${TARGET}" | awk '{print $1}')
+machine_name=$(/bin/cat "${TARGET}" | awk '{print $2}')
+RED="#e51d0b"
+TEXT="#ffffff"
+
 _polybar(){
-if [ $ip_address ] && [ $machine_name ]; then
-    echo "%{F#e51d0b}󰯐 %{F#ffffff}$ip_address%{u-} - $machine_name"
+if [ "${ip_address}" ] && [ "${machine_name}" ]; then
+    echo "%{F${RED}}󰯐 %{F${TEXT}}$ip_address - $machine_name"
 else
-    echo "%{F#e51d0b}󰓾 %{u-}%{F#ffffff} No target"
+    echo "%{F${RED}}󰓾 %{u-}%{F${TEXT}} No target"
 fi
 }
 

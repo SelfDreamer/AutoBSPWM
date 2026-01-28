@@ -1,9 +1,10 @@
+/* Colors - Theme: Default (Dark Custom) */
 * {
-    background:     #ffffff; /* bg_main */
-    background-alt: #e2e7e8; /* bg_dim */
-    foreground:     #000000; /* fg_main */
-    selected:       #a0bcd0; /* bg_mode_line */
-    selected-fg:    #000000; /* fg_mode_line */
-    active:         #056100; /* g_green */
-    urgent:         #750000; /* red */
+    background:     #0f111a;
+    background-alt: #202636;
+    foreground:     #a9b1d6;
+    selected:       #7aa2f7;
+    selected-fg:    #0f111a;
+    active:         #9ece6a;
+    urgent:         #f7768e;
 }

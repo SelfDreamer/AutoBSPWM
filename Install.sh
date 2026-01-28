@@ -166,7 +166,6 @@ install_bspwm(){
   sudo rm -rf /tmp/ImageMagick* &>"${LOGS}"
 
   [[ ! -d "${HOME}/Imágenes/" ]] && mkdir -p ~/Imágenes
-  cp -r ./wallpapers/ ~/Imágenes &>/dev/null
   [[ ! -d "${HOME}/Imágenes/capturas" ]] && mkdir -p ~/Imágenes/capturas
   
   # Buscador de máquinas 
@@ -213,7 +212,31 @@ install_sxhkd(){
   libcairo2-dev libev-dev libx11-xcb-dev libxkbcommon-dev libxkbcommon-x11-dev \
   libxcb-util0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-composite0-dev \
   libxcb-xinerama0-dev libjpeg-dev libx11-dev libgif-dev -y  &>/dev/null 
-  sudo apt install maim -y &>/dev/null
+  
+  # Instalamos maim 
+  sudo apt install libglm-dev -y &>/dev/null 
+  sudo apt install libglew-dev -y &>/dev/null 
+
+  # Instalamos slop, necesario, deah 
+  d_temp="$HOME/repos/"
+  mkdir -p "${d_temp}" &>/dev/null  
+  cd "${d_temp}" || exit 1 
+
+  git clone https://github.com/naelstrof/slop.git &>/dev/null 
+  cd slop &>/dev/null 
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/usr" ./ &>/dev/null 
+  make && sudo make install &>/dev/null 
+  cd .. 
+  rm -rf slop &>/dev/null 
+
+  # Instalamos maim ya xd 
+  git clone https://github.com/naelstrof/maim.git &>/dev/null 
+  cd maim &>/dev/null 
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="/usr" ./ &>/dev/null 
+  make && sudo make install &>/dev/null 
+  cd .. 
+  rm -rf maim &>/dev/null  
+  cd "${ruta}"
   
   sudo apt install autoconf gcc make pkg-config libpam0g-dev libcairo2-dev libfontconfig1-dev libxcb-composite0-dev libev-dev libx11-xcb-dev libxcb-xkb-dev libxcb-xinerama0-dev libxcb-randr0-dev libxcb-image0-dev libxcb-util0-dev libxcb-xrm-dev libxkbcommon-dev libxkbcommon-x11-dev libjpeg-dev libgif-dev -y  &>/dev/null
   
@@ -274,9 +297,13 @@ install_p10k(){
   (
   cd "${ruta}" || exit 1
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k &>/dev/null
-  cp ./config/PowerLevel10k/.p10k.zsh /home/$usuario
+  cp ./config/PowerLevel10k/.p10k.zsh /home/"${usuario}"
+  cp -r ./config/PowerLevel10k/themes/ ~/p10k-themes/
+
   sudo git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /root/powerlevel10k &>/dev/null
   sudo cp ./config/PowerLevel10k/.p10k.zsh /root/ 
+  sudo cp -r ./config/PowerLevel10k/themes/ /root/p10k-themes/
+
   ) & 
 
   PID=$!
@@ -286,7 +313,7 @@ install_p10k(){
 
   show_timestamp "${SECONDS}" "La PowerLevel10k se instalo de forma correcta"
 
-
+    
 }
 
 install_kitty(){
@@ -323,6 +350,11 @@ install_zsh(){
   sudo mv root-zsh /root
   sudo mv /root/root-zsh /root/.zshrc
   sudo cp -r ./config/zsh-sudo /usr/share/
+  mkdir -p ~/.config/zsh
+  cp -r ./config/zsh/themes/ ~/.config/zsh 
+  sudo mkdir -p /root/.config/zsh 
+  sudo cp -r ./config/zsh/themes/ /root/.config/zsh 
+
 
 
   ) & 
@@ -424,8 +456,31 @@ install_bat_and_lsd(){
   SECONDS=0
   (
   cd "${ruta}" || exit 1 
-  ./upgrader --bat &>/dev/null 
-  ./upgrader --lsd &>/dev/null
+  # Catppuccin bat integration for normal user 
+  ./upgrader --bat &>/dev/null
+  mkdir -p "$(/usr/bin/bat --config-dir)/themes" &>/dev/null 
+  wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme &>/dev/null 
+  wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme &>/dev/null  
+  wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme &>/dev/null 
+  wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme &>/dev/null
+  cp ./config/bat/config "$(/usr/bin/bat --config-dir)/"
+  /usr/bin/bat cache --build &>/dev/null 
+
+  sudo mkdir -p "$(/usr/bin/bat --config-dir)/themes" &>/dev/null 
+  sudo wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Latte.tmTheme &>/dev/null 
+  sudo wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Frappe.tmTheme &>/dev/null  
+  sudo wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme &>/dev/null 
+  sudo wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme &>/dev/null
+  sudo cp ./config/bat/config "$(/usr/bin/bat --config-dir)/"
+  sudo /usr/bin/bat cache --build &>/dev/null 
+
+
+  # LSD catppuccin integration 
+  ./upgrader --lsd &>/dev/null 
+  cp -r ./config/lsd/ "${HOME}"/.config &>/dev/null 
+  sudo cp -r ./config/lsd/ /root/.config &>/dev/null 
+
+
   ) &
 
   PID=$!
@@ -708,8 +763,29 @@ install_rofi(){
   show_timestamp "${SECONDS}" "${bright_white}Rofi se instalo de forma correcta"
 
   cd "${ruta}" || return 
-  ./font.sh
-  cp ./wallpapers/Wallpaper.jpg ~/Imágenes/wallpapers/
+  
+  THEMES=(Default Latte Macchiato Frappe Mocha)
+  
+  if [[ -z "${NICKNAME}" ]]; then 
+    echo -ne "\r${bright_cyan:-}[+]${bright_white:-} Introduce el nick que se vera reflejado en el fondo de pantalla: "
+    read -r NICK_INPUT
+    NICKNAME="${NICK_INPUT:-${USER}}"
+  fi 
+
+  for THEME in "${THEMES[@]}"; do 
+    ./font.sh \
+      --input-image "./wallpapers/Themes/${THEME}/HTB.jpg" \
+      --output-image "./wallpapers/Themes/${THEME}/Wallpaper.jpg" \
+      --font-path "/usr/share/fonts/truetype/HackNerdFont-Regular.ttf" \
+      --fill white \
+      --nickname "${NICKNAME}" &>/dev/null 
+
+  done 
+
+  echo -e "\n${bright_green:-}[✓]${bright_white:-} Imagenes generadas, nombre de usuario:${bright_magenta:-} ${NICKNAME}${end:-}\n"
+  
+  mkdir -p ~/Imágenes/wallpapers/ 
+  cp -r ./wallpapers/* ~/Imágenes/wallpapers/
 
   echo -ne "${bright_yellow}[+]${bright_white} La instalación del entorno ha finalizado, deseas reiniciar?${end}${bright_magneta} (Y/n)${end} " && read -r confirm 
 

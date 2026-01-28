@@ -7,12 +7,15 @@ Usage: ethernet_status [PARAM]
   --normal 
   --polybar 
 """
+GREEN="#1bbf3e"
+TEXT="#ffffff"
+RED="#e51d0b"
 
 _polybar(){
-  if [[ "$IFACE" ]]; then
-    echo "%{F#1bbf3e}󰖩 %{F#ffffff}$(ip addr show "$IFACE" | awk '/inet / {print $2; exit}' | cut -d/ -f1)%{u-}"
+  if [[ "${IFACE}" ]]; then
+    echo "%{F${GREEN}}󰈀 %{F${TEXT}}$(ip addr show "$IFACE" | awk '/inet / {print $2; exit}' | cut -d/ -f1)%{u-}"
   else
-    echo "%{F#FF4C4C}󱛅 %{F#ffffff}Disconnected"
+    echo "%{F${RED}}󰈂 %{F${TEXT}}Disconnected"
   fi
 }
 

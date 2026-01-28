@@ -1,0 +1,623 @@
+{
+  "default": {
+      "workspaces.ini": {
+        "modules": {
+          "workspaces": {
+            "label-active-foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#F9A825"
+            },
+            "label-active-background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            },
+            "label-occupied-foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#90CAf9"
+            },
+            "label-occupied-background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            },
+            "label-empty-foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#A020F0"
+            },
+            "label-empty-background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            }
+          }
+        },
+        "bar": {
+          "primary": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            }
+          }
+        }
+      },
+      "current.ini": {
+        "bar": {
+          "ethernet_status": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#ffffff"
+            }
+          },
+          "vpn_status": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#ffffff"
+            }
+          },
+          "target_to_hack": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#ffffff"
+            }
+          },
+          "updates": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#ffffff"
+            }
+          },
+          "date": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#242330"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#ffffff"
+            }
+          },
+          "log": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#14131c"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#16b290"
+            }
+          },
+          "primary": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#14131c"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#e51d0b"
+            }
+          },
+          "principal_bar": {
+            "background": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#14131c"
+            },
+            "foreground": {
+              "variable_interpolation": "custom",
+              "hexadecimal": "#ffffff"
+            }
+          }
+        }
+      }
+    },
+
+  "latte": {
+    "workspaces.ini": {
+      "modules": {
+        "workspaces": {
+          "label-active-foreground": {
+            "variable_interpolation": "${catppuccin-latte.peach}",
+            "hexadecimal": "#fe640b"
+          },
+          "label-active-background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          },
+          "label-occupied-foreground": {
+            "variable_interpolation": "${catppuccin-latte.blue}",
+            "hexadecimal": "#1e66f5"
+          },
+          "label-occupied-background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          },
+          "label-empty-foreground": {
+            "variable_interpolation": "${catppuccin-latte.mauve}",
+            "hexadecimal": "#8839ef"
+          },
+          "label-empty-background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          }
+        }
+      },
+      "bar": {
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          }
+        }
+      }
+    },
+    "current.ini": {
+      "bar": {
+        "ethernet_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.text}",
+            "hexadecimal": "#4c4f69"
+          }
+        },
+        "vpn_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.text}",
+            "hexadecimal": "#4c4f69"
+          }
+        },
+        "target_to_hack": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.text}",
+            "hexadecimal": "#4c4f69"
+          }
+        },
+        "updates": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.text}",
+            "hexadecimal": "#4c4f69"
+          }
+        },
+        "date": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.base}",
+            "hexadecimal": "#eff1f5"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.text}",
+            "hexadecimal": "#4c4f69"
+          }
+        },
+        "log": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.crust}",
+            "hexadecimal": "#dce0e8"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.teal}",
+            "hexadecimal": "#179299"
+          }
+        },
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.crust}",
+            "hexadecimal": "#dce0e8"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.red}",
+            "hexadecimal": "#d20f39"
+          }
+        },
+        "principal_bar": {
+          "background": {
+            "variable_interpolation": "${catppuccin-latte.crust}",
+            "hexadecimal": "#dce0e8"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-latte.text}",
+            "hexadecimal": "#4c4f69"
+          }
+        }
+      }
+    }
+  },
+  "frappe": {
+    "workspaces.ini": {
+      "modules": {
+        "workspaces": {
+          "label-active-foreground": {
+            "variable_interpolation": "${catppuccin-frappe.peach}",
+            "hexadecimal": "#ef9f76"
+          },
+          "label-active-background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          },
+          "label-occupied-foreground": {
+            "variable_interpolation": "${catppuccin-frappe.blue}",
+            "hexadecimal": "#8caaee"
+          },
+          "label-occupied-background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          },
+          "label-empty-foreground": {
+            "variable_interpolation": "${catppuccin-frappe.mauve}",
+            "hexadecimal": "#ca9ee6"
+          },
+          "label-empty-background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          }
+        }
+      },
+      "bar": {
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          }
+        }
+      }
+    },
+    "current.ini": {
+      "bar": {
+        "ethernet_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.text}",
+            "hexadecimal": "#c6d0f5"
+          }
+        },
+        "vpn_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.text}",
+            "hexadecimal": "#c6d0f5"
+          }
+        },
+        "target_to_hack": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.text}",
+            "hexadecimal": "#c6d0f5"
+          }
+        },
+        "updates": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.text}",
+            "hexadecimal": "#c6d0f5"
+          }
+        },
+        "date": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.base}",
+            "hexadecimal": "#303446"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.text}",
+            "hexadecimal": "#c6d0f5"
+          }
+        },
+        "log": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.crust}",
+            "hexadecimal": "#232634"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.teal}",
+            "hexadecimal": "#81c8be"
+          }
+        },
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.crust}",
+            "hexadecimal": "#232634"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.red}",
+            "hexadecimal": "#e78284"
+          }
+        },
+        "principal_bar": {
+          "background": {
+            "variable_interpolation": "${catppuccin-frappe.crust}",
+            "hexadecimal": "#232634"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-frappe.text}",
+            "hexadecimal": "#c6d0f5"
+          }
+        }
+      }
+    }
+  },
+  "macchiato": {
+    "workspaces.ini": {
+      "modules": {
+        "workspaces": {
+          "label-active-foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.peach}",
+            "hexadecimal": "#f5a97f"
+          },
+          "label-active-background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          },
+          "label-occupied-foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.blue}",
+            "hexadecimal": "#8aadf4"
+          },
+          "label-occupied-background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          },
+          "label-empty-foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.mauve}",
+            "hexadecimal": "#c6a0f6"
+          },
+          "label-empty-background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          }
+        }
+      },
+      "bar": {
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          }
+        }
+      }
+    },
+    "current.ini": {
+      "bar": {
+        "ethernet_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.text}",
+            "hexadecimal": "#cad3f5"
+          }
+        },
+        "vpn_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.text}",
+            "hexadecimal": "#cad3f5"
+          }
+        },
+        "target_to_hack": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.text}",
+            "hexadecimal": "#cad3f5"
+          }
+        },
+        "updates": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.text}",
+            "hexadecimal": "#cad3f5"
+          }
+        },
+        "date": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.base}",
+            "hexadecimal": "#24273a"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.text}",
+            "hexadecimal": "#cad3f5"
+          }
+        },
+        "log": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.crust}",
+            "hexadecimal": "#181926"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.teal}",
+            "hexadecimal": "#8bd5ca"
+          }
+        },
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.crust}",
+            "hexadecimal": "#181926"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.red}",
+            "hexadecimal": "#ed8796"
+          }
+        },
+        "principal_bar": {
+          "background": {
+            "variable_interpolation": "${catppuccin-macchiato.crust}",
+            "hexadecimal": "#181926"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-macchiato.text}",
+            "hexadecimal": "#cad3f5"
+          }
+        }
+      }
+    }
+  },
+  "mocha": {
+    "workspaces.ini": {
+      "modules": {
+        "workspaces": {
+          "label-active-foreground": {
+            "variable_interpolation": "${catppuccin-mocha.peach}",
+            "hexadecimal": "#fab387"
+          },
+          "label-active-background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          },
+          "label-occupied-foreground": {
+            "variable_interpolation": "${catppuccin-mocha.blue}",
+            "hexadecimal": "#89b4fa"
+          },
+          "label-occupied-background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          },
+          "label-empty-foreground": {
+            "variable_interpolation": "${catppuccin-mocha.mauve}",
+            "hexadecimal": "#cba6f7"
+          },
+          "label-empty-background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          }
+        }
+      },
+      "bar": {
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          }
+        }
+      }
+    },
+    "current.ini": {
+      "bar": {
+        "ethernet_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.text}",
+            "hexadecimal": "#cdd6f4"
+          }
+        },
+        "vpn_status": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.text}",
+            "hexadecimal": "#cdd6f4"
+          }
+        },
+        "target_to_hack": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.text}",
+            "hexadecimal": "#cdd6f4"
+          }
+        },
+        "updates": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.text}",
+            "hexadecimal": "#cdd6f4"
+          }
+        },
+        "date": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.base}",
+            "hexadecimal": "#1e1e2e"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.text}",
+            "hexadecimal": "#cdd6f4"
+          }
+        },
+        "log": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.crust}",
+            "hexadecimal": "#11111b"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.teal}",
+            "hexadecimal": "#94e2d5"
+          }
+        },
+        "primary": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.crust}",
+            "hexadecimal": "#11111b"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.red}",
+            "hexadecimal": "#f38ba8"
+          }
+        },
+        "principal_bar": {
+          "background": {
+            "variable_interpolation": "${catppuccin-mocha.crust}",
+            "hexadecimal": "#11111b"
+          },
+          "foreground": {
+            "variable_interpolation": "${catppuccin-mocha.text}",
+            "hexadecimal": "#cdd6f4"
+          }
+        }
+      }
+    }
+  }
+}

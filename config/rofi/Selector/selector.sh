@@ -1,5 +1,6 @@
 #!/bin/bash
-readonly wall_dir="$HOME/Imágenes/wallpapers/"
+THEME="Default"
+readonly wall_dir="$HOME/Imágenes/wallpapers/Themes/${THEME}/"
 readonly cacheDir="/tmp/cache/"
 
 # Create cache dir if not exists

@@ -5,14 +5,18 @@ Usage: vpn_status [PARAM]
   --normal 
   --polybar 
 """
+GREEN="#1bbf3e"
+TEXT="#ffffff"
+OVERLAY0="#6C757D"
+
 
 IFACE=$(/usr/sbin/ifconfig | grep tun0 | awk '{print $1}' | tr -d ':')
 
 _polybar(){
-if [ "$IFACE" = "tun0" ]; then
-    echo "%{F#1bbf3e}󰆧 %{F#ffffff}$(/usr/sbin/ifconfig tun0 | grep "inet " | awk '{print $2}')%{u-}"
+if [ "${IFACE}" = "tun0" ]; then
+    echo "%{F${GREEN}}󰆧 %{F${TEXT}}$(/usr/sbin/ifconfig tun0 | grep "inet " | awk '{print $2}')%{u-}"
 else
-    echo "%{F#6C757D}󰆧 %{F#ffffff} Disconnected"
+    echo "%{F${OVERLAY0}}󱐝 %{F${TEXT}}Disconnected%{u-}"
 fi
 }
 

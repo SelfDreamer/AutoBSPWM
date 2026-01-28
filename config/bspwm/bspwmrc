@@ -14,6 +14,7 @@
 # ░▀▀▀░▀░▀░▀░▀░▀▀▀░▀░▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀
 readonly ERROR_LOG="${HOME}/.bspwm_errors"
 rm "${ERROR_LOG}" > /dev/null
+THEME="default"
 
 # ░█▀▄░█▀█░█▀▀░█▄█░█▀█░█▀█░█▀▀
 # ░█░█░█▀█░█▀▀░█░█░█░█░█░█░▀▀█
@@ -89,7 +90,7 @@ wall(){
   /usr/bin/feh --bg-fill "${path}" &
 }
 
-wall ~/Imágenes/wallpapers/Wallpaper.jpg  2>"${ERROR_LOG}"
+wall ~/Imágenes/wallpapers/Themes/"${THEME^}"/Wallpaper.jpg  2>"${ERROR_LOG}"
 
 # ░█▀▄░█░█░█░░░█▀▀░█▀▀
 # ░█▀▄░█░█░█░░░█▀▀░▀▀█
@@ -132,8 +133,15 @@ set_workspaces 6 2>"${ERROR_LOG}"
 [[ -f "${HOME}/.Xresources" ]] && xrdb -merge "${HOME}/.Xresources"
 xsetroot -cursor_name left_ptr
 
+# lavender = #b4befe -> Mocha theme 
+ 
 focused_color="#C2F6FC"
-normal_color="#010812"
+
+# base       = #1e1e2e
+
+
+normal_color="#1e1e2e"
+
 bspc config window_gap          10
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true

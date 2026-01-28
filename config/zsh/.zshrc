@@ -1,3 +1,5 @@
+# Theme  
+THEME="default"
 # Fix the Java Problem
 export _JAVA_AWT_WM_NONREPARENTING=1
 
@@ -40,8 +42,6 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
 # Manual configuration
 
@@ -62,13 +62,21 @@ alias str='settarget'
 alias fastfetch='fastfetch --kitty-direct ~/.config/fastfetch/logo-small.png'
 alias neofetch='fastfetch --kitty-direct ~/.config/fastfetch/logo-small.png'
 alias fetch='fastfetch --kitty-direct ~/.config/fastfetch/logo-small.png'
+alias vim="nvim"
+alias vi="nvim"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Plugins
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ "${THEME}" != "default" ]]; then 
+  source "$HOME/.config/zsh/themes/catppuccin_${THEME}-zsh-syntax-highlighting.zsh"
+fi 
 source /usr/share/zsh-sudo/sudo.plugin.zsh
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 
 # Functions
 mkt () {
@@ -187,6 +195,43 @@ function fzf-lovely(){
 
 alias fzf-lovely='FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border" fzf-lovely'
 
+case "${THEME}" in 
+  mocha) 
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+--color=selected-bg:#45475A \
+--color=border:#6C7086,label:#CDD6F4"
+    ;;
+  latte)
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#CCD0DA,bg:#EFF1F5,spinner:#DC8A78,hl:#D20F39 \
+--color=fg:#4C4F69,header:#D20F39,info:#8839EF,pointer:#DC8A78 \
+--color=marker:#7287FD,fg+:#4C4F69,prompt:#8839EF,hl+:#D20F39 \
+--color=selected-bg:#BCC0CC \
+--color=border:#9CA0B0,label:#4C4F69"
+    ;;
+  frappe)
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#CCD0DA,bg:#EFF1F5,spinner:#DC8A78,hl:#D20F39 \
+--color=fg:#4C4F69,header:#D20F39,info:#8839EF,pointer:#DC8A78 \
+--color=marker:#7287FD,fg+:#4C4F69,prompt:#8839EF,hl+:#D20F39 \
+--color=selected-bg:#BCC0CC \
+--color=border:#9CA0B0,label:#4C4F69"
+    ;;
+  macchiato)
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
+--color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
+--color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
+--color=selected-bg:#494D64 \
+--color=border:#6E738D,label:#CAD3F5"
+    ;; 
+  default)
+    export FZF_DEFAULT_OPTS=""
+esac 
+
 function rmk(){
 	scrub -p dod $1
 	shred -zun 10 -v $1
@@ -194,7 +239,6 @@ function rmk(){
 
 # Finalize Powerlevel10k instant prompt. Should stay at the bottom of ~/.zshrc.
 (( ! ${+functions[p10k-instant-prompt-finalize]} )) || p10k-instant-prompt-finalize
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 export SUDO_PROMPT="$(tput setaf 3)[${USER}]$(tput setaf 15) Enter your password for root: $(tput sgr0)"
 export LS_COLORS="rs=0:di=34:ln=36:mh=00:pi=40;33:so=35:do=35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;4
@@ -209,3 +253,7 @@ export EDITOR='nvim'
 # Esto lo que hace es que nunca creara directorios __pycache__ al hacer scripts de python que sabemos que es molesto.
 # Si realmente quieres esos directorios, comenta esa linea y ya 
 export PYTHONDONTWRITEBYTECODE=1
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+

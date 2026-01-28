@@ -1,0 +1,99 @@
+#!/bin/sh
+# =============================================================
+# Author: gh0stzk
+# Repo:   https://github.com/gh0stzk/dotfiles
+# Date:   12.11.2025
+# Script Name: HideNode
+# Description: Hides windows and displays a menu to restore them.
+# =============================================================
+
+THUMB_DIR="/tmp/Minimize_thumbs"
+META_DIR="/tmp/Minimize_meta"
+THEME="$HOME/.config/bspwm/scripts/HiddenWindows/Hide.rasi"
+mkdir -p "$THUMB_DIR"
+mkdir -p "$META_DIR"
+get_wid(){
+
+  if ! bspc query -N -n any.leaf.window -d hidden 2>/dev/null | head -n 1; then 
+
+    bspc query -N -n .hidden 2>/dev/null | head -n 1
+
+  fi 
+
+}
+
+hide() {
+    wid=${1:-$(bspc query -N -n focused)}
+    [ -z "$wid" ] && exit 1
+
+    desktop=$(bspc query -D -n "$wid" --names)
+    echo "$desktop" > "$META_DIR/$wid.desktop"
+
+    # Usamos .webp como en tu versión original
+    maim -i "$wid" "$THUMB_DIR/$wid.webp"
+    sleep 0.05
+    bspc node "$wid" -g hidden=on
+}
+
+restore() {
+    wid=${1:-$(get_wid)}
+    [ -z "$wid" ] && exit 1
+
+    rm -f "$THUMB_DIR/$wid.webp"
+    bspc node "$wid" -g hidden=off
+    bspc node "$wid" -t 'tiled ~'
+
+    desktop_file="$META_DIR/$wid.desktop"
+    if [ -f "$desktop_file" ]; then
+        original_desktop=$(cat "$desktop_file")
+        bspc node "$wid" -d "$original_desktop"
+        bspc desktop "$original_desktop" -f
+        bspc node "$wid" -f
+        rm -f "$desktop_file"
+    else
+        bspc node "$wid" -d focused
+    fi
+}
+
+menu() {
+    # --- NUEVA VALIDACIÓN ---
+    # Verificamos si existen archivos .webp en el directorio.
+    # Si ls falla (no encuentra archivos), enviamos la notificación y salimos.
+    if ! ls "$THUMB_DIR"/*.webp >/dev/null 2>&1; then
+        notify-send -t 1700 "No hay ventanas minimizadas"
+        exit 0
+    fi
+    # ------------------------
+
+    entries=""
+    wids=""
+    k=0
+
+    # Iteramos solo sobre .webp para evitar errores con otros archivos
+    for A in "$THUMB_DIR"/*.webp; do
+        [ -f "$A" ] || continue
+        wid=$(basename "$A" .webp)
+        window_name=$(xprop -id "$wid" WM_NAME 2>/dev/null | cut -d '"' -f2)
+        [ -z "$window_name" ] && window_name="$wid"
+
+        entries="${entries}${k} ~ ${window_name}\000icon\037${A}\n"
+        wids="${wids}${wid}|"
+        k=$((k + 1))
+    done
+
+    window=$(printf "%b" "$entries" | rofi -dmenu -show-icons -theme "$THEME")
+    [ -z "$window" ] && exit 0
+
+    index=$(printf "%s" "$window" | cut -d ' ' -f1)
+    index=$((index + 1))
+
+    wid=$(printf "%s" "$wids" | cut -d '|' -f"$index")
+    [ -n "$wid" ] && restore "$wid"
+}
+
+
+case "$1" in
+    --hide) hide "$2" ;;
+    --menu) menu ;;
+    *)  echo "Uso: $0 --hide [WID] | --menu"; exit 1 ;;
+esac

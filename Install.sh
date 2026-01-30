@@ -394,7 +394,7 @@ install_fzf(){
   sudo git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf &>/dev/null 
   sudo /root/.fzf/install --all &>/dev/null
 
-  sudo git clone https://github.com/Aloxaf/fzf-tab /root/.fzf-tab
+  sudo git clone https://github.com/Aloxaf/fzf-tab /root/.fzf-tab &>/dev/null 
 
   ) & 
 

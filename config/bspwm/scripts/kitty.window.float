@@ -1,0 +1,142 @@
+#!/bin/bash
+
+# ==============================================================================
+# CONFIGURACIÓN Y COLORES
+# ==============================================================================
+# Colores para el output
+R=$(tput setaf 1) # Rojo
+G=$(tput setaf 2) # Verde
+Y=$(tput setaf 3) # Amarillo
+B=$(tput setaf 4) # Azul
+C=$(tput setaf 6) # Cyan
+N=$(tput sgr0)    # Reset
+
+# Valores por defecto
+CLASS_NAME="kitty-floating-generic"
+WIDTH="50%"
+HEIGHT="50%"
+OFFSET_X=0
+OFFSET_Y=0
+PAD_X=20
+PAD_Y=20
+CMD=""
+
+# ==============================================================================
+# FUNCIÓN DE AYUDA (PANEL)
+# ==============================================================================
+show_help() {
+    echo -e ""
+    echo -e "${B}┌──────────────────────────────────────────────────────────────┐${N}"
+    echo -e "${B}│${C}               KITTY FLOATING WINDOW MANAGER                  ${B}│${N}"
+    echo -e "${B}└──────────────────────────────────────────────────────────────┘${N}"
+    echo -e ""
+    echo -e "  ${Y}Uso:${N} $(basename "$0") [OPCIONES] --cmd \"COMANDO\""
+    echo -e ""
+    echo -e "  ${G}DESCRIPCIÓN:${N}"
+    echo -e "    Calcula la geometría para abrir una terminal Kitty flotante y"
+    echo -e "    centrada en el monitor actual (bspwm)."
+    echo -e ""
+    echo -e "  ${G}OPCIONES DE GEOMETRÍA:${N}"
+    echo -e "    ${C}--width${N}  <val>   Ancho de la ventana (Ej: \"50%\" o \"800\")"
+    echo -e "    ${C}--height${N} <val>   Alto de la ventana  (Ej: \"50%\" o \"600\")"
+    echo -e ""
+    echo -e "  ${G}POSICIÓN Y MÁRGENES:${N}"
+    echo -e "    ${C}--offset-x${N} <px>  Desplazamiento horizontal desde el centro (def: 0)"
+    echo -e "    ${C}--offset-y${N} <px>  Desplazamiento vertical desde el centro   (def: 0)"
+    echo -e "                     (Usar valores negativos para subir/izquierda)"
+    echo -e ""
+    echo -e "  ${G}ESTÉTICA:${N}"
+    echo -e "    ${C}--class${N}  <str>   Clase de la ventana para reglas BSPWM (def: generic)"
+    echo -e "    ${C}--padx${N}   <px>    Padding interno horizontal (def: 20)"
+    echo -e "    ${C}--pady${N}   <px>    Padding interno vertical   (def: 20)"
+    echo -e ""
+    echo -e "  ${G}EJECUCIÓN:${N}"
+    echo -e "    ${C}--cmd${N}    <str>   Comando a ejecutar. ${R}DEBE SER EL ÚLTIMO ARGUMENTO.${N}"
+    echo -e ""
+    echo -e "  ${G}EJEMPLO:${N}"
+    echo -e "    ${Y}$(basename "$0") --width \"40%\" --offset-y \"-50\" --cmd \"htop\"${N}"
+    echo -e ""
+    exit 0
+}
+
+# ==============================================================================
+# PARSEO DE ARGUMENTOS
+# ==============================================================================
+
+# Si no hay argumentos, mostramos ayuda
+if [[ $# -eq 0 ]]; then
+    show_help
+fi
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -h|--help) show_help ;;
+        --class) CLASS_NAME="$2"; shift ;;
+        --width) WIDTH="$2"; shift ;;
+        --height) HEIGHT="$2"; shift ;;
+        --marg-x|--offset-x) OFFSET_X="$2"; shift ;;
+        --marg-y|--offset-y|--bajada-px) OFFSET_Y="$2"; shift ;;
+        --padx) PAD_X="${2//[()]/}"; shift ;; 
+        --pady) PAD_Y="${2//[()]/}"; shift ;; 
+        --cmd) shift; CMD="$@"; break ;; # Rompemos el loop, el resto es el comando
+        *) echo -e "${R}[!] Opción desconocida: $1${N}"; exit 1 ;;
+    esac
+    shift
+done
+
+if [[ -z "$CMD" ]]; then
+    echo -e "${R}[!] Error: Debes especificar un comando con --cmd${N}"
+    exit 1
+fi
+
+# ==============================================================================
+# LÓGICA DE CÁLCULO
+# ==============================================================================
+
+# 1. Obtener geometría del monitor enfocado
+mon_geo=$(bspc query -T -m focused | jq -r '.rectangle | "\(.width) \(.height) \(.x) \(.y)"')
+read -r SCREEN_W SCREEN_H MON_X MON_Y <<< "$mon_geo"
+
+# 2. Función auxiliar para porcentajes
+calc_dim() {
+    local val=$1
+    local total=$2
+    if [[ "$val" == *"%"* ]]; then
+        local pct=${val//%/}
+        echo $(( total * pct / 100 ))
+    else
+        echo "$val"
+    fi
+}
+
+# 3. Calcular dimensiones finales
+FINAL_W=$(calc_dim "$WIDTH" "$SCREEN_W")
+FINAL_H=$(calc_dim "$HEIGHT" "$SCREEN_H")
+
+# 4. Calcular posición CENTRADA + Offset
+CENTER_X_LOCAL=$(( (SCREEN_W - FINAL_W) / 2 ))
+CENTER_Y_LOCAL=$(( (SCREEN_H - FINAL_H) / 2 ))
+
+FINAL_X=$(( MON_X + CENTER_X_LOCAL + OFFSET_X ))
+FINAL_Y=$(( MON_Y + CENTER_Y_LOCAL + OFFSET_Y ))
+
+# 5. Padding interno de Kitty (Top Right Bottom Left, o V H)
+KITTY_PAD="${PAD_Y} ${PAD_X}" 
+
+# ==============================================================================
+# EJECUCIÓN
+# ==============================================================================
+
+# Regla One-Shot para BSPWM
+bspc rule -a "$CLASS_NAME" \
+    state=floating \
+    rectangle="${FINAL_W}x${FINAL_H}+${FINAL_X}+${FINAL_Y}" \
+    --one-shot
+
+# Lanzar Kitty
+# Nota: Usamos --listen-on=unix:... si quisieras controlarla remotamente después, 
+# pero por ahora lo mantenemos simple.
+/opt/kitty/bin/kitty --class="$CLASS_NAME" \
+      -o window_padding_width="$KITTY_PAD" \
+      -o remember_window_size=no \
+      -- $CMD

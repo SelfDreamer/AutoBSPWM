@@ -1,7 +1,48 @@
+#!/bin/zsh
+
 # Theme  
 THEME="default"
 # Fix the Java Problem
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+# FZF THEME
+case "${THEME}" in 
+  mocha) 
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+--color=selected-bg:#45475A \
+--color=border:#6C7086,label:#CDD6F4"
+    ;;
+  latte)
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#CCD0DA,bg:#EFF1F5,spinner:#DC8A78,hl:#D20F39 \
+--color=fg:#4C4F69,header:#D20F39,info:#8839EF,pointer:#DC8A78 \
+--color=marker:#7287FD,fg+:#4C4F69,prompt:#8839EF,hl+:#D20F39 \
+--color=selected-bg:#BCC0CC \
+--color=border:#9CA0B0,label:#4C4F69"
+    ;;
+  frappe)
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#CCD0DA,bg:#EFF1F5,spinner:#DC8A78,hl:#D20F39 \
+--color=fg:#4C4F69,header:#D20F39,info:#8839EF,pointer:#DC8A78 \
+--color=marker:#7287FD,fg+:#4C4F69,prompt:#8839EF,hl+:#D20F39 \
+--color=selected-bg:#BCC0CC \
+--color=border:#9CA0B0,label:#4C4F69"
+    ;;
+  macchiato)
+    export FZF_DEFAULT_OPTS=" \
+--color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
+--color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
+--color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
+--color=selected-bg:#494D64 \
+--color=border:#6E738D,label:#CAD3F5"
+    ;; 
+  default)
+    export FZF_DEFAULT_OPTS=""
+esac 
+
 
 # Enable Powerlevel10k instant prompt. Should stay at the top of ~/.zshrc.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -42,6 +83,19 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+# Fzf tabs completions 
+zstyle ':fzf-tab:*' fzf-flags --style=full --height=90% --pointer '>' \
+                --color 'pointer:green:bold,bg+:-1:,fg+:green:bold,info:blue:bold,marker:yellow:bold,hl:gray:bold,hl+:yellow:bold' \
+                --input-label ' Search ' --color 'input-border:blue,input-label:blue:bold' \
+                --list-label ' Results ' --color 'list-border:green,list-label:green:bold' \
+                --preview-label ' Preview ' --color 'preview-border:magenta,preview-label:magenta:bold'
+
+zstyle ':fzf-tab:*' fzf-bindings 'space:accept'
+zstyle ':fzf-tab:*' fzf-bindings 'tab:accept'
+zstyle ':fzf-tab:*' fzf-bindings 'enter:accept'
+
+
+zstyle ':fzf-tab:complete:bat:*' fzf-preview "if [ -d \$realpath ]; then ls --color=always -1 \$realpath; elif [[ \$(file --mime \$realpath) =~ binary ]]; then echo \$realpath is a binary file; else (bat --style=numbers --color=always --theme=\"Catppuccin ${(C)THEME}\" \$realpath 2>/dev/null || highlight -O ansi -l \$realpath || coderay \$realpath || rougify \$realpath || cat \$realpath) 2> /dev/null | head -500; fi"     
 
 # Manual configuration
 
@@ -174,63 +228,27 @@ pyenv () {
 function fzf-lovely(){
 
 	if [ "$1" = "h" ]; then
-		fzf -m --reverse --preview-window down:20 --preview '[[ $(file --mime {}) =~ binary ]] &&
+		fzf -m --layout=reverse --height=40% --border --reverse --preview-window down:20 --preview "[[ \$(file --mime {}) =~ binary ]] &&
  	               echo {} is a binary file ||
-	                (bat --style=numbers --color=always {} ||
+                 (bat --style=numbers --color=always {} --theme=\"Catppuccin ${(C)THEME}\" ||
 	                 highlight -O ansi -l {} ||
 	                 coderay {} ||
 	                 rougify {} ||
-	                 cat {}) 2> /dev/null | head -500'
+	                 cat {}) 2> /dev/null | head -1000"
 
 	else
-	       fzf -m --preview '[[ $(file --mime {}) =~ binary ]] &&
+	       fzf --layout=reverse --height=40% --border -m --preview "[[ \$(file --mime {}) =~ binary ]] &&
 	                        echo {} is a binary file ||
-	                        (bat --style=numbers --color=always {} ||
+                          (bat --style=numbers --color=always {} --theme=\"Catppuccin ${(C)THEME}\" ||
 	                         highlight -O ansi -l {} ||
 	                         coderay {} ||
 	                         rougify {} ||
-	                         cat {}) 2> /dev/null | head -500'
+	                         cat {}) 2> /dev/null | head -1000"
 	fi
 }
 
-alias fzf-lovely='FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border" fzf-lovely'
-
-case "${THEME}" in 
-  mocha) 
-    export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
---color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
---color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
---color=selected-bg:#45475A \
---color=border:#6C7086,label:#CDD6F4"
-    ;;
-  latte)
-    export FZF_DEFAULT_OPTS=" \
---color=bg+:#CCD0DA,bg:#EFF1F5,spinner:#DC8A78,hl:#D20F39 \
---color=fg:#4C4F69,header:#D20F39,info:#8839EF,pointer:#DC8A78 \
---color=marker:#7287FD,fg+:#4C4F69,prompt:#8839EF,hl+:#D20F39 \
---color=selected-bg:#BCC0CC \
---color=border:#9CA0B0,label:#4C4F69"
-    ;;
-  frappe)
-    export FZF_DEFAULT_OPTS=" \
---color=bg+:#CCD0DA,bg:#EFF1F5,spinner:#DC8A78,hl:#D20F39 \
---color=fg:#4C4F69,header:#D20F39,info:#8839EF,pointer:#DC8A78 \
---color=marker:#7287FD,fg+:#4C4F69,prompt:#8839EF,hl+:#D20F39 \
---color=selected-bg:#BCC0CC \
---color=border:#9CA0B0,label:#4C4F69"
-    ;;
-  macchiato)
-    export FZF_DEFAULT_OPTS=" \
---color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
---color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
---color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
---color=selected-bg:#494D64 \
---color=border:#6E738D,label:#CAD3F5"
-    ;; 
-  default)
-    export FZF_DEFAULT_OPTS=""
-esac 
+#alias fzf-lovely='FZF_DEFAULT_OPTS="--height=40% --layout=reverse --border" fzf-lovely'
+#alias fzf-lovely='FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS}" fzf-lovely'
 
 function rmk(){
 	scrub -p dod $1
@@ -257,3 +275,7 @@ export PYTHONDONTWRITEBYTECODE=1
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
+# FZF Tab Completion enabled 
+autoload -U compinit; compinit
+
+[[ -f ~/.fzf-tab/fzf-tab.plugin.zsh ]] && source ~/.fzf-tab/fzf-tab.plugin.zsh

@@ -26,7 +26,10 @@ start_daemons(){
   pidof -q picom || picom &
   pidof -q eww || eww daemon &
   pidof -q sxhkd > /dev/null || sxhkd &
+
+  kill $(timeout 1  dunst 2>&1 | grep -oP "with PID \K'(.*)'"  | tr -d "'")
   pidof -q dunst || dunst &
+
   killall dunst; dunst &
   wmname LG3D &
 }

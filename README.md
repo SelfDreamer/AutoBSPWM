@@ -286,6 +286,10 @@ https://github.com/user-attachments/assets/d1bdaa69-cabf-4d6b-96d9-fffe9f8e3928
 > - `Ctrl + P` = Abrir el picker.
 > - `Ctrl + Alt + T` = Abrir la terminal flotante.
 
+## Scratchpad
+
+https://github.com/user-attachments/assets/1f6b1ea5-abef-443b-93f6-083a828e9f11
+
 ---
 
 <h2> Atajos de teclado ⌨ </h2>

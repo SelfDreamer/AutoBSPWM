@@ -313,9 +313,6 @@ cd AutoBSPWM
 > # Tu usuario de nickname
 > NICKNAME="${USER}" ./Install.sh
 >
-> # Que agarre la variable "${USER}" por ejemplo 
-> NICKNAME="" ./Install.sh 
->
 > # O, meter un nick personalizado 
 > NICKNAME="dreamer" ./Install.sh
 > ```

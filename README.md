@@ -231,55 +231,59 @@ https://github.com/user-attachments/assets/d1bdaa69-cabf-4d6b-96d9-fffe9f8e3928
 
 <h2> Atajos de teclado ⌨ </h2>
 
-| Combinación               | Acción                                                             |
-|--------------------------|--------------------------------------------------------------------|
-| Windows + Enter          | Abrir terminal                                            |
-| Windows + Shift + E      | Abrir Neovim                                          |
-| Windows + Shift + S      | Selector de tema de menu de apagado (Polybar)                                         |
-| Windows + Shift + O      | Abrir Obsidian                                                     |
-| Windows + Shift + X      | Bloquear pantalla                                                  |
-| Windows + D              | Abrir selector de aplicaciones                                             |
-| Windows + W              | Selector de wallpapers                                      |
-| Windows + Esc            | Recargar `sxhkd`                                                   |
-| Windows + Shift + F      | Abrir Firefox                                                      |
-| Windows + Shift + Q      | Salir de BSPWM                                                     |
-| Windows + Shift + R      | Reiniciar BSPWM                                                    |
-| Windows + Q              | Cerrar ventana                                                     |
-| Windows + Shift + Q      | Forzar cierre de ventana                                           |
-| Windows + M              | Alternar modo monocromo (layout)                                   |
-| Windows + Y              | Traer ventana marcada                                              |
-| Windows + G              | Enviar ventana al más grande                                       |
-| Windows + T              | Establecer modo Tiled                                              |
-| Windows + Shift + T      | Establecer modo Pseudo-Tiled                                       |
-| Windows + S              | Establecer modo Floating                                           |
-| Windows + F              | Establecer modo Pantalla completa                                  |
-| Windows + Ctrl + M       | Marcar ventana                                                     |
-| Windows + Ctrl + X       | Bloquear ventana                                                   |
-| Windows + Ctrl + Y       | Hacer ventana "sticky"                                             |
-| Windows + Ctrl + Z       | Hacer ventana privada                                              |
-| Windows + ← ↓ ↑ →        | Mover foco entre ventanas                                          |
-| Windows + Shift + ← ↓ ↑ →| Mover ventana                                                      |
-| Windows + Alt + ← ↓ ↑ →  | Redimensionar ventana                        |
-| Windows + Ctrl + Alt + ← ↓ ↑ → | Preselección para mover ventana                          |
-| Windows + Ctrl + Alt + Espacio | Cancelar preselección                                   |
-| Windows + Ctrl + Shift + Espacio | Cancelar todas las preselecciones del escritorio actual |
-| Windows + P              | Foco al padre                                                      |
-| Windows + B              | Foco al hermano                                                    |
-| Windows + ,              | Foco al primero                                                    |
-| Windows + .              | Foco al segundo                                                    |
-| Windows + C              | Foco siguiente ventana                                             |
-| Windows + Shift + C      | Foco ventana anterior                                              |
-| Windows + [              | Ir al escritorio anterior                                          |
-| Windows + ]              | Ir al escritorio siguiente                                         |
-| Windows + `              | Ir al último nodo activo                                           |
-| Windows + Tab            | Ir al último escritorio activo                                     |
-| Windows + O              | Foco a ventana más antigua                                         |
-| Windows + I              | Foco a ventana más reciente                                        |
-| Windows + (1–9, 0)       | Cambiar de escritorio                                              |
-| Windows + Shift + (1–9, 0)| Mover ventana al escritorio                                       |
-| Windows + Ctrl + (1–9)   | Crear ventana fantasma en escritorio                               |
-| Windows + A              | Tomar captura y copiarla al portapapeles              |
-| Click derecho (mouse)    | Mostrar menú contextual con jgmenu                                 |
+| Combinación                     | Acción                                                     |
+|---------------------------------|------------------------------------------------------------|
+| Windows + Enter                 | Abrir terminal (Kitty)                                     |
+| Windows + Shift + E             | Abrir Neovim (en Kitty)                                    |
+| Windows + Shift + T             | Selector de temas de BSPWM                                 |
+| Windows + Shift + S             | Selector de temas de Polybar / Menú de apagado             |
+| Windows + Shift + O             | Abrir Obsidian                                             |
+| Windows + Shift + X             | Bloquear pantalla (ScreenLocker)                           |
+| Windows + D                     | Abrir selector de aplicaciones (Rofi)                      |
+| Windows + W                     | Selector de wallpapers                                     |
+| Windows + Esc                   | Recargar configuración de `sxhkd`                          |
+| Windows + Shift + F             | Abrir Firefox                                              |
+| Windows + Shift + Q             | Salir de BSPWM                                             |
+| Windows + Shift + R             | Reiniciar BSPWM                                            |
+| Windows + Q                     | Cerrar ventana (Cierre suave)                              |
+| Windows + Shift + Q             | Forzar cierre de ventana (Kill)                            |
+| Windows + M                     | Alternar entre layout Tiled y Monocle                      |
+| Windows + Y                     | Traer ventana marcada a zona preseleccionada               |
+| Windows + G                     | Intercambiar ventana actual con la más grande              |
+| Windows + T                     | Establecer modo Tiled                                      |
+| Windows + Shift + T             | Establecer modo Pseudo-Tiled                               |
+| Windows + S                     | Establecer modo Floating                                   |
+| Windows + F                     | Establecer modo Pantalla completa                          |
+| Windows + Ctrl + M              | Marcar ventana                                             |
+| Windows + Ctrl + X              | Bloquear ventana (Locked)                                  |
+| Windows + Ctrl + Y              | Hacer ventana "Sticky" (Aparece en todos los escritorios)  |
+| Windows + Ctrl + Z              | Hacer ventana privada                                      |
+| Windows + ← ↓ ↑ →               | Mover el foco entre ventanas                               |
+| Windows + Shift + ← ↓ ↑ →       | Mover/Intercambiar posición de ventana                     |
+| Windows + Alt + ← ↓ ↑ →         | Redimensionar ventana (Script personalizado)               |
+| Windows + Ctrl + Alt + ← ↓ ↑ →  | Preselección de dirección para nueva ventana               |
+| Windows + Ctrl + (1–9)          | Preselección de ratio (0.1 a 0.9)                          |
+| Windows + Ctrl + Alt + Espacio  | Cancelar preselección del nodo actual                      |
+| Windows + Ctrl + Shift + Espacio| Cancelar todas las preselecciones del escritorio actual    |
+| Windows + P                     | Foco al nodo padre                                         |
+| Windows + B                     | Foco al nodo hermano                                       |
+| Windows + ,                     | Foco al primer hijo                                        |
+| Windows + .                     | Foco al segundo hijo                                       |
+| Windows + C                     | Foco a la siguiente ventana local                          |
+| Windows + Shift + C             | Foco a la ventana anterior local                           |
+| Windows + [                     | Ir al escritorio anterior                                  |
+| Windows + ]                     | Ir al escritorio siguiente                                 |
+| Windows + `                     | Ir al último nodo activo                                   |
+| Windows + Tab                   | Ir al último escritorio activo                             |
+| Windows + O                     | Foco a ventana más antigua (historial)                     |
+| Windows + I                     | Foco a ventana más reciente (historial)                    |
+| Windows + (1–9, 0)              | Cambiar al escritorio 1-10                                 |
+| Windows + Shift + (1–9, 0)      | Mover ventana al escritorio 1-10                           |
+| Windows + A                     | Captura de pantalla y copiar al portapapeles               |
+| Click Derecho (Fondo)           | Mostrar menú contextual (jgmenu)                           |
+| Alt + H                         | Ocultar ventana (Hide node)                                |
+| Ctrl + Alt + H                  | Menú para restaurar ventanas ocultas                       |
+| Windows + Alt + O               | Abrir/Cerrar Scratchpad (Ventana flotante de notas)        |
 
 
 ---

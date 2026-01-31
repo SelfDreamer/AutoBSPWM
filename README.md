@@ -183,6 +183,9 @@ Claro y cuando digo todo, esto incluye lo siguiente:
 - Tema de **rofi**
 - Tema de **zsh-syntax-highlighting**
 - Tema de **FZF**
+- Tema de PowerLevel10k
+- Tema de Dunst
+- Muy pronto con nvim.
 
 Y los fondos de pantalla se adaptaran al tema que estes usando, y no, estos cambios no requieren de un reinicio, pero si quieres ver todos los cambios aplicados, deberas de hacer un `exec zsh` en la terminal que desees ver cambio en la paleta de colores (respecto a terminal, porque el resto de cosas cambian de golpe).
 
@@ -224,6 +227,7 @@ Aqui, algunas **previews**
 |-------|
 | <img width="1920" height="1075" alt="image" src="https://github.com/user-attachments/assets/94666961-9b35-4476-8063-cc2bfa8cea7f" /> |
 
+> De momento este repositorio solo cuenta con 5 temas, pero pronto tendra soporte para distintos temas que aborden otros entornos, es decir, otra Polybar, otra PowerLevel10k, otro rofi y demás!
 
 ---
 

@@ -171,6 +171,62 @@ Lamentablemente este script no soporta todos los binarios, pero si los siguiente
 
 Como se menciono anteriormente, estos archivos de configuración estan hechos para la gente que realiza `pentesting`. La idea con este buscador es fortalezer tu aprendizaje como **Red Teamer** brindando un buscador de máquinas hecho en **Bash**. Este script puede ser ejecutado desde cualquier parte del `PATH` y con este podemos realizar busquedas avanzadas como se hacia en `infosecmachines.io` en su momento. Si quieres obtener mas información, visita el [repositorio](https://github.com/SelfDreamer/s4vimachines.sh) de el buscador, que ya volvio a estar operativo. 
 
+<h1> Temas </h1>
+Este repositorio a a día de hoy cuenta con lo que son los temas. A diferencia de los temas que tiene el señor **gh0stzk**, este tema SOLO cambia la paleta de colores de todo el entorno.
+Claro y cuando digo todo, esto incluye lo siguiente:
+
+- Polybar
+- Kitty
+- Tema de **bat**
+- Tema de **lsd**
+- Tema de **eww**
+- Tema de **rofi**
+- Tema de **zsh-syntax-highlighting**
+- Tema de **FZF**
+
+Y los fondos de pantalla se adaptaran al tema que estes usando, y no, estos cambios no requieren de un reinicio, pero si quieres ver todos los cambios aplicados, deberas de hacer un `exec zsh` en la terminal que desees ver cambio en la paleta de colores (respecto a terminal, porque el resto de cosas cambian de golpe).
+
+> [!TIP] Tip
+> Si deseas cambiar de tema, puedes usar el atajo que viene documentado el cual es **Windows + Shift + t**. 
+> Luego de usar ese atajo, seleccionas tu tema y disfruta de la magia.
+
+Mientras lees esto, te preguntaras. ¿Cuales son los temas que hay? La respuesta es simple, son temas de **Catppuccin** que fui agarrando de repositorios de el mismo **Catppuccin** para traerlos a este mismo repositorio.
+
+<img width="225" height="225" alt="image" src="https://github.com/user-attachments/assets/9aadd88f-4a08-4640-806d-e2d26394642d" />
+
+Actualmente este repositorio solo cuenta con 5 temas
+
+- **Default**
+- **Mocha**
+- **Macchiato**
+- **Frappe**
+- **Latte**
+
+Aqui, algunas **previews**
+
+<h2> Default </h2>
+
+| Default |
+|---------|
+| <img width="1920" height="1074" alt="image" src="https://github.com/user-attachments/assets/0dab0988-7c94-455e-b3a5-524236a08c93" /> |
+
+<h2> Mocha </h2>
+
+<img width="1920" height="1070" alt="image" src="https://github.com/user-attachments/assets/d5887b4a-845f-407e-8a93-35d995602996" />
+
+<h2> Macchiato </h2>
+
+<img width="1920" height="1075" alt="image" src="https://github.com/user-attachments/assets/089bd57d-1baa-4c0c-b250-3f550736f46b" />
+
+<h2> Frappe </h2>
+
+<img width="1920" height="1074" alt="image" src="https://github.com/user-attachments/assets/825c9ad5-6f27-4fc1-b377-1fac657998c8" />
+
+<h2> Latte </h2>
+
+<img width="1920" height="1075" alt="image" src="https://github.com/user-attachments/assets/94666961-9b35-4476-8063-cc2bfa8cea7f" />
+
+
 ---
 
 <h2> 🎨 Lanzadores </h2>

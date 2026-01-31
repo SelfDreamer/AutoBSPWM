@@ -204,27 +204,25 @@ Actualmente este repositorio solo cuenta con 5 temas
 
 Aqui, algunas **previews**
 
-<h2> Default </h2>
-
 | Default |
 |---------|
 | <img width="1920" height="1074" alt="image" src="https://github.com/user-attachments/assets/0dab0988-7c94-455e-b3a5-524236a08c93" /> |
 
-<h2> Mocha </h2>
+| Mocha |
+|-------|
+| <img width="1920" height="1070" alt="image" src="https://github.com/user-attachments/assets/d5887b4a-845f-407e-8a93-35d995602996" /> | 
 
-<img width="1920" height="1070" alt="image" src="https://github.com/user-attachments/assets/d5887b4a-845f-407e-8a93-35d995602996" />
+| Macchiato |
+|-----------| 
+| <img width="1920" height="1075" alt="image" src="https://github.com/user-attachments/assets/089bd57d-1baa-4c0c-b250-3f550736f46b" /> |
 
-<h2> Macchiato </h2>
+| Frappe | 
+|--------|
+| <img width="1920" height="1074" alt="image" src="https://github.com/user-attachments/assets/825c9ad5-6f27-4fc1-b377-1fac657998c8" /> | 
 
-<img width="1920" height="1075" alt="image" src="https://github.com/user-attachments/assets/089bd57d-1baa-4c0c-b250-3f550736f46b" />
-
-<h2> Frappe </h2>
-
-<img width="1920" height="1074" alt="image" src="https://github.com/user-attachments/assets/825c9ad5-6f27-4fc1-b377-1fac657998c8" />
-
-<h2> Latte </h2>
-
-<img width="1920" height="1075" alt="image" src="https://github.com/user-attachments/assets/94666961-9b35-4476-8063-cc2bfa8cea7f" />
+| Latte |
+|-------|
+| <img width="1920" height="1075" alt="image" src="https://github.com/user-attachments/assets/94666961-9b35-4476-8063-cc2bfa8cea7f" /> |
 
 
 ---

@@ -878,6 +878,7 @@ install_editor(){
 
 
 function do_some_configs(){
+  SECONDS=0
   (
     cd "${ruta}"
     target="/etc/default/keyboard"

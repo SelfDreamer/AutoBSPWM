@@ -248,7 +248,7 @@ https://github.com/user-attachments/assets/d1bdaa69-cabf-4d6b-96d9-fffe9f8e3928
 ## Fzf tab completion
 
 | <img width="1235" height="550" alt="image" src="https://github.com/user-attachments/assets/f9a3c553-98a9-42b3-998e-49dc5dfdd429" /> |
-|-------------------------------------------------------------------------------------------------------------------------------------|
+| :-------------------------------------------------------------------------------------------------------------------------------------: |
 |                                           systemctl, cat, kill, git, nmap, kitty y más!                                             |
 
 

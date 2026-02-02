@@ -1,0 +1,48 @@
+position_mode = pointer
+stay_alive = 0
+tint2_look = 0
+terminal_exec = kitty
+terminal_args = -e
+menu_width = 160
+menu_padding_top = 5
+menu_padding_right = 5
+menu_padding_bottom = 5
+menu_padding_left = 5
+menu_radius = 8
+menu_border = 0
+menu_halign = left
+sub_hover_action = 1
+item_margin_y = 5
+item_height = 30
+item_padding_x = 8
+item_radius = 6
+item_border = 0
+sep_height = 2
+font = Clarity City Bold 12px
+icon_size = 16
+# IMPORTANTE: Tema Light para que se vean los iconos
+icon_theme = Papirus-Light
+arrow_string = 󰄾
+
+# --- Colores Catppuccin Latte ---
+
+# Borde (Invisible)
+color_menu_border = #4c4f69 0
+
+# Fondo del menú (Base)
+color_menu_bg = #eff1f5 100
+
+# Fondo de items normales (Transparente)
+color_norm_bg = #eff1f5 0
+
+# Color de texto normal (Text)
+color_norm_fg = #4c4f69 100
+
+# Fondo del item seleccionado (Surface2 - Un gris medio para resaltar en fondo claro)
+color_sel_bg = #ccd0da 100
+
+# Color de texto seleccionado (Text)
+color_sel_fg = #4c4f69 100
+
+# Color de separadores (Overlay0)
+color_sep_fg = #7c7f93 100

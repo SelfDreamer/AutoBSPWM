@@ -1,0 +1,48 @@
+position_mode = pointer
+stay_alive = 0
+tint2_look = 0
+terminal_exec = kitty
+terminal_args = -e
+menu_width = 160
+menu_padding_top = 5
+menu_padding_right = 5
+menu_padding_bottom = 5
+menu_padding_left = 5
+menu_radius = 8
+menu_border = 0
+menu_halign = left
+sub_hover_action = 1
+item_margin_y = 5
+item_height = 30
+item_padding_x = 8
+item_radius = 6
+item_border = 0
+sep_height = 2
+font = Clarity City Bold 12px
+icon_size = 16
+# Mocha es oscuro, usamos iconos Dark
+icon_theme = Papirus-Dark
+arrow_string = 󰄾
+
+# --- Colores Catppuccin Mocha ---
+
+# Borde (Invisible)
+color_menu_border = #cdd6f4 0
+
+# Fondo del menú (Base)
+color_menu_bg = #1e1e2e 100
+
+# Fondo de items normales (Transparente)
+color_norm_bg = #1e1e2e 0
+
+# Color de texto normal (Text)
+color_norm_fg = #cdd6f4 100
+
+# Fondo del item seleccionado (Surface1 - contraste adecuado sobre Base)
+color_sel_bg = #45475a 100
+
+# Color de texto seleccionado (Text)
+color_sel_fg = #cdd6f4 100
+
+# Color de separadores (Overlay0)
+color_sep_fg = #6c7086 100
